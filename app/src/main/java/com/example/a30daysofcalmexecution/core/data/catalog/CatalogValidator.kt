@@ -43,7 +43,7 @@ class CatalogValidator @Inject constructor() {
             .sorted()
 
         duplicateDayNumbers.forEach { dayNumber ->
-            errors += "Duplicate tip day number: $dayNumber"
+            errors += "Duplicate dayNumber: $dayNumber"
         }
 
         // Day numbers 1..30
@@ -63,7 +63,7 @@ class CatalogValidator @Inject constructor() {
         // Valid section/category keys and non-blank editorial fields
         dto.tips.forEach { tip ->
             if (SectionKey.fromWireValue(tip.section) == null) {
-                errors += "Tip ${tip.id} uses unknow section key: ${tip.section}."
+                errors += "Tip ${tip.id} uses unknown section key: ${tip.section}."
             }
 
             if (TipCategoryKey.fromWireValue(tip.category) == null) {
