@@ -102,6 +102,10 @@ class CatalogValidator @Inject constructor() {
                 errors += "Tip ${tip.id} has a blank imageKey."
             }
 
+            if (imageKeyExists != null && !imageKeyExists(tip.imageKey)) {
+                errors += "Tip ${tip.id} references unresolved imageKey: ${tip.imageKey}."
+            }
+
             if (tip.imageDecorative) {
                 if (!tip.imageContentDescription.isNullOrBlank()) {
                     errors += "Tip ${tip.id} is decorative but still provides imageContentDescription."
