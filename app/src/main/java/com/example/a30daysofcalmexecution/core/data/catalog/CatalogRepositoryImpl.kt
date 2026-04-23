@@ -16,7 +16,6 @@ class CatalogRepositoryImpl @Inject constructor(
 ) : CatalogRepository {
     private val mutex = Mutex()
     private var cachedCatalog: JourneyCatalog? = null
-
     override suspend fun getCatalog(): JourneyCatalog {
         cachedCatalog?.let { return it }
 
@@ -46,7 +45,6 @@ class CatalogRepositoryImpl @Inject constructor(
             .allTips
             .firstOrNull { it.id == tipId }
     }
-
     override suspend fun getSection(sectionKey: SectionKey): TipSection? {
         return getCatalog()
             .sections
