@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package calmexecution.journey;
+
+option java_package = "com.example.a30daysofcalmexecution.core.data.journey.proto";
+option java_multiple_files = true;
+
+message JourneyStateProto {
+  string active_tip_id = 1;
+  repeated TipUserStateProto tip_states = 2;
+}
+
+message TipUserStateProto {
+  string tip_id = 1;
+  TipCompletionStatusProto completion_status = 2;
+  bool is_bookmarked = 3;
+  int64 last_viewed_at_epoch_millis = 4;
+  int64 completed_at_epoch_millis = 5;
+}
+
+enum TipCompletionStatusProto {
+  TIP_COMPLETION_STATUS_UNSPECIFIED = 0;
+  NOT_STARTED = 1;
+  IN_PROGRESS = 2;
+  COMPLETED = 3;
+}
