@@ -10,7 +10,7 @@ interface CatalogRepository {
     suspend fun getCatalog(): JourneyCatalog
     suspend fun getTip(tipId: TipId): Tip?
     suspend fun getSection(sectionKey: SectionKey): TipSection?
-    suspend fun getTipsForSection(sectionKey: SectionKey): List<Tip>?
+    suspend fun getTipsForSection(sectionKey: SectionKey): List<Tip>
     suspend fun getAdjacentTipIds(tipId: TipId): AdjacentTipIds
 }
 data class AdjacentTipIds(

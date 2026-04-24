@@ -27,6 +27,9 @@ class CatalogMapper @Inject constructor() {
             TipSection(
                 key = sectionKey,
                 title = sectionDto.title,
+                subtitle = sectionDto.subtitle,
+                startDay = sectionDto.startDay,
+                endDay = sectionDto.endDay,
                 tips = sectionTips
             )
         }
