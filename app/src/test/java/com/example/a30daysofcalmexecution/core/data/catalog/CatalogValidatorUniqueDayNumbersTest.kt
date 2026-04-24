@@ -61,8 +61,6 @@ class CatalogValidatorUniqueDayNumbersTest {
 
         val result = validator.validate(dto)
 
-        result.errors.forEach(::println)
-
         assertFalse(result.isValid)
         assertTrue(result.errors.any { it.contains("Duplicate dayNumber") })
     }

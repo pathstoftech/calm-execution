@@ -1,6 +1,5 @@
 package com.example.a30daysofcalmexecution.core.data.catalog
 
-import com.example.a30daysofcalmexecution.core.data.images.TipImageResolver
 import com.example.a30daysofcalmexecution.core.model.JourneyCatalog
 import com.example.a30daysofcalmexecution.core.model.SectionKey
 import com.example.a30daysofcalmexecution.core.model.Tip
