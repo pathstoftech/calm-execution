@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package calmexecution.preferences;
+
+option java_package = "com.example.a30daysofcalmexecution.core.data.preferences.proto";
+option java_multiple_files = true;
+
+message UserPreferencesProto {
+  ThemeModeProto theme_mode = 1;
+  bool dynamic_color_enabled = 2;
+  bool reduced_motion_enabled = 3;
+  string last_selected_section_key = 4;
+  bool has_seen_intro = 5;
+}
+
+enum ThemeModeProto {
+  THEME_MODE_UNSPECIFIED = 0;
+  THEME_MODE_SYSTEM = 1;
+  THEME_MODE_LIGHT = 2;
+  THEME_MODE_DARK = 3;
+}
