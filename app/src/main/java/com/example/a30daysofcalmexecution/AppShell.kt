@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmChip
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTopAppBar
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 
@@ -68,6 +70,28 @@ fun AppShell(modifier: Modifier = Modifier) {
                     )
                     CalmChip(
                         label = "Reusable UI"
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        CalmTheme.spacingTokens.inlineGap
+                    )
+                ) {
+                    CalmLabel(
+                        text = "Day 01",
+                        tone = CalmLabelTone.Primary
+                    )
+                    CalmLabel(
+                        text = "Focus",
+                        tone = CalmLabelTone.Accent
+                    )
+                    CalmLabel(
+                        text = "Draft",
+                        tone = CalmLabelTone.Neutral
+                    )
+                    CalmLabel(
+                        text = "Error",
+                        tone = CalmLabelTone.Error
                     )
                 }
             }
