@@ -37,4 +37,7 @@ object CalmTheme {
 
     val elevationTokens: CalmElevationTokens
         get() = DefaultCalmElevationTokens
+
+    val motionTokens: CalmMotionTokens
+        get() = DefaultCalmMotionTokens
 }
