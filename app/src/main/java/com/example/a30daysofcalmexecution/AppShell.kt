@@ -17,7 +17,9 @@ fun AppShell(modifier: Modifier = Modifier) {
         modifier = Modifier.fillMaxSize(),
         color = CalmTheme.colorTokens.screenBackground,
         contentColor = CalmTheme.colorTokens.onScreenBackground,
-        shape = CalmTheme.shapeTokens.screenContainer
+        shape = CalmTheme.shapeTokens.screenContainer,
+        tonalElevation = CalmTheme.elevationTokens.screen,
+        shadowElevation = CalmTheme.elevationTokens.none
     ) {
         Column(
             modifier = Modifier

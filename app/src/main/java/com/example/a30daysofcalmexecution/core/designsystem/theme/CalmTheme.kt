@@ -33,7 +33,8 @@ object CalmTheme {
         get() = MaterialTheme.shapes.toCalmShapeTokens()
 
     val spacingTokens: CalmSpacingTokens
-        @Composable
         get() = DefaultCalmSpacingTokens
 
+    val elevationTokens: CalmElevationTokens
+        get() = DefaultCalmElevationTokens
 }
