@@ -24,12 +24,12 @@ fun AppShell(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = "30 Days of Calm Execution",
-                style = CalmTheme.typography.headlineSmall,
+                style = CalmTheme.typographyTokens.appTitle,
                 color = CalmTheme.colorTokens.onScreenBackground
             )
             Text(
                 text = "Foundation Shell Placeholder",
-                style = CalmTheme.typography.bodyMedium,
+                style = CalmTheme.typographyTokens.cardSupportingText,
                 color = CalmTheme.colorTokens.onCardContainerVariant
             )
         }

@@ -20,6 +20,10 @@ object CalmTheme {
         @Composable
         get() = MaterialTheme.typography
 
+    val typographyTokens: CalmTypographyTokens
+        @Composable
+        get() = MaterialTheme.typography.toCalmTypographyTokens()
+
     val shapes: Shapes
         @Composable
         get() = MaterialTheme.shapes
