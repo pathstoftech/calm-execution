@@ -2,20 +2,35 @@ package com.example.a30daysofcalmexecution.core.data.preferences
 
 import androidx.datastore.core.DataStoreFactory
 import com.example.a30daysofcalmexecution.core.data.preferences.proto.ThemeModeProto
+import java.io.File
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import java.io.File
 
 class DataStorePreferencesDataSourceTest {
 
     @get:Rule
     val temporaryFolder = TemporaryFolder()
+
+    private val dataStoreJobs = mutableListOf<Job>()
+
+    @After
+    fun tearDown() {
+        dataStoreJobs.forEach { job ->
+            job.cancel()
+        }
+        dataStoreJobs.clear()
+    }
 
     @Test
     fun `userPreferences emits default value before updates`() {
@@ -96,19 +111,13 @@ class DataStorePreferencesDataSourceTest {
     }
 
     @Test
-    fun `updateUserPreferences can clear selected section key`() {
+    fun `updateUserPreferences can persist blank selected section key`() {
         runBlocking {
-            val dataSource = createDataSource(fileName = "clear_selected_section_user_preferences.pb")
-
-            dataSource.updateUserPreferences { current ->
-                current.toBuilder()
-                    .setLastSelectedSectionKey("build_focus")
-                    .build()
-            }
+            val dataSource = createDataSource(fileName = "blank_selected_section_user_preferences.pb")
 
             val updated = dataSource.updateUserPreferences { current ->
                 current.toBuilder()
-                    .setLastSelectedSectionKey("")
+                    .clearLastSelectedSectionKey()
                     .build()
             }
 
@@ -116,14 +125,20 @@ class DataStorePreferencesDataSourceTest {
 
             assertEquals("", updated.lastSelectedSectionKey)
             assertEquals(updated, restored)
+            assertEquals("", restored.lastSelectedSectionKey)
         }
     }
 
     private fun createDataSource(fileName: String): PreferencesDataSource {
+        val file = File(temporaryFolder.root, fileName)
+        val job = SupervisorJob()
+        dataStoreJobs += job
+
         val dataStore = DataStoreFactory.create(
             serializer = UserPreferencesSerializer(),
+            scope = CoroutineScope(Dispatchers.IO + job),
             produceFile = {
-                File(temporaryFolder.root, fileName)
+                file
             }
         )
 

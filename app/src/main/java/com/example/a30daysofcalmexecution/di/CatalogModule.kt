@@ -1,8 +1,6 @@
 package com.example.a30daysofcalmexecution.di
 
 import com.example.a30daysofcalmexecution.core.data.catalog.CatalogDataSource
-import com.example.a30daysofcalmexecution.core.data.catalog.CatalogRepository
-import com.example.a30daysofcalmexecution.core.data.catalog.CatalogRepositoryImpl
 import com.example.a30daysofcalmexecution.core.data.catalog.RawResourceCatalogDataSource
 import dagger.Binds
 import dagger.Module
@@ -19,10 +17,4 @@ abstract class CatalogModule {
     abstract fun bindCatalogDataSource(
         implementation: RawResourceCatalogDataSource
     ): CatalogDataSource
-
-    @Binds
-    @Singleton
-    abstract fun bindCatalogRepository(
-        implementation: CatalogRepositoryImpl
-    ): CatalogRepository
 }
