@@ -28,4 +28,8 @@ object CalmTheme {
         @Composable
         get() = MaterialTheme.shapes
 
+    val shapeTokens: CalmShapeTokens
+        @Composable
+        get() = MaterialTheme.shapes.toCalmShapeTokens()
+
 }
