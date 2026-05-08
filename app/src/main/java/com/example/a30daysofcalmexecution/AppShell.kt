@@ -2,6 +2,7 @@ package com.example.a30daysofcalmexecution
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -10,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmChip
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTopAppBar
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 
@@ -26,7 +28,9 @@ fun AppShell(modifier: Modifier = Modifier) {
         }
     ) { innerPadding ->
         Surface(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             color = CalmTheme.colorTokens.screenBackground,
             contentColor = CalmTheme.colorTokens.onScreenBackground,
             shape = CalmTheme.shapeTokens.screenContainer,
@@ -44,15 +48,28 @@ fun AppShell(modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "30 Days of Calm Execution",
-                    style = CalmTheme.typographyTokens.appTitle,
+                    text = "Foundation Shell Placeholder",
+                    style = CalmTheme.typographyTokens.cardTitle,
                     color = CalmTheme.colorTokens.onScreenBackground
                 )
                 Text(
-                    text = "Foundation Shell Placeholder",
+                    text = "Shared chips installed",
                     style = CalmTheme.typographyTokens.cardSupportingText,
                     color = CalmTheme.colorTokens.onCardContainerVariant
                 )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        CalmTheme.spacingTokens.inlineGap
+                    )
+                ) {
+                    CalmChip(
+                        label = "Design system",
+                        selected = true
+                    )
+                    CalmChip(
+                        label = "Reusable UI"
+                    )
+                }
             }
         }
     }
