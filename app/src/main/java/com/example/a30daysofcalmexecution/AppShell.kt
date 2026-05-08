@@ -14,7 +14,8 @@ import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 fun AppShell(modifier: Modifier = Modifier) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = CalmTheme.colorScheme.background
+        color = CalmTheme.colorTokens.screenBackground,
+        contentColor = CalmTheme.colorTokens.onScreenBackground
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -23,11 +24,13 @@ fun AppShell(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = "30 Days of Calm Execution",
-                style = CalmTheme.typography.headlineSmall
+                style = CalmTheme.typography.headlineSmall,
+                color = CalmTheme.colorTokens.onScreenBackground
             )
             Text(
                 text = "Foundation Shell Placeholder",
-                style = CalmTheme.typography.bodyMedium
+                style = CalmTheme.typography.bodyMedium,
+                color = CalmTheme.colorTokens.onCardContainerVariant
             )
         }
     }

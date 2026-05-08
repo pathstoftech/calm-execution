@@ -12,6 +12,10 @@ object CalmTheme {
         @Composable
         get() = MaterialTheme.colorScheme
 
+    val colorTokens: CalmColorTokens
+        @Composable
+        get() = colorScheme.toCalmColorTokens()
+
     val typography: Typography
         @Composable
         get() = MaterialTheme.typography
