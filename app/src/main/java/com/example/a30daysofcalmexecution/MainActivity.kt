@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun AppShellPreview() {
     _30DaysOfCalmExecutionTheme {
