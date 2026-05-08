@@ -14,7 +14,7 @@ object CalmTheme {
 
     val colorTokens: CalmColorTokens
         @Composable
-        get() = colorScheme.toCalmColorTokens()
+        get() = MaterialTheme.colorScheme.toCalmColorTokens()
 
     val typography: Typography
         @Composable
@@ -31,5 +31,9 @@ object CalmTheme {
     val shapeTokens: CalmShapeTokens
         @Composable
         get() = MaterialTheme.shapes.toCalmShapeTokens()
+
+    val spacingTokens: CalmSpacingTokens
+        @Composable
+        get() = DefaultCalmSpacingTokens
 
 }

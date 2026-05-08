@@ -3,6 +3,7 @@ package com.example.a30daysofcalmexecution
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +20,13 @@ fun AppShell(modifier: Modifier = Modifier) {
         shape = CalmTheme.shapeTokens.screenContainer
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(CalmTheme.spacingTokens.screenPadding),
+            verticalArrangement = Arrangement.spacedBy(
+                space = CalmTheme.spacingTokens.inlineGap,
+                alignment = Alignment.CenterVertically
+            ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
