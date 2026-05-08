@@ -8,7 +8,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.a30daysofcalmexecution.di.RepositoryGraphProbe
-import com.example.a30daysofcalmexecution.ui.theme._30DaysOfCalmExecutionTheme
+import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmExecutionTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            _30DaysOfCalmExecutionTheme {
+            CalmExecutionTheme {
                 AppShell()
             }
         }
@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun AppShellPreview() {
-    _30DaysOfCalmExecutionTheme {
+    CalmExecutionTheme {
         Surface {
             AppShell()
         }
