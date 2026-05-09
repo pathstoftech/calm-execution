@@ -15,6 +15,7 @@ import com.example.a30daysofcalmexecution.core.designsystem.component.CalmChip
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmErrorPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadingPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTopAppBar
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 
@@ -102,6 +103,8 @@ fun AppShell(modifier: Modifier = Modifier) {
                     actionLabel = "Try again",
                     onActionClick = {}
                 )
+
+                CalmLoadingPanel()
             }
         }
     }
