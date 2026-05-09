@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmChip
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmErrorPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTopAppBar
@@ -94,8 +95,14 @@ fun AppShell(modifier: Modifier = Modifier) {
                         tone = CalmLabelTone.Error
                     )
                 }
+
+                CalmErrorPanel(
+                    title = "Unable to load preview",
+                    message = "This is a reusable design-system error panel for future screen states.",
+                    actionLabel = "Try again",
+                    onActionClick = {}
+                )
             }
         }
     }
-
 }
