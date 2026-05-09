@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,16 +28,14 @@ fun CalmExecutionNavHost(
         startDestination = HomeRoute,
         modifier = modifier
     ) {
-        composable<HomeRoute> {
-            HomeDestinationPlaceholder(
-                onOpenTip = {
-                    navController.navigate(TipDetailRoute(tipId = "day_01_define_real_priority"))
-                },
-                onOpenSettings = {
-                    navController.navigate(SettingsRoute)
-                }
-            )
-        }
+        homeRoute(
+            onOpenSampleTip = {
+                navController.navigate(TipDetailRoute(tipId = "day_01_define_real_priority"))
+            },
+            onOpenSettings = {
+                navController.navigate(SettingsRoute)
+            },
+        )
 
         composable <TipDetailRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<TipDetailRoute>()
@@ -52,6 +51,18 @@ fun CalmExecutionNavHost(
                 onBack = navController::popBackStack
             )
         }
+    }
+}
+
+private fun NavGraphBuilder.homeRoute(
+    onOpenSampleTip: () -> Unit,
+    onOpenSettings: () -> Unit,
+) {
+    composable<HomeRoute> {
+        HomeDestinationPlaceholder(
+            onOpenTip = onOpenSampleTip,
+            onOpenSettings = onOpenSettings,
+        )
     }
 }
 
