@@ -37,14 +37,9 @@ fun CalmExecutionNavHost(
             },
         )
 
-        composable <TipDetailRoute> { backStackEntry ->
-            val route = backStackEntry.toRoute<TipDetailRoute>()
-
-            TipDetailDestinationPlaceholder(
-                tipId = route.tipId,
-                onBack = navController::popBackStack,
-            )
-        }
+        tipDetailRoute(
+            onBack = navController::popBackStack
+        )
 
         composable<SettingsRoute> {
             SettingsDestinationPlaceholder(
@@ -62,6 +57,19 @@ private fun NavGraphBuilder.homeRoute(
         HomeDestinationPlaceholder(
             onOpenTip = onOpenSampleTip,
             onOpenSettings = onOpenSettings,
+        )
+    }
+}
+
+private fun NavGraphBuilder.tipDetailRoute(
+    onBack: () -> Unit
+) {
+    composable<TipDetailRoute> { backStackEntry ->
+        val route = backStackEntry.toRoute<TipDetailRoute>()
+
+        TipDetailDestinationPlaceholder(
+            tipId = route.tipId,
+            onBack = onBack
         )
     }
 }
