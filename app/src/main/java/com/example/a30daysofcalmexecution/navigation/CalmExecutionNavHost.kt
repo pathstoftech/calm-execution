@@ -41,11 +41,9 @@ fun CalmExecutionNavHost(
             onBack = navController::popBackStack
         )
 
-        composable<SettingsRoute> {
-            SettingsDestinationPlaceholder(
-                onBack = navController::popBackStack
-            )
-        }
+        settingsRoute(
+            onBack = navController::popBackStack
+        )
     }
 }
 
@@ -69,6 +67,16 @@ private fun NavGraphBuilder.tipDetailRoute(
 
         TipDetailDestinationPlaceholder(
             tipId = route.tipId,
+            onBack = onBack
+        )
+    }
+}
+
+private fun NavGraphBuilder.settingsRoute(
+    onBack: () -> Unit
+) {
+    composable<SettingsRoute> {
+        SettingsDestinationPlaceholder(
             onBack = onBack
         )
     }
