@@ -16,6 +16,7 @@ import com.example.a30daysofcalmexecution.navigation.CalmExecutionNavHost
 
 @Composable
 fun AppShell(
+    isKnownTipId: suspend (String) -> Boolean,
     modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
@@ -43,6 +44,7 @@ fun AppShell(
     ) { innerPadding ->
         CalmExecutionNavHost(
             navController = navController,
+            isKnownTipId = isKnownTipId,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),

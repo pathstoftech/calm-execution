@@ -7,8 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.a30daysofcalmexecution.core.data.catalog.CatalogRepository
 import com.example.a30daysofcalmexecution.di.RepositoryGraphProbe
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmExecutionTheme
+import com.example.a30daysofcalmexecution.core.model.TipId
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,6 +20,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var repositoryGraphProbe: RepositoryGraphProbe
 
+    @Inject
+    lateinit var catalogRepository: CatalogRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,7 +31,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CalmExecutionTheme {
-                AppShell()
+                AppShell(
+                    isKnownTipId = { rawTipId ->
+                        catalogRepository.getTip(TipId(rawTipId)) != null
+                    }
+                )
             }
         }
     }
@@ -37,7 +46,9 @@ class MainActivity : ComponentActivity() {
 fun AppShellPreview() {
     CalmExecutionTheme {
         Surface {
-            AppShell()
+            AppShell(
+                isKnownTipId = { true }
+            )
         }
     }
 }
