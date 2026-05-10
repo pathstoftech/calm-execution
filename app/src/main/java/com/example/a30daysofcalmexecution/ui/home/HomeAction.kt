@@ -1,4 +1,4 @@
-package com.example.a30daysofcalmexecution.core.ui.home
+package com.example.a30daysofcalmexecution.ui.home
 
 import com.example.a30daysofcalmexecution.core.model.SectionKey
 import com.example.a30daysofcalmexecution.core.model.TipId

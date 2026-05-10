@@ -1,4 +1,4 @@
-package com.example.a30daysofcalmexecution.core.ui.home
+package com.example.a30daysofcalmexecution.ui.home
 
 import androidx.compose.runtime.Immutable
 import com.example.a30daysofcalmexecution.core.model.SectionKey
