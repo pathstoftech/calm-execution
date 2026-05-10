@@ -20,6 +20,8 @@ import androidx.navigation.toRoute
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmErrorPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadingPanel
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
+import com.example.a30daysofcalmexecution.core.model.TipId
+import com.example.a30daysofcalmexecution.ui.home.HomeRoute as HomeFeatureRoot
 
 @Composable
 fun CalmExecutionNavHost(
@@ -33,8 +35,8 @@ fun CalmExecutionNavHost(
         modifier = modifier
     ) {
         homeRoute(
-            onOpenSampleTip = {
-                navController.navigate(TipDetailRoute(tipId = "day_01_define_real_priority"))
+            onOpenTip = { tipId ->
+                navController.navigate(TipDetailRoute(tipId = tipId.value))
             },
             onOpenSettings = {
                 navController.navigate(SettingsRoute)
@@ -53,13 +55,13 @@ fun CalmExecutionNavHost(
 }
 
 private fun NavGraphBuilder.homeRoute(
-    onOpenSampleTip: () -> Unit,
+    onOpenTip: (TipId) -> Unit,
     onOpenSettings: () -> Unit,
 ) {
     composable<HomeRoute> {
-        HomeDestinationPlaceholder(
-            onOpenTip = onOpenSampleTip,
-            onOpenSettings = onOpenSettings,
+        HomeFeatureRoot(
+            onOpenTip = onOpenTip,
+            onOpenSettings = onOpenSettings
         )
     }
 }
@@ -86,33 +88,6 @@ private fun NavGraphBuilder.settingsRoute(
         SettingsDestinationPlaceholder(
             onBack = onBack
         )
-    }
-}
-
-@Composable
-private fun HomeDestinationPlaceholder(
-    onOpenTip: () -> Unit,
-    onOpenSettings: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    PlaceholderDestinationSurface(modifier = modifier) {
-        Text(
-            text = "Home",
-            style = CalmTheme.typography.headlineSmall
-        )
-
-        Text(
-            text = "Navigation host is active.",
-            style = CalmTheme.typography.bodyMedium
-        )
-
-        Button(onClick = onOpenTip) {
-            Text("One sample tip")
-        }
-
-        Button(onClick = onOpenSettings) {
-            Text("Open settings")
-        }
     }
 }
 
