@@ -102,9 +102,8 @@ private fun HomeContentPlaceHolder(
         }
 
         item {
-            HomeStructurePlaceholderCard(
-                title = "Journey state connected",
-                body = "${state.journey.completedCount} of ${state.journey.totalCount} days completed."
+            JourneyProgressStrip(
+                progress = state.journey
             )
         }
 
