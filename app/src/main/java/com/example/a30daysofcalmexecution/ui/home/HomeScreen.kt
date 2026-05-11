@@ -108,9 +108,11 @@ private fun HomeContentPlaceHolder(
         }
 
         item {
-            HomeStructurePlaceholderCard(
-                title = "Catalog structure connected",
-                body = "${state.sectionTabs.size} phases and ${state.feedSections.sumOf { section -> section.items.size }} tips are ready for rendering."
+            SectionChipRow(
+                tabs = state.sectionTabs,
+                onSelectSection = { section ->
+                    onAction(HomeAction.SelectSection(section))
+                }
             )
         }
     }
