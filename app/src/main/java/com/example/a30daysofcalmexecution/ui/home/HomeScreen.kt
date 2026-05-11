@@ -121,6 +121,10 @@ private fun HomeContent(
             },
             onToggleBookmark = { tipId ->
                 onAction(HomeAction.ToggleBookmark(tipId))
+            },
+
+            onToggleCompleted = { tipId ->
+                onAction(HomeAction.ToggleCompleted(tipId))
             }
         )
     }

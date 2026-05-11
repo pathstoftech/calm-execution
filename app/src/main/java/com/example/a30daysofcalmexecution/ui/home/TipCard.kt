@@ -27,6 +27,7 @@ fun TipCard(
     item: TipCardUi,
     onOpen: () -> Unit,
     onToggleBookmark: () -> Unit,
+    onToggleCompleted: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -74,7 +75,8 @@ fun TipCard(
 
                 TipCardMetadataRow(
                     item = item,
-                    onToggleBookmark = onToggleBookmark
+                    onToggleBookmark = onToggleBookmark,
+                    onToggleCompleted = onToggleCompleted
                 )
             }
         }
@@ -116,6 +118,7 @@ private fun TipCardImagePlaceholder(
 private fun TipCardMetadataRow(
     item: TipCardUi,
     onToggleBookmark: () -> Unit,
+    onToggleCompleted: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     FlowRow(
@@ -139,10 +142,15 @@ private fun TipCardMetadataRow(
             )
         }
 
-        if (item.isCompleted) {
-            CalmLabel(
-                text = "Completed",
-                tone = CalmLabelTone.Accent
+        TextButton(
+            onClick = onToggleCompleted
+        ) {
+            Text(
+                text = if (item.isCompleted) {
+                    "Completed"
+                } else {
+                    "Mark Complete"
+                }
             )
         }
     }
