@@ -115,6 +115,13 @@ private fun HomeContentPlaceHolder(
                 }
             )
         }
+
+        tipSectionFeed(
+            sections = state.feedSections,
+            onOpenTip = { tipId ->
+                onAction(HomeAction.OpenTip(tipId))
+            }
+        )
     }
 }
 
