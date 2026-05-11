@@ -118,6 +118,9 @@ private fun HomeContent(
             sections = state.feedSections,
             onOpenTip = { tipId ->
                 onAction(HomeAction.OpenTip(tipId))
+            },
+            onToggleBookmark = { tipId ->
+                onAction(HomeAction.ToggleBookmark(tipId))
             }
         )
     }

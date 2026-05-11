@@ -17,7 +17,8 @@ import com.example.a30daysofcalmexecution.core.model.TipId
 
 fun LazyListScope.tipSectionFeed(
     sections: List<HomeFeedSectionUi>,
-    onOpenTip: (TipId) -> Unit
+    onOpenTip: (TipId) -> Unit,
+    onToggleBookmark: (TipId) -> Unit
 ) {
     sections.forEach { section ->
         item(
@@ -39,6 +40,9 @@ fun LazyListScope.tipSectionFeed(
                 item = item,
                 onOpen = {
                     onOpenTip(item.id)
+                },
+                onToggleBookmark = {
+                    onToggleBookmark(item.id)
                 }
             )
         }

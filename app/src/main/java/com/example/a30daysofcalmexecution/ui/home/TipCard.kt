@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 fun TipCard(
     item: TipCardUi,
     onOpen: () -> Unit,
+    onToggleBookmark: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -71,7 +73,8 @@ fun TipCard(
                 )
 
                 TipCardMetadataRow(
-                    item = item
+                    item = item,
+                    onToggleBookmark = onToggleBookmark
                 )
             }
         }
@@ -112,6 +115,7 @@ private fun TipCardImagePlaceholder(
 @Composable
 private fun TipCardMetadataRow(
     item: TipCardUi,
+    onToggleBookmark: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     FlowRow(
@@ -123,17 +127,22 @@ private fun TipCardMetadataRow(
             label = item.categoryLabel
         )
 
+        TextButton(
+            onClick = onToggleBookmark
+        ) {
+            Text(
+                text = if (item.isBookmarked) {
+                    "Bookmarked"
+                } else {
+                    "Bookmark"
+                }
+            )
+        }
+
         if (item.isCompleted) {
             CalmLabel(
                 text = "Completed",
                 tone = CalmLabelTone.Accent
-            )
-        }
-
-        if (item.isBookmarked) {
-            CalmLabel(
-                text = "Bookmarked",
-                tone = CalmLabelTone.Neutral
             )
         }
     }
