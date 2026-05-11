@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,10 +30,12 @@ fun LazyListScope.tipSectionFeed(
         }
 
         items(
-            items = section.items,
-            key = { item -> item.id.value }
-        ) { item ->
-            TipRowPlaceholder(
+            count = section.items.size,
+            key = { index -> section.items[index].id.value }
+        ) { index ->
+            val item = section.items[index]
+
+            TipCard(
                 item = item,
                 onOpen = {
                     onOpenTip(item.id)
