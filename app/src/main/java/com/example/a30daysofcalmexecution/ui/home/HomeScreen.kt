@@ -1,6 +1,5 @@
 package com.example.a30daysofcalmexecution.ui.home
 
-import android.view.Surface
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -97,9 +96,8 @@ private fun HomeContentPlaceHolder(
         verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.sectionGap)
     ) {
         item {
-            HomeStructurePlaceholderCard(
-                title = "Home content ready",
-                body = "Intro block, journey strip, phase chips, and grouped feed are wired in the next Home tasks."
+            HomeIntroBlock(
+                introText = state.introText
             )
         }
 
