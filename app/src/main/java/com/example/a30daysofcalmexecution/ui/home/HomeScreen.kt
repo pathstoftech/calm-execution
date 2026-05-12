@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmErrorPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadingPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadingPlaceholder
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
@@ -34,8 +34,11 @@ fun HomeScreen(
         }
 
         AsyncStatus.ERROR -> {
-            HomeErrorStatePlaceHolder(
+            HomeErrorState(
                 message = state.message?.text ?: "Unable to load journey content.",
+                onRetry = {
+                    onAction(HomeAction.RetryLoad)
+                },
                 modifier = modifier
             )
         }
@@ -137,8 +140,9 @@ private fun SectionChipRowLoadingPlaceholder(
 }
 
 @Composable
-private fun HomeErrorStatePlaceHolder(
+private fun HomeErrorState(
     message: String,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -148,10 +152,11 @@ private fun HomeErrorStatePlaceHolder(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = message,
-            style = CalmTheme.typographyTokens.cardBody,
-            color = CalmTheme.colorTokens.onScreenBackground
+        CalmErrorPanel(
+            title = "Unable to load Home",
+            message = message,
+            actionLabel = "Try again",
+            onActionClick = onRetry
         )
     }
 }

@@ -15,11 +15,13 @@ import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
 import com.example.a30daysofcalmexecution.core.ui.ScreenViewModel
 import com.example.a30daysofcalmexecution.core.ui.UiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -36,22 +38,47 @@ class HomeViewModel @Inject constructor(
 
     private val selectedTipIdOverride = MutableStateFlow<TipId?>(null)
     private val localMessage = MutableStateFlow<UiMessage?>(null)
-
+    private val reloadRequests = MutableStateFlow(0)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val catalogResult =
+        reloadRequests.flatMapLatest {
+            flow {
+                emit(Result.success(catalogRepository.getCatalog()))
+            }.catch { throwable ->
+                emit(Result.failure(throwable))
+            }
+        }
     private val internalState: StateFlow<HomeViewModelState> =
         combine (
-            flow { emit(catalogRepository.getCatalog()) },
+            catalogResult,
             journeyRepository.observeJourneyState(),
             preferencesRepository.observePreferences(),
             selectedTipIdOverride,
             localMessage
-        ) { catalog, journey, preferences, selectedTipIdOverride, localMessage ->
-            HomeViewModelState(
-                status = AsyncStatus.READY,
-                catalog = catalog,
-                journey = journey,
-                preferences = preferences,
-                message = localMessage,
-                selectedTipIdOverride = selectedTipIdOverride
+        ) { catalogResult, journey, preferences, selectedTipIdOverride, localMessage ->
+            catalogResult.fold(
+                onSuccess = { catalog ->
+                    HomeViewModelState(
+                        status = AsyncStatus.READY,
+                        catalog = catalog,
+                        journey = journey,
+                        preferences = preferences,
+                        message = localMessage,
+                        selectedTipIdOverride = selectedTipIdOverride
+                    )
+                },
+                onFailure = {
+                    HomeViewModelState(
+                        status = AsyncStatus.ERROR,
+                        journey = journey,
+                        preferences = preferences,
+                        message = UiMessage(
+                            id = System.currentTimeMillis(),
+                            text = "Unable to load journey content."
+                        ),
+                        selectedTipIdOverride = selectedTipIdOverride
+                    )
+                }
             )
         }
             .catch {
@@ -60,7 +87,7 @@ class HomeViewModel @Inject constructor(
                         status = AsyncStatus.ERROR,
                         message = UiMessage(
                             id = System.currentTimeMillis(),
-                            text = "Unable to load jounrey content."
+                            text = "Unable to load journey content."
                         )
                     )
                 )
@@ -104,7 +131,9 @@ class HomeViewModel @Inject constructor(
 
             HomeAction.OpenSettings -> Unit
 
-            HomeAction.RetryLoad -> Unit
+            HomeAction.RetryLoad -> {
+                reloadRequests.value += 1
+            }
 
             HomeAction.DismissMessage -> {
                 localMessage.value = null
@@ -171,14 +200,10 @@ private data class HomeViewModelState(
 )
 
 private fun HomeViewModelState.toUiState(): HomeUiState {
-    val currentCatalog = catalog
-
-    if (currentCatalog == null) {
-        return HomeUiState(
-            status = status,
-            message = message
-        )
-    }
+    val currentCatalog = catalog ?: return HomeUiState(
+        status = status,
+        message = message
+    )
 
     val validSectionKeys = currentCatalog.sections.map { section -> section.key }
     val selectedSection =
@@ -199,7 +224,7 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
         allTips.firstOrNull { tip ->
             tip.id == journey.activeTipId
         }
-            ?: allTips.firstOrNull() { tip ->
+            ?: allTips.firstOrNull { tip ->
                 tip.id !in completedTipIds
             }
             ?: allTips.lastOrNull()
