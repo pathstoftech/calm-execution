@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -162,6 +165,44 @@ private fun HomeErrorState(
 }
 
 @Composable
+private fun HomeEmptyFilteredState(
+    onShowAll: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = CalmTheme.shapeTokens.cardContainerLarge,
+        color = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.cardContainer,
+        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        shadowElevation = CalmTheme.elevationTokens.none
+    ) {
+        Column(
+            modifier = Modifier.padding(CalmTheme.spacingTokens.cardPadding),
+            verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap)
+        ) {
+            Text(
+                text = "No tips in this section",
+                style = CalmTheme.typographyTokens.cardTitle,
+                color = CalmTheme.colorTokens.cardContainer
+            )
+
+            Text(
+                text = "Try another phase or return to the full 30-day journey.",
+                style = CalmTheme.typographyTokens.cardBody,
+                color = CalmTheme.colorTokens.onCardContainerVariant
+            )
+
+            TextButton(
+                onClick = onShowAll
+            ) {
+                Text("Show all")
+            }
+        }
+    }
+}
+
+@Composable
 private fun HomeContent(
     state: HomeUiState,
     onAction: (HomeAction) -> Unit,
@@ -193,19 +234,35 @@ private fun HomeContent(
             )
         }
 
-        tipSectionFeed(
-            sections = state.feedSections,
-            onOpenTip = { tipId ->
-                onAction(HomeAction.OpenTip(tipId))
-            },
-            onToggleBookmark = { tipId ->
-                onAction(HomeAction.ToggleBookmark(tipId))
-            },
+        val hasVisibleTips = state.feedSections.any { section ->
+            section.items.isNotEmpty()
+        }
 
-            onToggleCompleted = { tipId ->
-                onAction(HomeAction.ToggleCompleted(tipId))
+        val shouldShowEmptyFilteredState =
+            state.selectedSection != null && !hasVisibleTips
+
+        if (shouldShowEmptyFilteredState) {
+            item {
+                HomeEmptyFilteredState(
+                    onShowAll = {
+                        onAction(HomeAction.SelectSection(null))
+                    }
+                )
             }
-        )
+        } else {
+            tipSectionFeed(
+                sections = state.feedSections,
+                onOpenTip = { tipId ->
+                    onAction(HomeAction.OpenTip(tipId))
+                },
+                onToggleBookmark = { tipId ->
+                    onAction(HomeAction.ToggleBookmark(tipId))
+                },
+                onToggleCompleted = { tipId ->
+                    onAction(HomeAction.ToggleCompleted(tipId))
+                }
+            )
+        }
     }
 }
 

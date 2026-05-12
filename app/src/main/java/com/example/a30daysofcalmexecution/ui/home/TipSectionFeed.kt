@@ -1,12 +1,9 @@
 package com.example.a30daysofcalmexecution.ui.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -73,50 +70,5 @@ private fun TipSectionHeader(
             text = "$itemCount tips",
             tone = CalmLabelTone.Neutral
         )
-    }
-}
-
-@Composable
-private fun TipRowPlaceholder(
-    item: TipCardUi,
-    onOpen: (TipId) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onOpen(item.id) },
-        shape = CalmTheme.shapeTokens.cardContainerLarge,
-        color = CalmTheme.colorTokens.cardContainer,
-        contentColor = CalmTheme.colorTokens.onCardContainer,
-        tonalElevation = CalmTheme.elevationTokens.cardResting,
-        shadowElevation = CalmTheme.elevationTokens.none
-    ) {
-        Column(
-            modifier = Modifier.padding(CalmTheme.spacingTokens.cardPadding),
-            verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap)
-        ) {
-            CalmLabel(
-                text = item.dayLabel,
-                tone = CalmLabelTone.Primary
-            )
-
-            Text(
-                text = item.title,
-                style = CalmTheme.typographyTokens.cardTitle,
-                color = CalmTheme.colorTokens.onCardContainer
-            )
-
-            Text(
-                text = item.previewText,
-                style = CalmTheme.typographyTokens.cardBody,
-                color = CalmTheme.colorTokens.onCardContainerVariant
-            )
-
-            CalmLabel(
-                text = item.categoryLabel,
-                tone = CalmLabelTone.Neutral
-            )
-        }
     }
 }
