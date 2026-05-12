@@ -50,6 +50,7 @@ fun TipDetailScreen(
             } else {
                 TipDetailReadyState(
                     tip = tip,
+                    onAction = onAction,
                     modifier = modifier
                 )
             }
@@ -110,6 +111,7 @@ private fun TipDetailErrorState(
 @Composable
 private fun TipDetailReadyState(
     tip: TipDetailUi,
+    onAction: (TipDetailAction) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -126,6 +128,19 @@ private fun TipDetailReadyState(
         item {
             TipDetailContentBlock(
                 tip = tip
+            )
+        }
+
+        item {
+            TipDetailActionsRow(
+                isBookmarked = tip.isBookmarked,
+                isCompleted = tip.isCompleted,
+                onToggleBookmark = {
+                    onAction(TipDetailAction.ToggleBookmark)
+                },
+                onToggleCompleted = {
+                    onAction(TipDetailAction.ToggleCompleted)
+                }
             )
         }
     }
