@@ -173,7 +173,7 @@ private fun HomeEmptyFilteredState(
         modifier = modifier.fillMaxWidth(),
         shape = CalmTheme.shapeTokens.cardContainerLarge,
         color = CalmTheme.colorTokens.cardContainer,
-        contentColor = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.onCardContainer,
         tonalElevation = CalmTheme.elevationTokens.cardResting,
         shadowElevation = CalmTheme.elevationTokens.none
     ) {
@@ -184,7 +184,7 @@ private fun HomeEmptyFilteredState(
             Text(
                 text = "No tips in this section",
                 style = CalmTheme.typographyTokens.cardTitle,
-                color = CalmTheme.colorTokens.cardContainer
+                color = CalmTheme.colorTokens.onCardContainer
             )
 
             Text(
