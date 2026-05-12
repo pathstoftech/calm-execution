@@ -122,6 +122,12 @@ private fun TipDetailReadyState(
                 tip = tip
             )
         }
+
+        item {
+            TipDetailContentBlock(
+                tip = tip
+            )
+        }
     }
 }
 
