@@ -24,6 +24,7 @@ data class TipDetailUi(
     val imageContentDescription: String?,
     val imageDecorative: Boolean,
     val problem: TipDetailTextSectionUi,
+    val recommendation: TipDetailTextSectionUi,
     val whyItHelps: TipDetailTextSectionUi,
     val tryToday: TipDetailTextSectionUi,
     val isBookmarked: Boolean,
