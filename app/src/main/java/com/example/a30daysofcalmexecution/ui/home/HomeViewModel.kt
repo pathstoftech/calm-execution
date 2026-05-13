@@ -220,21 +220,18 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
             }
             .keys
 
-    val featuredTip =
-        allTips.firstOrNull { tip ->
-            tip.id == journey.activeTipId
-        }
-            ?: allTips.firstOrNull { tip ->
-                tip.id !in completedTipIds
-            }
+    val currentJourneyTip =
+        allTips.firstOrNull { tip -> tip.id !in completedTipIds }
             ?: allTips.lastOrNull()
+
+    val activeTip =
+        allTips.firstOrNull { tip -> tip.id == journey.activeTipId }
 
     val selectedTipId =
         selectedTipIdOverride
             ?.takeIf { tipId -> tipId in validTips }
-            ?: journey.activeTipId
-                ?.takeIf { tipId -> tipId in validTips }
-            ?: featuredTip?.id
+            ?: activeTip?.id
+            ?: currentJourneyTip?.id
 
     val visibleSections =
         if (selectedSection == null) {
@@ -255,7 +252,7 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
         journey = JourneyProgressUi(
             completedCount = completedCount,
             totalCount = totalCount,
-            currentDay = featuredTip?.dayNumber,
+            currentDay = currentJourneyTip?.dayNumber,
             completionFraction =
                 if (totalCount == 0) {
                     0f
@@ -294,7 +291,7 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
                             },
                 )
             },
-        featuredTipId = featuredTip?.id,
+        featuredTipId = currentJourneyTip?.id,
         selectedTipId = selectedTipId,
         message = message
     )
