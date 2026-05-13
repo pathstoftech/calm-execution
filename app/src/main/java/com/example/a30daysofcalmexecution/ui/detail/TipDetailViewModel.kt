@@ -124,7 +124,9 @@ class TipDetailViewModel @Inject constructor(
 
     override fun onAction(action: TipDetailAction) {
         when (action) {
-            TipDetailAction.ToggleBookmark -> Unit
+            TipDetailAction.ToggleBookmark -> {
+                toggleBookmark()
+            }
             TipDetailAction.ToggleCompleted -> Unit
             TipDetailAction.RetryLoad -> {
                 reloadRequests.value += 1
@@ -138,6 +140,27 @@ class TipDetailViewModel @Inject constructor(
     private fun markViewed() {
         launchRepositoryMutation {
             journeyRepository.markViewed(tipId)
+        }
+    }
+
+    private fun toggleBookmark() {
+        val currentState = internalState.value
+
+        if (currentState.tip == null) {
+            localMessage.value = UiMessage(
+                id = System.currentTimeMillis(),
+                text = "This tip is not available in the current catalog."
+            )
+            return
+        }
+
+        val nextBookmarkedValue = currentState.tipUserState?.isBookmarked != true
+
+        launchRepositoryMutation {
+            journeyRepository.setBookmarked(
+                tipId = tipId,
+                bookmarked = nextBookmarkedValue
+            )
         }
     }
 
