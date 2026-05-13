@@ -149,7 +149,7 @@ private fun TipCardMetadataRow(
                 text = if (item.isCompleted) {
                     "Completed"
                 } else {
-                    "Mark Complete"
+                    "Mark complete"
                 }
             )
         }
