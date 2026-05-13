@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
@@ -45,7 +46,13 @@ class TipDetailViewModel @Inject constructor(
     private val tipResult =
         reloadRequests.flatMapLatest {
             flow<Result<Tip?>> {
-                emit(Result.success(catalogRepository.getTip(tipId)))
+                val tip = catalogRepository.getTip(tipId)
+
+                if (tip != null) {
+                    markViewed()
+                }
+
+                emit(Result.success(tip))
             }.catch { throwable ->
                 emit(Result.failure(throwable))
             }
@@ -125,6 +132,26 @@ class TipDetailViewModel @Inject constructor(
             TipDetailAction.DismissMessage -> {
                 localMessage.value = null
             }
+        }
+    }
+
+    private fun markViewed() {
+        launchRepositoryMutation {
+            journeyRepository.markViewed(tipId)
+        }
+    }
+
+    private fun launchRepositoryMutation(
+        block: suspend () -> Unit,
+    ) {
+        viewModelScope.launch {
+            runCatching { block() }
+                .onFailure {
+                    localMessage.value = UiMessage(
+                        id = System.currentTimeMillis(),
+                        text = "Unable to update journey state."
+                    )
+                }
         }
     }
 }
