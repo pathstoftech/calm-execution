@@ -127,7 +127,11 @@ class TipDetailViewModel @Inject constructor(
             TipDetailAction.ToggleBookmark -> {
                 toggleBookmark()
             }
-            TipDetailAction.ToggleCompleted -> Unit
+
+            TipDetailAction.ToggleCompleted -> {
+                toggleCompleted()
+            }
+
             TipDetailAction.RetryLoad -> {
                 reloadRequests.value += 1
             }
@@ -160,6 +164,35 @@ class TipDetailViewModel @Inject constructor(
             journeyRepository.setBookmarked(
                 tipId = tipId,
                 bookmarked = nextBookmarkedValue
+            )
+        }
+    }
+
+    private fun toggleCompleted() {
+        val currentState = internalState.value
+
+        if (currentState.tip == null) {
+            localMessage.value = UiMessage(
+                id = System.currentTimeMillis(),
+                text = "This tip is not available in the current catalog."
+            )
+            return
+        }
+
+        val currentCompletionStatus =
+            currentState.tipUserState?.completionStatus ?: TipCompletionStatus.NOT_STARTED
+
+        val nextCompletionStatus =
+            if (currentCompletionStatus == TipCompletionStatus.COMPLETED) {
+                TipCompletionStatus.NOT_STARTED
+            } else {
+                TipCompletionStatus.COMPLETED
+            }
+
+        launchRepositoryMutation {
+            journeyRepository.setCompletionStatus(
+                tipId = tipId,
+                status = nextCompletionStatus
             )
         }
     }
