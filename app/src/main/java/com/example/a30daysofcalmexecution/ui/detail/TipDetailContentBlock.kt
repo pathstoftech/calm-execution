@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 
+// Keep this order aligned with the locked Detail reading order:
+// Problem -> Tip -> Why it helps -> Try today.
 @Composable
 fun TipDetailContentBlock(
     tip: TipDetailUi,
