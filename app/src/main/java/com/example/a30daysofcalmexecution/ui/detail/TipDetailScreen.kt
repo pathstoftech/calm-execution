@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmErrorPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadingPanel
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
@@ -63,7 +64,9 @@ private fun TipDetailLoadingState(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("tip_detail_loading_state"),
         contentPadding = PaddingValues(CalmTheme.spacingTokens.screenPadding),
         verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.sectionGap)
     ) {
@@ -84,7 +87,9 @@ private fun TipDetailErrorState(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("tip_detail_error_state"),
         contentPadding = PaddingValues(CalmTheme.spacingTokens.screenPadding),
         verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.cardGap)
     ) {
@@ -115,7 +120,9 @@ private fun TipDetailReadyState(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("tip_detail_ready_state"),
         contentPadding = PaddingValues(CalmTheme.spacingTokens.screenPadding),
         verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.sectionGap)
     ) {
