@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.a30daysofcalmexecution.core.model.TipId
+import com.example.a30daysofcalmexecution.ui.adaptive.ExpandedJourneyRoute
 import com.example.a30daysofcalmexecution.ui.detail.TipDetailRoute as TipDetailFeatureRoot
 import com.example.a30daysofcalmexecution.ui.home.HomeRoute as HomeFeatureRoot
 import com.example.a30daysofcalmexecution.ui.settings.SettingsRoute as SettingsFeatureRoot
@@ -15,7 +16,8 @@ import com.example.a30daysofcalmexecution.ui.settings.SettingsRoute as SettingsF
 fun CalmExecutionNavHost(
     navController: NavHostController,
     isKnownTipId: suspend (String) -> Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    useExpandedHomeLayout: Boolean = false,
 ) {
     NavHost(
         navController = navController,
@@ -27,8 +29,11 @@ fun CalmExecutionNavHost(
                 navController.navigate(TipDetailRoute(tipId = tipId.value))
             },
             onOpenSettings = {
-                navController.navigate(SettingsRoute)
+                navController.navigate(SettingsRoute) {
+                    launchSingleTop = true
+                }
             },
+            useExpandedHomeLayout = useExpandedHomeLayout,
         )
 
         tipDetailRoute(
@@ -44,12 +49,19 @@ fun CalmExecutionNavHost(
 private fun NavGraphBuilder.homeRoute(
     onOpenTip: (TipId) -> Unit,
     onOpenSettings: () -> Unit,
+    useExpandedHomeLayout: Boolean,
 ) {
     composable<HomeRoute> {
-        HomeFeatureRoot(
-            onOpenTip = onOpenTip,
-            onOpenSettings = onOpenSettings
-        )
+        if (useExpandedHomeLayout) {
+            ExpandedJourneyRoute(
+                onOpenSettings = onOpenSettings,
+            )
+        } else {
+            HomeFeatureRoot(
+                onOpenTip = onOpenTip,
+                onOpenSettings = onOpenSettings,
+            )
+        }
     }
 }
 

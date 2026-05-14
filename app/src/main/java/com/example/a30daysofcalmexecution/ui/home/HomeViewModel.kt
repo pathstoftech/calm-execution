@@ -14,6 +14,8 @@ import com.example.a30daysofcalmexecution.core.model.UserPreferences
 import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
 import com.example.a30daysofcalmexecution.core.ui.ScreenViewModel
 import com.example.a30daysofcalmexecution.core.ui.UiMessage
+import com.example.a30daysofcalmexecution.ui.detail.TipDetailTextSectionUi
+import com.example.a30daysofcalmexecution.ui.detail.TipDetailUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -127,6 +129,12 @@ class HomeViewModel @Inject constructor(
 
             is HomeAction.SelectExpandedDetail -> {
                 selectedTipIdOverride.value = action.tipId
+
+                action.tipId?.let { tipId ->
+                    launchRepositoryMutation {
+                        journeyRepository.markViewed(tipId)
+                    }
+                }
             }
 
             HomeAction.OpenSettings -> Unit
@@ -233,6 +241,10 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
             ?: activeTip?.id
             ?: currentJourneyTip?.id
 
+    val selectedTip = allTips.firstOrNull { tip ->
+        tip.id == selectedTipId
+    }
+
     val visibleSections =
         if (selectedSection == null) {
             currentCatalog.sections
@@ -293,6 +305,11 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
             },
         featuredTipId = currentJourneyTip?.id,
         selectedTipId = selectedTipId,
+        selectedTipDetail = selectedTip?.toTipDetailUi(
+            isBookmarked = journey.tipStates[selectedTip.id]?.isBookmarked == true,
+            completionStatus = journey.tipStates[selectedTip.id]?.completionStatus
+                ?: TipCompletionStatus.NOT_STARTED,
+        ),
         message = message
     )
 }
@@ -310,4 +327,36 @@ private fun Tip.toTipCardUi(
         imageKey = image.imageKey,
         isCompleted = isCompleted,
         isBookmarked = isBookmarked
+    )
+
+private fun Tip.toTipDetailUi(
+    isBookmarked: Boolean,
+    completionStatus: TipCompletionStatus,
+): TipDetailUi =
+    TipDetailUi(
+        id = id,
+        dayLabel = String.format(Locale.US, "Day %02d", dayNumber),
+        title = title,
+        categoryLabel = categoryKey.label,
+        imageKey = image.imageKey,
+        imageContentDescription = image.contentDescription,
+        imageDecorative = image.isDecorative,
+        problem = TipDetailTextSectionUi(
+            title = "Problem",
+            body = body.problem,
+        ),
+        recommendation = TipDetailTextSectionUi(
+            title = "Tip",
+            body = body.tip,
+        ),
+        whyItHelps = TipDetailTextSectionUi(
+            title = "Why it helps",
+            body = body.whyItHelps,
+        ),
+        tryToday = TipDetailTextSectionUi(
+            title = "Try today",
+            body = body.tryToday,
+        ),
+        isBookmarked = isBookmarked,
+        completionStatus = completionStatus,
     )

@@ -5,6 +5,7 @@ import com.example.a30daysofcalmexecution.core.model.SectionKey
 import com.example.a30daysofcalmexecution.core.model.TipId
 import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
 import com.example.a30daysofcalmexecution.core.ui.UiMessage
+import com.example.a30daysofcalmexecution.ui.detail.TipDetailUi
 
 @Immutable
 data class HomeUiState(
@@ -17,6 +18,7 @@ data class HomeUiState(
     val feedSections: List<HomeFeedSectionUi> = emptyList(),
     val featuredTipId: TipId? = null,
     val selectedTipId: TipId? = null,
+    val selectedTipDetail: TipDetailUi? = null,
     val message: UiMessage? = null
 )
 

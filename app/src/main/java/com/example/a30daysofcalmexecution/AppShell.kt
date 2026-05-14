@@ -17,8 +17,6 @@ import com.example.a30daysofcalmexecution.navigation.CalmExecutionNavHost
 import com.example.a30daysofcalmexecution.navigation.SettingsRoute
 import com.example.a30daysofcalmexecution.ui.adaptive.AdaptiveAppShell
 import com.example.a30daysofcalmexecution.ui.adaptive.ExpandedAppScaffold
-import com.example.a30daysofcalmexecution.ui.adaptive.ExpandedBlankDetailPane
-import com.example.a30daysofcalmexecution.ui.adaptive.ExpandedListDetailLayout
 
 @Composable
 fun AppShell(
@@ -73,17 +71,11 @@ fun AppShell(
             expandedContent = {
                 ExpandedAppScaffold(
                     content = {
-                        ExpandedListDetailLayout(
-                            listPane = {
-                                CalmExecutionNavHost(
-                                    navController = navController,
-                                    isKnownTipId = isKnownTipId,
-                                    modifier = Modifier.fillMaxSize(),
-                                )
-                            },
-                            detailPane = {
-                                ExpandedBlankDetailPane()
-                            },
+                        CalmExecutionNavHost(
+                            navController = navController,
+                            isKnownTipId = isKnownTipId,
+                            modifier = Modifier.fillMaxSize(),
+                            useExpandedHomeLayout = true,
                         )
                     },
                 )
