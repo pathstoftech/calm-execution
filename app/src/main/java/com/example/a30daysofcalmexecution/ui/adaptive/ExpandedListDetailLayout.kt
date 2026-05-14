@@ -1,15 +1,22 @@
 package com.example.a30daysofcalmexecution.ui.adaptive
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 
 @Composable
@@ -60,18 +67,50 @@ fun ExpandedListDetailLayout(
 }
 
 @Composable
-fun ExpandedBlankDetailPane(
+fun ExpandedEmptyDetailPlaceholder(
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .testTag(ExpandedBlankDetailPaneTestTag),
-    )
+            .padding(CalmTheme.spacingTokens.screenPadding)
+            .testTag(ExpandedEmptyDetailPlaceholderTestTag),
+        contentAlignment = Alignment.Center,
+    ) {
+        Surface(
+            shape = CalmTheme.shapeTokens.cardContainerLarge,
+            color = CalmTheme.colorTokens.cardContainer,
+            contentColor = CalmTheme.colorTokens.onCardContainer,
+            tonalElevation = CalmTheme.elevationTokens.cardResting,
+            shadowElevation = CalmTheme.elevationTokens.none,
+        ) {
+            Column(
+                modifier = Modifier.padding(CalmTheme.spacingTokens.cardPadding),
+                verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                CalmLabel(
+                    text = "Detail",
+                    tone = CalmLabelTone.Primary,
+                )
+
+                Text(
+                    text = "Select a day to read",
+                    style = CalmTheme.typographyTokens.cardTitle,
+                    color = CalmTheme.colorTokens.onCardContainer,
+                )
+
+                Text(
+                    text = "Choose any tip from the journey feed to keep the list visible while reading the full detail on this side.",
+                    style = CalmTheme.typographyTokens.cardBody,
+                    color = CalmTheme.colorTokens.onCardContainerVariant,
+                )
+            }
+        }
+    }
 }
 
-const val ExpandedBlankDetailPaneTestTag = "expanded_blank_detail_pane"
-
+const val ExpandedEmptyDetailPlaceholderTestTag = "expanded_empty_detail_placeholder"
 private val ExpandedListPaneMinWidth = 320.dp
 private val ExpandedListPaneMaxWidth = 480.dp
 private const val ExpandedListPaneWeight = 0.42f

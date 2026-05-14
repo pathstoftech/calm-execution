@@ -213,10 +213,12 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
         message = message
     )
 
-    val validSectionKeys = currentCatalog.sections.map { section -> section.key }
-    val selectedSection =
-        preferences.lastSelectedSectionKey
-            ?.takeIf { sectionKey -> sectionKey in validSectionKeys }
+    val validSectionKeys = currentCatalog.sections
+        .map { section -> section.key }
+        .toSet()
+
+    val selectedSection = preferences.lastSelectedSectionKey
+        ?.takeIf { section -> section in validSectionKeys }
 
     val allTips = currentCatalog.allTips.sortedBy { tip -> tip.dayNumber }
     val validTips = allTips.map { tip -> tip.id }.toSet()
@@ -232,17 +234,11 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
         allTips.firstOrNull { tip -> tip.id !in completedTipIds }
             ?: allTips.lastOrNull()
 
-    val activeTip =
-        allTips.firstOrNull { tip -> tip.id == journey.activeTipId }
+    val selectedTipId = selectedTipIdOverride
+        ?.takeIf { tipId -> tipId in validTips }
 
-    val selectedTipId =
-        selectedTipIdOverride
-            ?.takeIf { tipId -> tipId in validTips }
-            ?: activeTip?.id
-            ?: currentJourneyTip?.id
-
-    val selectedTip = allTips.firstOrNull { tip ->
-        tip.id == selectedTipId
+    val selectedTip = selectedTipId?.let { selectedId ->
+        allTips.firstOrNull { tip -> tip.id == selectedId }
     }
 
     val visibleSections =

@@ -65,7 +65,7 @@ private fun ExpandedSelectedDetailPane(
     val selectedTip = state.selectedTipDetail
 
     if (selectedTip == null) {
-        ExpandedBlankDetailPane(
+        ExpandedEmptyDetailPlaceholder(
             modifier = modifier,
         )
         return

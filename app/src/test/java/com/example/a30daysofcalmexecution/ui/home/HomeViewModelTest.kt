@@ -18,6 +18,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -44,7 +45,8 @@ class HomeViewModelTest {
         assertEquals(0, state.journey.completedCount)
         assertEquals(1, state.journey.currentDay)
         assertEquals(ViewModelTestData.DayOneTipId, state.featuredTipId)
-        assertEquals(ViewModelTestData.DayOneTipId, state.selectedTipId)
+        assertNull(state.selectedTipId)
+        assertNull(state.selectedTipDetail)
         assertEquals(1, state.feedSections.size)
         assertEquals(2, state.feedSections.first().items.size)
 
@@ -78,7 +80,8 @@ class HomeViewModelTest {
         assertEquals(1, state.journey.completedCount)
         assertEquals(1, state.journey.currentDay)
         assertEquals(ViewModelTestData.DayOneTipId, state.featuredTipId)
-        assertEquals(ViewModelTestData.DayTwoTipId, state.selectedTipId)
+        assertNull(state.selectedTipId)
+        assertNull(state.selectedTipDetail)
 
         collectJob.cancel()
     }
@@ -172,6 +175,26 @@ class HomeViewModelTest {
         assertEquals(AsyncStatus.ERROR, state.status)
         assertEquals("Unable to load journey content.", state.message?.text)
         assertTrue(state.feedSections.isEmpty())
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun selectExpandedDetail_setsSelectedTipDetail() = runViewModelTest {
+        val viewModel = createViewModel()
+
+        val collectJob = collect(viewModel.uiState)
+        advanceUntilIdle()
+
+        viewModel.onAction(HomeAction.SelectExpandedDetail(ViewModelTestData.DayTwoTipId))
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+
+        assertEquals(ViewModelTestData.DayTwoTipId, state.selectedTipId)
+        assertEquals(ViewModelTestData.DayTwoTipId, state.selectedTipDetail?.id)
+        assertEquals("Day 02", state.selectedTipDetail?.dayLabel)
+        assertEquals("Stop planning by panic", state.selectedTipDetail?.title)
 
         collectJob.cancel()
     }
