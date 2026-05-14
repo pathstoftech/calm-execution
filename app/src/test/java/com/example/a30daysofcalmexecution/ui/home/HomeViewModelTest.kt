@@ -10,10 +10,8 @@ import com.example.a30daysofcalmexecution.testing.FakeJourneyRepository
 import com.example.a30daysofcalmexecution.testing.FakePreferencesRepository
 import com.example.a30daysofcalmexecution.testing.MainDispatcherRule
 import com.example.a30daysofcalmexecution.testing.ViewModelTestData
+import com.example.a30daysofcalmexecution.testing.collectStateFlow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -33,7 +31,7 @@ class HomeViewModelTest {
     fun readyState_mapsCatalogJourneyAndPreferences() = runViewModelTest {
         val viewModel = createViewModel()
 
-        val collectJob = collect(viewModel.uiState)
+        val collectJob = collectStateFlow(viewModel.uiState)
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
@@ -72,7 +70,7 @@ class HomeViewModelTest {
             journeyRepository = journeyRepository,
         )
 
-        val collectJob = collect(viewModel.uiState)
+        val collectJob = collectStateFlow(viewModel.uiState)
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
@@ -93,7 +91,7 @@ class HomeViewModelTest {
             preferencesRepository = preferencesRepository,
         )
 
-        val collectJob = collect(viewModel.uiState)
+        val collectJob = collectStateFlow(viewModel.uiState)
         advanceUntilIdle()
 
         viewModel.onAction(HomeAction.SelectSection(SectionKey.START_WITH_CLARITY))
@@ -116,7 +114,7 @@ class HomeViewModelTest {
             journeyRepository = journeyRepository,
         )
 
-        val collectJob = collect(viewModel.uiState)
+        val collectJob = collectStateFlow(viewModel.uiState)
         advanceUntilIdle()
 
         viewModel.onAction(HomeAction.ToggleBookmark(ViewModelTestData.DayOneTipId))
@@ -137,7 +135,7 @@ class HomeViewModelTest {
             journeyRepository = journeyRepository,
         )
 
-        val collectJob = collect(viewModel.uiState)
+        val collectJob = collectStateFlow(viewModel.uiState)
         advanceUntilIdle()
 
         viewModel.onAction(HomeAction.ToggleCompleted(ViewModelTestData.DayOneTipId))
@@ -167,7 +165,7 @@ class HomeViewModelTest {
             catalogRepository = catalogRepository,
         )
 
-        val collectJob = collect(viewModel.uiState)
+        val collectJob = collectStateFlow(viewModel.uiState)
         advanceUntilIdle()
 
         val state = viewModel.uiState.value
@@ -183,7 +181,7 @@ class HomeViewModelTest {
     fun selectExpandedDetail_setsSelectedTipDetail() = runViewModelTest {
         val viewModel = createViewModel()
 
-        val collectJob = collect(viewModel.uiState)
+        val collectJob = collectStateFlow(viewModel.uiState)
         advanceUntilIdle()
 
         viewModel.onAction(HomeAction.SelectExpandedDetail(ViewModelTestData.DayTwoTipId))
@@ -209,13 +207,6 @@ class HomeViewModelTest {
             journeyRepository = journeyRepository,
             preferencesRepository = preferencesRepository,
         )
-
-    private fun TestScope.collect(
-        stateFlow: StateFlow<HomeUiState>,
-    ): Job =
-        launch {
-            stateFlow.collect {}
-        }
 
     private fun runViewModelTest(
         block: suspend TestScope.() -> Unit,
