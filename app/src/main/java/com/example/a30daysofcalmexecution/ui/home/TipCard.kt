@@ -15,6 +15,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmChip
@@ -36,7 +37,8 @@ fun TipCard(
             .clickable(
                 role = Role.Button,
                 onClick = onOpen
-            ),
+            )
+            .testTag("tip_card_${item.id.value}"),
         shape = CalmTheme.shapeTokens.cardContainerLarge,
         color = CalmTheme.colorTokens.cardContainer,
         contentColor = CalmTheme.colorTokens.onCardContainer,

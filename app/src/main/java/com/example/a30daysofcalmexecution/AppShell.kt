@@ -8,6 +8,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTopAppBar
@@ -59,6 +60,7 @@ fun CompactBackAction(
 ) {
     TextButton(
         onClick = onClick,
+        modifier = modifier.testTag(CompactBackActionTestTag)
     ) {
         Text(
             text = "Back",
@@ -67,3 +69,5 @@ fun CompactBackAction(
         )
     }
 }
+
+private const val CompactBackActionTestTag = "compact_back_action"
