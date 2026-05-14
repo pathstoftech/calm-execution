@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.text.google.fonts)
 
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
