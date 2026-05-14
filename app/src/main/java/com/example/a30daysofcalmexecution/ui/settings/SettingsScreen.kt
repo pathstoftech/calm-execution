@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Switch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.semantics.Role
 
@@ -146,9 +147,20 @@ private fun SettingsReadyState(
         }
 
         item {
-            SettingsSummaryCard(
+            DynamicColorPreferenceRow(
                 dynamicColorEnabled = state.dynamicColorEnabled,
+                onDynamicColorEnabledChange = { enabled ->
+                    onAction(SettingsAction.SetDynamicColorEnabled(enabled))
+                },
+            )
+        }
+
+        item {
+            ReducedMotionPreferenceRow(
                 reducedMotionEnabled = state.reducedMotionEnabled,
+                onReducedMotionEnabledChange = { enabled ->
+                    onAction(SettingsAction.SetReducedMotionEnabled(enabled))
+                },
             )
         }
 
@@ -203,43 +215,6 @@ private fun SettingsHeader(
 }
 
 @Composable
-private fun SettingsSummaryCard(
-    dynamicColorEnabled: Boolean,
-    reducedMotionEnabled: Boolean,
-    modifier: Modifier = Modifier,
-) {
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = CalmTheme.shapeTokens.cardContainerLarge,
-        color = CalmTheme.colorTokens.cardContainer,
-        contentColor = CalmTheme.colorTokens.onCardContainer,
-        tonalElevation = CalmTheme.elevationTokens.cardResting,
-        shadowElevation = CalmTheme.elevationTokens.none,
-    ) {
-        Column(
-            modifier = Modifier.padding(CalmTheme.spacingTokens.cardPadding),
-            verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
-        ) {
-            Text(
-                text = "Other preferences",
-                style = CalmTheme.typographyTokens.cardTitle,
-                color = CalmTheme.colorTokens.onCardContainer,
-            )
-            Text(
-                text = "Dynamic color: ${dynamicColorEnabled.enabledLabel()}",
-                style = CalmTheme.typographyTokens.cardBody,
-                color = CalmTheme.colorTokens.onCardContainerVariant,
-            )
-            Text(
-                text = "Reduced motion: ${reducedMotionEnabled.enabledLabel()}",
-                style = CalmTheme.typographyTokens.cardBody,
-                color = CalmTheme.colorTokens.onCardContainerVariant,
-            )
-        }
-    }
-}
-
-@Composable
 private fun SettingsFutureControlsCard(
     modifier: Modifier = Modifier,
 ) {
@@ -265,7 +240,7 @@ private fun SettingsFutureControlsCard(
                 color = CalmTheme.colorTokens.onCardContainerVariant,
             )
             Text(
-                text = "Theme mode, dynamic color, reduced motion, and reset progress stay separated into their own backlog items.",
+                text = "Reset progress stays separated into its own backlog item.",
                 style = CalmTheme.typographyTokens.cardBody,
                 color = CalmTheme.colorTokens.onCardContainerVariant,
             )
@@ -313,6 +288,96 @@ private fun ThemeModePreferenceRow(
                     onClick = { onThemeModeSelected(themeMode) },
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun DynamicColorPreferenceRow(
+    dynamicColorEnabled: Boolean,
+    onDynamicColorEnabledChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = CalmTheme.shapeTokens.cardContainerLarge,
+        color = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.onCardContainer,
+        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        shadowElevation = CalmTheme.elevationTokens.none,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(CalmTheme.spacingTokens.cardPadding),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+            ) {
+                Text(
+                    text = "Dynamic color",
+                    style = CalmTheme.typographyTokens.cardTitle,
+                    color = CalmTheme.colorTokens.onCardContainer,
+                )
+                Text(
+                    text = "Use colors derived from the device wallpaper when supported.",
+                    style = CalmTheme.typographyTokens.cardBody,
+                    color = CalmTheme.colorTokens.onCardContainerVariant,
+                )
+            }
+
+            Switch(
+                checked = dynamicColorEnabled,
+                onCheckedChange = onDynamicColorEnabledChange,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ReducedMotionPreferenceRow(
+    reducedMotionEnabled: Boolean,
+    onReducedMotionEnabledChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = CalmTheme.shapeTokens.cardContainerLarge,
+        color = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.onCardContainer,
+        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        shadowElevation = CalmTheme.elevationTokens.none,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(CalmTheme.spacingTokens.cardPadding),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+            ) {
+                Text(
+                    text = "Reduced motion",
+                    style = CalmTheme.typographyTokens.cardTitle,
+                    color = CalmTheme.colorTokens.onCardContainer,
+                )
+                Text(
+                    text = "Use calmer transitions and avoid unnecessary motion where supported.",
+                    style = CalmTheme.typographyTokens.cardBody,
+                    color = CalmTheme.colorTokens.onCardContainerVariant,
+                )
+            }
+
+            Switch(
+                checked = reducedMotionEnabled,
+                onCheckedChange = onReducedMotionEnabledChange,
+            )
         }
     }
 }
