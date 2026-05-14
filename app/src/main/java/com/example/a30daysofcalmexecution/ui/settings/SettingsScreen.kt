@@ -3,16 +3,25 @@ package com.example.a30daysofcalmexecution.ui.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmErrorPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
@@ -20,15 +29,6 @@ import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadin
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 import com.example.a30daysofcalmexecution.core.model.ThemeMode
 import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Switch
-import androidx.compose.material3.TextButton
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.semantics.Role
 
 @Composable
 fun SettingsScreen(
@@ -186,10 +186,6 @@ private fun SettingsReadyState(
         }
 
         item {
-            SettingsFutureControlsCard()
-        }
-
-        item {
             OutlinedButton(
                 onClick = onBack,
             ) {
@@ -228,40 +224,6 @@ private fun SettingsHeader(
             )
             Text(
                 text = "Control local app preferences without changing the 30-day content journey.",
-                style = CalmTheme.typographyTokens.cardBody,
-                color = CalmTheme.colorTokens.onCardContainerVariant,
-            )
-        }
-    }
-}
-
-@Composable
-private fun SettingsFutureControlsCard(
-    modifier: Modifier = Modifier,
-) {
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = CalmTheme.shapeTokens.cardContainerLarge,
-        color = CalmTheme.colorTokens.cardContainerVariant,
-        contentColor = CalmTheme.colorTokens.onCardContainerVariant,
-        tonalElevation = CalmTheme.elevationTokens.none,
-        shadowElevation = CalmTheme.elevationTokens.none,
-    ) {
-        Column(
-            modifier = Modifier.padding(CalmTheme.spacingTokens.cardPadding),
-            verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
-        ) {
-            CalmLabel(
-                text = "Next",
-                tone = CalmLabelTone.Neutral,
-            )
-            Text(
-                text = "Preference controls will be added in the next Settings tasks.",
-                style = CalmTheme.typographyTokens.cardTitle,
-                color = CalmTheme.colorTokens.onCardContainerVariant,
-            )
-            Text(
-                text = "Reset confirmation dialog stays separated into its own backlog item.",
                 style = CalmTheme.typographyTokens.cardBody,
                 color = CalmTheme.colorTokens.onCardContainerVariant,
             )
