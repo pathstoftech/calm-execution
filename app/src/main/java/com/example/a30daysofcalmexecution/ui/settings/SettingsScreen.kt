@@ -20,6 +20,12 @@ import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadin
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 import com.example.a30daysofcalmexecution.core.model.ThemeMode
 import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.RadioButton
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.semantics.Role
 
 @Composable
 fun SettingsScreen(
@@ -48,6 +54,7 @@ fun SettingsScreen(
         AsyncStatus.READY -> {
             SettingsReadyState(
                 state = state,
+                onAction = onAction,
                 onBack = onBack,
                 modifier = modifier,
             )
@@ -112,6 +119,7 @@ private fun SettingsErrorState(
 @Composable
 private fun SettingsReadyState(
     state: SettingsUiState,
+    onAction: (SettingsAction) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -129,8 +137,16 @@ private fun SettingsReadyState(
         }
 
         item {
+            ThemeModePreferenceRow(
+                selectedThemeMode = state.themeMode,
+                onThemeModeSelected = { themeMode ->
+                    onAction(SettingsAction.SetThemeMode(themeMode))
+                },
+            )
+        }
+
+        item {
             SettingsSummaryCard(
-                themeMode = state.themeMode,
                 dynamicColorEnabled = state.dynamicColorEnabled,
                 reducedMotionEnabled = state.reducedMotionEnabled,
             )
@@ -188,7 +204,6 @@ private fun SettingsHeader(
 
 @Composable
 private fun SettingsSummaryCard(
-    themeMode: ThemeMode,
     dynamicColorEnabled: Boolean,
     reducedMotionEnabled: Boolean,
     modifier: Modifier = Modifier,
@@ -206,14 +221,9 @@ private fun SettingsSummaryCard(
             verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
         ) {
             Text(
-                text = "Current preferences",
+                text = "Other preferences",
                 style = CalmTheme.typographyTokens.cardTitle,
                 color = CalmTheme.colorTokens.onCardContainer,
-            )
-            Text(
-                text = "Theme: ${themeMode.label()}",
-                style = CalmTheme.typographyTokens.cardBody,
-                color = CalmTheme.colorTokens.onCardContainerVariant,
             )
             Text(
                 text = "Dynamic color: ${dynamicColorEnabled.enabledLabel()}",
@@ -263,11 +273,103 @@ private fun SettingsFutureControlsCard(
     }
 }
 
+@Composable
+private fun ThemeModePreferenceRow(
+    selectedThemeMode: ThemeMode,
+    onThemeModeSelected: (ThemeMode) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = CalmTheme.shapeTokens.cardContainerLarge,
+        color = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.onCardContainer,
+        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        shadowElevation = CalmTheme.elevationTokens.none,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(CalmTheme.spacingTokens.cardPadding)
+                .selectableGroup(),
+            verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+        ) {
+            Text(
+                text = "Theme mode",
+                style = CalmTheme.typographyTokens.cardTitle,
+                color = CalmTheme.colorTokens.onCardContainer,
+            )
+
+            Text(
+                text = "Choose how the app follows light and dark appearance.",
+                style = CalmTheme.typographyTokens.cardBody,
+                color = CalmTheme.colorTokens.onCardContainerVariant,
+            )
+
+            ThemeMode.entries.forEach { themeMode ->
+                ThemeModeOptionRow(
+                    themeMode = themeMode,
+                    selected = themeMode == selectedThemeMode,
+                    onClick = { onThemeModeSelected(themeMode) },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ThemeModeOptionRow(
+    themeMode: ThemeMode,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .selectable(
+                selected = selected,
+                onClick = onClick,
+                role = Role.RadioButton,
+            )
+            .padding(vertical = CalmTheme.spacingTokens.small),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+    ) {
+        RadioButton(
+            selected = selected,
+            onClick = null,
+        )
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.extraSmall),
+        ) {
+            Text(
+                text = themeMode.label(),
+                style = CalmTheme.typographyTokens.cardBody,
+                color = CalmTheme.colorTokens.onCardContainer,
+            )
+            Text(
+                text = themeMode.description(),
+                style = CalmTheme.typographyTokens.cardSupportingText,
+                color = CalmTheme.colorTokens.onCardContainerVariant,
+            )
+        }
+    }
+}
+
 private fun ThemeMode.label(): String =
     when (this) {
         ThemeMode.SYSTEM -> "System"
         ThemeMode.LIGHT -> "Light"
         ThemeMode.DARK -> "Dark"
+    }
+
+private fun ThemeMode.description(): String =
+    when (this) {
+        ThemeMode.SYSTEM -> "Follow device appearance"
+        ThemeMode.LIGHT -> "Use light appearance"
+        ThemeMode.DARK -> "Use dark appearance"
     }
 
 private fun Boolean.enabledLabel(): String =
