@@ -15,6 +15,8 @@ import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTopApp
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 import com.example.a30daysofcalmexecution.navigation.CalmExecutionNavHost
 import com.example.a30daysofcalmexecution.navigation.SettingsRoute
+import com.example.a30daysofcalmexecution.ui.adaptive.AdaptiveAppShell
+import com.example.a30daysofcalmexecution.ui.adaptive.ExpandedAppScaffold
 
 @Composable
 fun AppShell(
@@ -55,12 +57,28 @@ fun AppShell(
             )
         },
     ) { innerPadding ->
-        CalmExecutionNavHost(
-            navController = navController,
-            isKnownTipId = isKnownTipId,
+        AdaptiveAppShell(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
+            compactContent = {
+                CalmExecutionNavHost(
+                    navController = navController,
+                    isKnownTipId = isKnownTipId,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            },
+            expandedContent = {
+                ExpandedAppScaffold(
+                    content = {
+                        CalmExecutionNavHost(
+                            navController = navController,
+                            isKnownTipId = isKnownTipId,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    },
+                )
+            },
         )
     }
 }
