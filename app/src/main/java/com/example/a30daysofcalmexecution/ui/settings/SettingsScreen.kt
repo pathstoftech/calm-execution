@@ -165,6 +165,14 @@ private fun SettingsReadyState(
         }
 
         item {
+            ResetProgressPreferenceRow(
+                onResetProgressClick = {
+                    onAction(SettingsAction.ShowResetProgressDialog)
+                },
+            )
+        }
+
+        item {
             SettingsFutureControlsCard()
         }
 
@@ -240,7 +248,7 @@ private fun SettingsFutureControlsCard(
                 color = CalmTheme.colorTokens.onCardContainerVariant,
             )
             Text(
-                text = "Reset progress stays separated into its own backlog item.",
+                text = "Reset confirmation dialog stays separated into its own backlog item.",
                 style = CalmTheme.typographyTokens.cardBody,
                 color = CalmTheme.colorTokens.onCardContainerVariant,
             )
@@ -383,6 +391,51 @@ private fun ReducedMotionPreferenceRow(
 }
 
 @Composable
+private fun ResetProgressPreferenceRow(
+    onResetProgressClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = CalmTheme.shapeTokens.cardContainerLarge,
+        color = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.onCardContainer,
+        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        shadowElevation = CalmTheme.elevationTokens.none,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(CalmTheme.spacingTokens.cardPadding),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+            ) {
+                Text(
+                    text = "Reset progress",
+                    style = CalmTheme.typographyTokens.cardTitle,
+                    color = CalmTheme.colorTokens.onCardContainer,
+                )
+                Text(
+                    text = "Clear journey progress after confirmation.",
+                    style = CalmTheme.typographyTokens.cardBody,
+                    color = CalmTheme.colorTokens.onCardContainerVariant,
+                )
+            }
+
+            OutlinedButton(
+                onClick = onResetProgressClick,
+            ) {
+                Text("Reset")
+            }
+        }
+    }
+}
+
+@Composable
 private fun ThemeModeOptionRow(
     themeMode: ThemeMode,
     selected: Boolean,
@@ -435,13 +488,6 @@ private fun ThemeMode.description(): String =
         ThemeMode.SYSTEM -> "Follow device appearance"
         ThemeMode.LIGHT -> "Use light appearance"
         ThemeMode.DARK -> "Use dark appearance"
-    }
-
-private fun Boolean.enabledLabel(): String =
-    if (this) {
-        "Enabled"
-    } else {
-        "Disabled"
     }
 
 private const val SettingsLoadingPlaceholderCount = 3
