@@ -1,5 +1,6 @@
 package com.example.a30daysofcalmexecution.ui.adaptive
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -22,6 +23,12 @@ fun ExpandedJourneyRoute(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    BackHandler(
+        enabled = uiState.selectedTipDetail != null,
+    ) {
+        viewModel.onAction(HomeAction.SelectExpandedDetail(null))
+    }
 
     ExpandedListDetailLayout(
         modifier = modifier.testTag(ExpandedJourneyRouteTestTag),
