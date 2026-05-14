@@ -23,8 +23,10 @@ import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
+import androidx.compose.material3.TextButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.semantics.Role
 
@@ -60,6 +62,17 @@ fun SettingsScreen(
                 modifier = modifier,
             )
         }
+    }
+
+    if (state.showResetProgressDialog) {
+        ResetProgressConfirmationDialog(
+            onDismiss = {
+                onAction(SettingsAction.DismissResetProgressDialog)
+            },
+            onConfirm = {
+                onAction(SettingsAction.ConfirmResetProgress)
+            },
+        )
     }
 }
 
@@ -474,6 +487,42 @@ private fun ThemeModeOptionRow(
             )
         }
     }
+}
+
+@Composable
+private fun ResetProgressConfirmationDialog(
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Reset progress?",
+                style = CalmTheme.typographyTokens.cardTitle,
+            )
+        },
+        text = {
+            Text(
+                text = "This will clear your journey progress. The 30-day content and app preferences will stay unchanged.",
+                style = CalmTheme.typographyTokens.cardBody,
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = onConfirm,
+            ) {
+                Text("Reset")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss,
+            ) {
+                Text("Cancel")
+            }
+        },
+    )
 }
 
 private fun ThemeMode.label(): String =
