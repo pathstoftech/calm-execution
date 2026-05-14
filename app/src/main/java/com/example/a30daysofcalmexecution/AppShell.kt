@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTopAppBar
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 import com.example.a30daysofcalmexecution.navigation.CalmExecutionNavHost
+import com.example.a30daysofcalmexecution.navigation.SettingsRoute
 
 @Composable
 fun AppShell(
@@ -37,6 +38,17 @@ fun AppShell(
                     if (canNavigateBack) {
                         CompactBackAction(
                             onClick = navController::popBackStack
+                        )
+                    }
+                },
+                actions = {
+                    if (!canNavigateBack) {
+                        CompactSettingsAction(
+                            onClick = {
+                                navController.navigate(SettingsRoute) {
+                                    launchSingleTop = true
+                                }
+                            }
                         )
                     }
                 }
@@ -70,4 +82,22 @@ fun CompactBackAction(
     }
 }
 
+@Composable
+fun CompactSettingsAction(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TextButton(
+        onClick = onClick,
+        modifier = modifier.testTag(CompactSettingsActionTestTag)
+    ) {
+        Text(
+            text = "Settings",
+            style = CalmTheme.typographyTokens.actionLabel,
+            color = CalmTheme.colorTokens.onScreenBackground
+        )
+    }
+}
+
 private const val CompactBackActionTestTag = "compact_back_action"
+private const val CompactSettingsActionTestTag = "compact_settings_action"
