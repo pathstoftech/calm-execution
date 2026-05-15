@@ -51,7 +51,7 @@
       "whyItHelps": "A single clear priority reduces decision friction and prevents the day from being driven by whichever task looks loudest.",
       "tryToday": "Before opening email or chat, write down one task that deserves your best attention first.",
       "imageKey": "tip_01_define_real_priority",
-      "imageContentDescription": "A clean desk with one open notebook page and a single task written at the top.",
+      "imageContentDescription": "A clean desk with an open notebook showing one task at the top.",
       "imageDecorative": false
     },
     {
@@ -66,7 +66,7 @@
       "whyItHelps": "Planning in a calm state creates better judgment than planning while already overwhelmed.",
       "tryToday": "Write a simple three-item plan for the day: one main task, one secondary task, and one admin task.",
       "imageKey": "tip_02_stop_planning_by_panic",
-      "imageContentDescription": "A morning workspace with coffee, a planner, and neatly written daily goals.",
+      "imageContentDescription": "A morning workspace with coffee, a planner, and written daily goals.",
       "imageDecorative": false
     },
     {
@@ -81,7 +81,7 @@
       "whyItHelps": "The first strong block of attention often sets the direction of the day. If it is protected, deeper work is more likely to happen.",
       "tryToday": "Spend the first 30–60 minutes on one meaningful task before opening communication apps.",
       "imageKey": "tip_03_protect_your_first_work_block",
-      "imageContentDescription": "A laptop with notifications muted and one document open in a quiet morning setting.",
+      "imageContentDescription": "A laptop with notifications muted and one document open in a quiet workspace.",
       "imageDecorative": false
     },
     {
@@ -96,7 +96,7 @@
       "whyItHelps": "This creates a decision filter. Without one, you end up rewarding interruption instead of progress.",
       "tryToday": "Before starting a new request, label it mentally: urgent, important, both, or neither.",
       "imageKey": "tip_04_separate_urgent_from_important",
-      "imageContentDescription": "Sticky notes or cards arranged into four neat groups on a desk.",
+      "imageContentDescription": "Sticky notes arranged into four organized groups on a desk.",
       "imageDecorative": false
     },
     {
@@ -111,7 +111,7 @@
       "whyItHelps": "People often avoid not the work itself, but the uncertainty around how to begin it.",
       "tryToday": "Rewrite one difficult task into a concrete first step, such as “open document and draft first paragraph.”",
       "imageKey": "tip_05_make_the_next_step_obvious",
-      "imageContentDescription": "A checklist with one first action highlighted, beside a laptop and pen.",
+      "imageContentDescription": "A checklist with one first action highlighted beside a laptop and pen.",
       "imageDecorative": false
     },
     {
@@ -141,7 +141,7 @@
       "whyItHelps": "Starting creates momentum faster than thinking about starting. Readiness often appears after action, not before it.",
       "tryToday": "Choose one task you have been postponing and spend just 10 minutes on the first visible part of it.",
       "imageKey": "tip_07_start_before_you_feel_ready",
-      "imageContentDescription": "A laptop opened to a blank or partially started document, with a timer or notebook beside it.",
+      "imageContentDescription": "A laptop open to a blank or partly started document beside a timer and notebook.",
       "imageDecorative": false
     },
     {
@@ -171,7 +171,7 @@
       "whyItHelps": "Distraction is often not a major interruption but a series of small invitations to leave the task. Removing those invitations protects continuity.",
       "tryToday": "Mute chat, email, and non-essential phone notifications for one full focus session.",
       "imageKey": "tip_09_silence_the_invitation_to_react",
-      "imageContentDescription": "A phone face-down beside a laptop in a calm workspace.",
+      "imageContentDescription": "A phone placed face-down beside a laptop in a calm workspace.",
       "imageDecorative": false
     },
     {
@@ -186,7 +186,7 @@
       "whyItHelps": "People often follow the easiest available action. Small barriers can reduce automatic switching and protect focus.",
       "tryToday": "Log out of one distracting site, move your phone away, or close every tab unrelated to the current task.",
       "imageKey": "tip_10_make_distraction_slightly_harder",
-      "imageContentDescription": "A minimalist desk with a phone placed farther away and a laptop with only one browser tab open.",
+      "imageContentDescription": "A minimalist desk with a phone placed away from a laptop with one browser tab open.",
       "imageDecorative": false
     },
     {
@@ -201,7 +201,7 @@
       "whyItHelps": "This creates a cognitive bookmark. It reduces the cost of returning and helps preserve continuity across interruptions.",
       "tryToday": "Before leaving a task, write one line: “Next, continue by…” and complete the sentence.",
       "imageKey": "tip_11_finish_the_current_thought_before_switching",
-      "imageContentDescription": "An open notebook with a short handwritten next-step note beside an active laptop document.",
+      "imageContentDescription": "An open notebook with a short handwritten note beside an active laptop document.",
       "imageDecorative": false
     },
     {
@@ -216,7 +216,7 @@
       "whyItHelps": "A real pause helps attention reset. Without recovery, each new work block starts with less mental clarity than the last.",
       "tryToday": "After a focused session, stand up, stretch, get water, or look away from the screen for 5 minutes before starting again.",
       "imageKey": "tip_12_protect_recovery_between_focus_blocks",
-      "imageContentDescription": "A calm workspace with a mug, chair pushed back, and a brief pause moment near a window or plant.",
+      "imageContentDescription": "A calm workspace with a mug, a chair pushed back, and a plant near a window.",
       "imageDecorative": false
     },
     {
@@ -231,7 +231,7 @@
       "whyItHelps": "Constant responsiveness fragments attention and turns the workday into a reaction loop. Delayed response windows protect deeper work without ignoring people.",
       "tryToday": "Check and answer messages at two or three planned times instead of continuously throughout the day.",
       "imageKey": "tip_13_do_not_answer_everything_immediately",
-      "imageContentDescription": "A calm workspace with a laptop partially turned away and a phone set aside in soft daylight.",
+      "imageContentDescription": "A calm workspace with a laptop partially turned away and a phone set aside.",
       "imageDecorative": false
     },
     {
@@ -246,7 +246,7 @@
       "whyItHelps": "A delayed yes is often more honest than an immediate one. It gives you time to consider time, energy, priority, and tradeoffs.",
       "tryToday": "When a new request arrives, respond with: “Let me check my current priorities and get back to you.”",
       "imageKey": "tip_14_say_yes_more_slowly",
-      "imageContentDescription": "A quiet desk scene with one incoming document placed aside rather than opened immediately.",
+      "imageContentDescription": "A quiet desk with one incoming document placed aside.",
       "imageDecorative": false
     },
     {
@@ -261,7 +261,7 @@
       "whyItHelps": "Progress is easier when your mind is not trying to hold six unfinished threads at once. Fewer active tasks reduce switching and increase completion.",
       "tryToday": "Choose no more than two active work tasks for the day and move everything else out of your immediate visual field.",
       "imageKey": "tip_15_keep_fewer_tasks_in_motion",
-      "imageContentDescription": "A clean desk with one or two neatly stacked folders in focus and the rest removed from view.",
+      "imageContentDescription": "A clean desk with one or two neatly stacked folders in focus.",
       "imageDecorative": false
     },
     {
@@ -276,7 +276,7 @@
       "whyItHelps": "If focused time is not claimed intentionally, it usually gets consumed by smaller, more immediate things.",
       "tryToday": "Block one uninterrupted focus session in your calendar and treat it as a real commitment.",
       "imageKey": "tip_16_protect_your_calendar_from_shallow_clutter",
-      "imageContentDescription": "A planner or laptop seen from an editorial angle, implying one clearly reserved time block.",
+      "imageContentDescription": "A planner or laptop calendar with one clearly reserved time block.",
       "imageDecorative": false
     },
     {
@@ -291,7 +291,7 @@
       "whyItHelps": "Many interruptions feel important only because they are immediate. A short pause restores choice.",
       "tryToday": "When interrupted, ask yourself: “Does this need me now, or is it merely nearby?”",
       "imageKey": "tip_17_make_interruptions_earn_their_place",
-      "imageContentDescription": "A minimal workspace with a secondary device at the edge of the scene, visually present but not central.",
+      "imageContentDescription": "A minimal workspace with a secondary device placed at the edge of the desk.",
       "imageDecorative": false
     },
     {
@@ -306,7 +306,7 @@
       "whyItHelps": "A clear ending helps your brain stop holding work in an “open loop” state. It improves recovery and makes restarting easier tomorrow.",
       "tryToday": "Take five minutes at the end of the day to review what moved, note the next step, and physically close the workspace.",
       "imageKey": "tip_18_end_the_workday_with_a_boundary",
-      "imageContentDescription": "A calm end-of-day workspace with a notebook closed, laptop nearly shut, and evening light.",
+      "imageContentDescription": "An end-of-day workspace with a closed notebook, a nearly shut laptop, and evening light.",
       "imageDecorative": false
     },
     {
@@ -321,7 +321,7 @@
       "whyItHelps": "Fatigue is easier to manage early than after it turns into irritability, distraction, or poor decisions.",
       "tryToday": "Before starting your next task, pause for 15 seconds and ask: “Do I need focus, movement, water, food, or a short reset first?”",
       "imageKey": "tip_19_notice_fatigue_before_it_becomes_the_boss",
-      "imageContentDescription": "A quiet workspace with a glass of water, soft daylight, and a chair angled away from the desk, suggesting a pause before continuing.",
+      "imageContentDescription": "A quiet workspace with a glass of water, soft daylight, and a chair angled away from the desk.",
       "imageDecorative": false
     },
     {
@@ -336,7 +336,7 @@
       "whyItHelps": "A small change in posture, movement, or location helps interrupt mental stagnation and makes the next block easier to enter with clarity.",
       "tryToday": "Between two work sessions, stand up, stretch, walk for two minutes, or change rooms before returning.",
       "imageKey": "tip_20_change_your_body_to_reset_your_mind",
-      "imageContentDescription": "A calm workspace with the chair pushed back, a mug or water glass on the desk, and open space near a window.",
+      "imageContentDescription": "A calm workspace with a chair pushed back and a mug or water glass on the desk.",
       "imageDecorative": false
     },
     {
@@ -351,7 +351,7 @@
       "whyItHelps": "A genuine pause in the middle of the day helps reduce cognitive buildup and improves the quality of the second half of your work.",
       "tryToday": "Step away from your workspace for lunch, even if only for 15–20 minutes, and do not combine it with email or scrolling.",
       "imageKey": "tip_21_protect_lunch_from_becoming_another_task",
-      "imageContentDescription": "A simple lunch setting near natural light, separate from the main desk, with a notebook or laptop absent or closed.",
+      "imageContentDescription": "A simple lunch setting near natural light, away from the main work desk.",
       "imageDecorative": false
     },
     {
@@ -366,7 +366,7 @@
       "whyItHelps": "Not every task needs peak attention. Matching effort to energy reduces friction and makes the day feel less like a constant uphill push.",
       "tryToday": "Choose one demanding task for your strongest part of the day and move one lighter admin task to a lower-energy period.",
       "imageKey": "tip_22_match_the_task_to_the_energy_you_have",
-      "imageContentDescription": "An editorial desk scene with one focused object in the foreground and lighter secondary materials set aside.",
+      "imageContentDescription": "A desk with one focused work item in front and lighter materials set aside.",
       "imageDecorative": false
     },
     {
@@ -381,7 +381,7 @@
       "whyItHelps": "Energy loss is not always dramatic. Often it leaks through small repeated frictions that you have stopped noticing.",
       "tryToday": "Improve one part of your setup: lighting, chair position, desk height, screen brightness, noise level, or cable clutter.",
       "imageKey": "tip_23_reduce_the_silent_drains_in_your_workspace",
-      "imageContentDescription": "A refined workspace detail with an adjusted lamp, clean desk edge, aligned chair, or improved light.",
+      "imageContentDescription": "A workspace detail with an adjusted lamp, clean desk edge, and aligned chair.",
       "imageDecorative": false
     },
     {
@@ -396,7 +396,7 @@
       "whyItHelps": "Continuing past the productive point often creates tired, low-value output and steals energy from the next session.",
       "tryToday": "When you notice the work becoming muddy or repetitive, either take a short reset or switch to a lighter task instead of forcing more of the same.",
       "imageKey": "tip_24_stop_proving_effort_after_the_useful_part_is_over",
-      "imageContentDescription": "A calm late-day workspace with softer light, a notebook closing, and one active item gently set aside.",
+      "imageContentDescription": "A late-day workspace with soft light, a closing notebook, and one active item set aside.",
       "imageDecorative": false
     },
     {
@@ -411,7 +411,7 @@
       "whyItHelps": "Many tasks expand because “better” has no boundary. A defined version of done helps you finish useful work instead of feeding endless adjustment.",
       "tryToday": "Before continuing one task, write one sentence: “This will be done for now when…” and complete it.",
       "imageKey": "tip_25_define_what_done_for_now_means",
-      "imageContentDescription": "A calm editorial workspace with one closed folder or document stack in focus.",
+      "imageContentDescription": "A calm workspace with one closed folder or document stack in focus.",
       "imageDecorative": false
     },
     {
@@ -426,7 +426,7 @@
       "whyItHelps": "Open loops compete for attention even when you are not actively working on them. Closing one reduces background noise and improves momentum.",
       "tryToday": "Choose one unfinished task and either complete the next small part of it or explicitly defer it with a written next step.",
       "imageKey": "tip_26_close_one_loop_before_opening_another",
-      "imageContentDescription": "A neat desk with one completed stack or closed notebook in the foreground and one new item waiting off to the side.",
+      "imageContentDescription": "A neat desk with a completed stack in front and one new item waiting to the side.",
       "imageDecorative": false
     },
     {
@@ -441,7 +441,7 @@
       "whyItHelps": "Progress becomes easier to trust when it is visible. Without review, the mind often overweights what is unfinished and underweights what improved.",
       "tryToday": "At the end of the day, write down three things that moved forward, even if they were small.",
       "imageKey": "tip_27_review_what_actually_moved",
-      "imageContentDescription": "A refined desk scene with a short reviewed list or a neatly aligned stack of completed pages.",
+      "imageContentDescription": "A desk with a short reviewed list and a neatly aligned stack of completed pages.",
       "imageDecorative": false
     },
     {
@@ -456,7 +456,7 @@
       "whyItHelps": "Work improves when problems become inputs for adjustment instead of recurring annoyances you merely endure.",
       "tryToday": "Notice one repeated friction from the day and decide on one concrete change for tomorrow.",
       "imageKey": "tip_28_learn_from_friction_instead_of_repeating_it",
-      "imageContentDescription": "A quiet editorial workspace detail showing one adjusted tool or setup element.",
+      "imageContentDescription": "A quiet workspace with one tool or setup element visibly adjusted.",
       "imageDecorative": false
     },
     {
@@ -471,7 +471,7 @@
       "whyItHelps": "A prepared restart lowers friction and makes it easier to begin with clarity instead of rebuilding context from scratch.",
       "tryToday": "Before stopping, leave one visible next step, one ready file, or one prepared workspace for tomorrow’s first block.",
       "imageKey": "tip_29_prepare_the_next_start_before_you_stop",
-      "imageContentDescription": "A calm end-of-day desk with one item intentionally left ready in the foreground.",
+      "imageContentDescription": "An end-of-day desk with one item left ready for the next work session.",
       "imageDecorative": false
     },
     {
@@ -486,7 +486,7 @@
       "whyItHelps": "Long-term improvement comes less from heroic effort and more from better defaults, better structure, and fewer repeated mistakes.",
       "tryToday": "List three habits from this month to keep, one habit to reduce, and one small system change to carry forward.",
       "imageKey": "tip_30_improve_the_system_not_just_the_effort",
-      "imageContentDescription": "A calm, slightly elevated editorial scene suggesting review and integration with a closed notebook and neatly stacked papers.",
+      "imageContentDescription": "A calm workspace with a closed notebook and neatly stacked papers arranged for review.",
       "imageDecorative": false
     }
   ]
