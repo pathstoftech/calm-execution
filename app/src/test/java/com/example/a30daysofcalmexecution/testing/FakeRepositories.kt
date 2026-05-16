@@ -16,6 +16,7 @@ import com.example.a30daysofcalmexecution.core.model.TipUserState
 import com.example.a30daysofcalmexecution.core.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class FakeCatalogRepository(
@@ -71,8 +72,8 @@ class FakeJourneyRepository(
     val markedViewedTipIds = mutableListOf<TipId>()
     val bookmarkedMutations = mutableListOf<Pair<TipId, Boolean>>()
     val completionMutations = mutableListOf<Pair<TipId, TipCompletionStatus>>()
-
     var shouldThrowOnMutation: Boolean = false
+    var resetProgressCallCount: Int = 0
 
     override fun observeJourneyState(): Flow<JourneyUserState> =
         journeyState
@@ -141,6 +142,7 @@ class FakeJourneyRepository(
 
     override suspend fun resetProgress() {
         throwIfNeeded()
+        resetProgressCallCount++
         journeyState.value = JourneyUserState()
     }
 
@@ -157,29 +159,55 @@ class FakePreferencesRepository(
 
     val preferences = MutableStateFlow(initialPreferences)
 
+    val themeModeMutations = mutableListOf<ThemeMode>()
+    val dynamicColorMutations = mutableListOf<Boolean>()
+    val reducedMotionMutations = mutableListOf<Boolean>()
     val selectedSectionMutations = mutableListOf<SectionKey?>()
+    val introSeenMutations = mutableListOf<Boolean>()
+
+    var shouldThrowOnObserve: Boolean = false
+    var shouldThrowOnMutation: Boolean = false
 
     override fun observePreferences(): Flow<UserPreferences> =
-        preferences
+        if (shouldThrowOnObserve) {
+            flow { error("Preferences load failed.") }
+        } else {
+            preferences
+        }
 
     override suspend fun setThemeMode(themeMode: ThemeMode) {
+        throwIfNeeded()
+        themeModeMutations += themeMode
         preferences.value = preferences.value.copy(themeMode = themeMode)
     }
 
     override suspend fun setDynamicColorEnabled(enabled: Boolean) {
+        throwIfNeeded()
+        dynamicColorMutations += enabled
         preferences.value = preferences.value.copy(dynamicColorEnabled = enabled)
     }
 
     override suspend fun setReducedMotionEnabled(enabled: Boolean) {
+        throwIfNeeded()
+        reducedMotionMutations += enabled
         preferences.value = preferences.value.copy(reducedMotionEnabled = enabled)
     }
 
     override suspend fun setLastSelectedSection(sectionKey: SectionKey?) {
+        throwIfNeeded()
         selectedSectionMutations += sectionKey
         preferences.value = preferences.value.copy(lastSelectedSectionKey = sectionKey)
     }
 
     override suspend fun setHasSeenIntro(seen: Boolean) {
+        throwIfNeeded()
+        introSeenMutations += seen
         preferences.value = preferences.value.copy(hasSeenIntro = seen)
+    }
+
+    private fun throwIfNeeded() {
+        if (shouldThrowOnMutation) {
+            error("Preferences mutation failed.")
+        }
     }
 }
