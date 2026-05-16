@@ -19,11 +19,11 @@ This repository is being developed as a **hiring-facing Android portfolio projec
 | Persistence | Proto DataStore for mutable local journey state and preferences |
 | Content source | Bundled JSON catalog with validation |
 | Dependency injection | Hilt application, repository, DataStore, serialization, and image resolver modules |
-| Implemented milestones | A — Foundation, B — Local truth, C — First usable slice |
-| Current milestone | D — Product completeness |
-| Next implementation focus | Settings screen, then adaptive layout, previews/fakes, asset hardening, and release hardening |
+| Implemented milestones | A — Foundation, B — Local truth, C — First usable slice, D1 — Settings, D2 — Adaptive layout, D3 — Preview/fake data, D4 — Assets/content |
+| Current milestone | D5 — Product-complete test pass |
+| Next implementation focus | Settings tests, expanded adaptive tests, asset validation tests, accessibility sanity pass, and manual exploratory pass |
 
-The current implementation supports the first real app flow: **browse the 30-day journey → open a tip detail screen → bookmark or complete a tip → keep state consistent between Home and Detail**.
+The current implementation supports the full local product flow: **browse the 30-day journey → open a tip detail screen → bookmark or complete a tip → adjust app preferences → use compact or expanded layouts → keep local state consistent through repositories and Proto DataStore**.
 
 ---
 
@@ -93,12 +93,15 @@ Opening a detail screen marks the tip as viewed, but journey progress is derived
 
 ### Settings screen
 
-Settings is the next product-completeness feature. Planned controls:
+The Settings screen is implemented as part of product completeness.
 
-- theme mode;
-- dynamic color;
-- reduced motion;
-- reset progress.
+It supports:
+
+- theme mode selection;
+- dynamic color toggle;
+- reduced motion toggle;
+- reset progress flow with confirmation;
+- app shell reaction to persisted preference changes.
 
 ---
 
@@ -183,15 +186,46 @@ Then reference them with:
 - compact navigation tests;
 - Home / Detail ViewModel tests.
 
-### Next — Milestone D: Product completeness
+### Completed — Milestone D1: Settings
 
-- Settings state/action/ViewModel/route/screen;
-- settings preference rows;
+- Settings state, actions, ViewModel, route, and screen;
+- theme mode preference row;
+- dynamic color preference row;
+- reduced motion preference row;
+- reset progress flow;
 - reset confirmation dialog;
-- app shell reaction to settings changes;
-- expanded list-detail adaptive layout;
-- preview data and fake repositories;
-- final runtime image asset pipeline;
+- app shell reaction to settings changes.
+
+### Completed — Milestone D2: Adaptive layout
+
+- expanded app shell;
+- list-detail layout for larger screens;
+- feed pane and selected detail pane;
+- empty detail placeholder;
+- selection/back behavior for expanded layout;
+- compact layout preserved.
+
+### Completed — Milestone D3: Preview and fake-data hardening
+
+- preview data;
+- fake repositories;
+- sample UI states;
+- preview-only content helpers;
+- screen previews that do not depend on runtime DI.
+
+### Completed — Milestone D4: Assets and content finalization
+
+- 30 runtime WebP assets;
+- runtime image directory under `drawable-nodpi`;
+- image-key to drawable mapping;
+- finalized image content descriptions;
+- fallback asset support.
+
+### Next — Milestone D5: Product-complete test pass
+
+- Settings tests;
+- expanded adaptive tests;
+- asset validation tests;
 - accessibility sanity pass;
 - manual exploratory pass.
 
@@ -397,6 +431,25 @@ com.example.a30daysofcalmexecution.ui.detail
   TipDetailMetaBlock.kt
   TipDetailContentBlock.kt
   DetailActionsRow.kt
+  
+  com.example.a30daysofcalmexecution.ui.settings
+  SettingsAction.kt
+  SettingsRoute.kt
+  SettingsScreen.kt
+  SettingsUiState.kt
+  SettingsViewModel.kt
+
+com.example.a30daysofcalmexecution.ui.adaptive
+  AdaptiveAppShell.kt
+  ExpandedJourneyRoute.kt
+  ExpandedListDetailLayout.kt
+
+com.example.a30daysofcalmexecution.ui.preview
+  PreviewContent.kt
+  PreviewData.kt
+  PreviewUiStates.kt
+  ScreenPreviews.kt
+  fake/
 ```
 
 Generated Proto classes are build output and should remain under `build/generated/...`. They should not be manually committed as source files.
@@ -659,16 +712,23 @@ The design-system token layer is integrated. Further polish belongs to product-c
 
 ## What is intentionally not implemented yet
 
-This repository is under active development. These parts are planned but not yet complete:
+This repository is under active development.
 
-- full Settings screen implementation;
-- expanded large-screen list-detail layout;
-- preview/fake-data hardening;
-- final runtime image assets for all 30 tips;
+The main local product experience is implemented, including Home, Detail, Settings, adaptive layout, preview/fake-data support, persisted local state, and the 30-image runtime asset set.
+
+Remaining work is verification and release hardening:
+
+- Settings test coverage;
+- expanded adaptive layout test coverage;
+- asset validation tests;
+- accessibility sanity pass;
+- manual exploratory pass;
 - final polished screenshots / demo video;
-- full release-readiness pass.
+- full release-readiness pass;
+- dependency-state review;
+- release notes and known issues list.
 
-The first usable app slice is implemented. Remaining work is product completeness and release hardening, not the core Home → Detail journey.
+The project is past the first usable slice. Current work is product-complete verification, not core feature construction.
 
 ---
 
@@ -718,13 +778,24 @@ Status: **Done**
 
 ### Milestone D — Product completeness
 
-Status: **Next**
+Status: **In progress — D1/D2/D3/D4 done, D5 next**
+
+Completed:
 
 - Settings;
 - adaptive layout;
 - preview/fake-data hardening;
 - 30-image asset pipeline;
-- accessibility sanity pass.
+- finalized image content descriptions;
+- fallback asset support.
+
+Next:
+
+- Settings tests;
+- expanded adaptive tests;
+- asset validation tests;
+- accessibility sanity pass;
+- manual exploratory pass.
 
 ### Milestone E — Release hardening
 
@@ -761,7 +832,7 @@ This project is intended to demonstrate practical Android engineering habits:
 - small commits aligned to implementation milestones;
 - CI-backed verification.
 
-The next major hiring-facing improvement is **Settings + screenshots/demo polish**, not the first visible Compose slice. The first visible slice already exists.
+The next major hiring-facing improvement is **product-complete test coverage + screenshots/demo polish**, not the first visible Compose slice. The first visible slice, Settings, adaptive layout, preview support, and runtime asset pipeline already exist.
 
 ---
 
