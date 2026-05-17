@@ -197,6 +197,55 @@ class HomeViewModelTest {
         collectJob.cancel()
     }
 
+    @Test
+    fun selectExpandedDetail_marksTipViewedWithoutAdvancingJourneyProgress() = runViewModelTest {
+        val journeyRepository = FakeJourneyRepository()
+        val viewModel = createViewModel(
+            journeyRepository = journeyRepository,
+        )
+
+        val collectJob = collectStateFlow(viewModel.uiState)
+        advanceUntilIdle()
+
+        viewModel.onAction(HomeAction.SelectExpandedDetail(ViewModelTestData.DayTwoTipId))
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+
+        assertEquals(listOf(ViewModelTestData.DayTwoTipId), journeyRepository.markedViewedTipIds)
+        assertEquals(ViewModelTestData.DayTwoTipId, state.selectedTipId)
+        assertEquals(ViewModelTestData.DayTwoTipId, state.selectedTipDetail?.id)
+        assertEquals(0, state.journey.completedCount)
+        assertEquals(1, state.journey.currentDay)
+        assertEquals(ViewModelTestData.DayOneTipId, state.featuredTipId)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun clearExpandedDetail_removesSelectedDetailWithoutChangingProgress() = runViewModelTest {
+        val viewModel = createViewModel()
+
+        val collectJob = collectStateFlow(viewModel.uiState)
+        advanceUntilIdle()
+
+        viewModel.onAction(HomeAction.SelectExpandedDetail(ViewModelTestData.DayTwoTipId))
+        advanceUntilIdle()
+
+        viewModel.onAction(HomeAction.SelectExpandedDetail(null))
+        advanceUntilIdle()
+
+        val state = viewModel.uiState.value
+
+        assertNull(state.selectedTipId)
+        assertNull(state.selectedTipDetail)
+        assertEquals(0, state.journey.completedCount)
+        assertEquals(1, state.journey.currentDay)
+        assertEquals(ViewModelTestData.DayOneTipId, state.featuredTipId)
+
+        collectJob.cancel()
+    }
+
     private fun createViewModel(
         catalogRepository: FakeCatalogRepository = FakeCatalogRepository(),
         journeyRepository: FakeJourneyRepository = FakeJourneyRepository(),

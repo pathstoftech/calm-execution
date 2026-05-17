@@ -42,8 +42,8 @@ fun AdaptiveAppShell(
 
 @Composable
 fun ExpandedAppScaffold(
-    content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
     Box(
         modifier = modifier
