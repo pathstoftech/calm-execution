@@ -3,10 +3,12 @@ package com.example.a30daysofcalmexecution.ui.detail
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
+import com.example.a30daysofcalmexecution.R
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmExecutionTheme
 import com.example.a30daysofcalmexecution.core.model.TipCompletionStatus
 import com.example.a30daysofcalmexecution.core.model.TipId
@@ -80,7 +82,13 @@ class TipDetailScreenTest {
 
         composeRule.onNodeWithTag("tip_detail_ready_state").assertIsDisplayed()
 
-        composeRule.onNodeWithText("A calm planning scene").assertIsDisplayed()
+        composeRule
+            .onNodeWithContentDescription("A calm planning scene", substring = true)
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithText("A calm planning scene", substring = true)
+            .assertDoesNotExist()
         composeRule.onNodeWithText("Day 02").assertIsDisplayed()
         composeRule.onNodeWithText("Stop planning by panic").assertIsDisplayed()
         composeRule.onNodeWithText("Clarity").assertIsDisplayed()
@@ -234,7 +242,8 @@ class TipDetailScreenTest {
             dayLabel = "Day 02",
             title = "Stop planning by panic",
             categoryLabel = "Clarity",
-            imageKey = "day_02_stop_planning_by_panic",
+            imageKey = "tip_02_stop_planning_by_panic",
+            imageResId = R.drawable.tip_02_stop_planning_by_panic,
             imageContentDescription = "A calm planning scene",
             imageDecorative = false,
             problem = TipDetailTextSectionUi(

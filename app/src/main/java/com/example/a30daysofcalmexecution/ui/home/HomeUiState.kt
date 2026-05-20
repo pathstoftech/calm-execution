@@ -1,5 +1,6 @@
 package com.example.a30daysofcalmexecution.ui.home
 
+import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable
 import com.example.a30daysofcalmexecution.core.model.SectionKey
 import com.example.a30daysofcalmexecution.core.model.TipId
@@ -54,6 +55,9 @@ data class TipCardUi(
     val previewText: String,
     val categoryLabel: String,
     val imageKey: String,
+    @param:DrawableRes val imageResId: Int? = null,
+    val imageContentDescription: String? = null,
+    val imageDecorative: Boolean = false,
     val isCompleted: Boolean,
-    val isBookmarked: Boolean
+    val isBookmarked: Boolean,
 )

@@ -62,6 +62,8 @@ object PreviewData {
             previewText = "Separate the useful task from the loud task before the day starts.",
             categoryLabel = "Priority",
             imageKey = "tip_01_define_real_priority",
+            imageContentDescription = "A calm editorial illustration for this tip.",
+            imageDecorative = false,
             isCompleted = true,
             isBookmarked = true,
         )
@@ -74,6 +76,8 @@ object PreviewData {
             previewText = "Close or park small unfinished decisions before they become background noise.",
             categoryLabel = "Clarity",
             imageKey = "tip_02_reduce_open_loops",
+            imageContentDescription = "A calm editorial illustration for this tip.",
+            imageDecorative = false,
             isCompleted = false,
             isBookmarked = false,
         )
@@ -86,6 +90,8 @@ object PreviewData {
             previewText = "Use a small first action to break the waiting loop.",
             categoryLabel = "Execution",
             imageKey = "tip_03_start_before_ready",
+            imageContentDescription = "A calm editorial illustration for this tip.",
+            imageDecorative = false,
             isCompleted = false,
             isBookmarked = true,
         )

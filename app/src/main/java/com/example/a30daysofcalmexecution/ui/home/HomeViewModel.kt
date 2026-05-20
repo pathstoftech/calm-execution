@@ -3,6 +3,7 @@ package com.example.a30daysofcalmexecution.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.a30daysofcalmexecution.core.data.catalog.CatalogRepository
+import com.example.a30daysofcalmexecution.core.data.images.TipImageResolver
 import com.example.a30daysofcalmexecution.core.data.journey.JourneyRepository
 import com.example.a30daysofcalmexecution.core.data.preferences.PreferencesRepository
 import com.example.a30daysofcalmexecution.core.model.JourneyCatalog
@@ -35,7 +36,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val catalogRepository: CatalogRepository,
     private val journeyRepository: JourneyRepository,
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepository: PreferencesRepository,
+    private val tipImageResolver: TipImageResolver,
 ) : ViewModel(), ScreenViewModel<HomeUiState, HomeAction> {
 
     private val selectedTipIdOverride = MutableStateFlow<TipId?>(null)
@@ -102,7 +104,11 @@ class HomeViewModel @Inject constructor(
 
     override val uiState: StateFlow<HomeUiState> =
         internalState
-            .map { state -> state.toUiState() }
+            .map { state ->
+                state.toUiState(
+                    tipImageResolver = tipImageResolver,
+                )
+            }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -207,7 +213,9 @@ private data class HomeViewModelState(
     val selectedTipIdOverride: TipId? = null
 )
 
-private fun HomeViewModelState.toUiState(): HomeUiState {
+private fun HomeViewModelState.toUiState(
+    tipImageResolver: TipImageResolver,
+): HomeUiState {
     val currentCatalog = catalog ?: return HomeUiState(
         status = status,
         message = message
@@ -293,8 +301,8 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
                             .map { tip ->
                                 tip.toTipCardUi(
                                     isCompleted = tip.id in completedTipIds,
-                                    isBookmarked =
-                                        journey.tipStates[tip.id]?.isBookmarked == true
+                                    isBookmarked = journey.tipStates[tip.id]?.isBookmarked == true,
+                                    tipImageResolver = tipImageResolver,
                                 )
                             },
                 )
@@ -305,6 +313,7 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
             isBookmarked = journey.tipStates[selectedTip.id]?.isBookmarked == true,
             completionStatus = journey.tipStates[selectedTip.id]?.completionStatus
                 ?: TipCompletionStatus.NOT_STARTED,
+            tipImageResolver = tipImageResolver,
         ),
         message = message
     )
@@ -312,7 +321,8 @@ private fun HomeViewModelState.toUiState(): HomeUiState {
 
 private fun Tip.toTipCardUi(
     isCompleted: Boolean,
-    isBookmarked: Boolean
+    isBookmarked: Boolean,
+    tipImageResolver: TipImageResolver,
 ): TipCardUi =
     TipCardUi(
         id = id,
@@ -321,13 +331,17 @@ private fun Tip.toTipCardUi(
         previewText = previewText,
         categoryLabel = categoryKey.label,
         imageKey = image.imageKey,
+        imageResId = tipImageResolver.resolve(image.imageKey),
+        imageContentDescription = image.contentDescription,
+        imageDecorative = image.isDecorative,
         isCompleted = isCompleted,
-        isBookmarked = isBookmarked
+        isBookmarked = isBookmarked,
     )
 
 private fun Tip.toTipDetailUi(
     isBookmarked: Boolean,
     completionStatus: TipCompletionStatus,
+    tipImageResolver: TipImageResolver,
 ): TipDetailUi =
     TipDetailUi(
         id = id,
@@ -335,6 +349,7 @@ private fun Tip.toTipDetailUi(
         title = title,
         categoryLabel = categoryKey.label,
         imageKey = image.imageKey,
+        imageResId = tipImageResolver.resolve(image.imageKey),
         imageContentDescription = image.contentDescription,
         imageDecorative = image.isDecorative,
         problem = TipDetailTextSectionUi(

@@ -7,6 +7,7 @@ import com.example.a30daysofcalmexecution.core.model.TipUserState
 import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
 import com.example.a30daysofcalmexecution.testing.FakeCatalogRepository
 import com.example.a30daysofcalmexecution.testing.FakeJourneyRepository
+import com.example.a30daysofcalmexecution.testing.FakeTipImageResolver
 import com.example.a30daysofcalmexecution.testing.MainDispatcherRule
 import com.example.a30daysofcalmexecution.testing.ViewModelTestData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -213,15 +214,18 @@ class TipDetailViewModelTest {
 
     private fun createViewModel(
         tipIdValue: String = ViewModelTestData.DayOneTipId.value,
+        savedStateHandle: SavedStateHandle = SavedStateHandle(
+            mapOf("tipId" to tipIdValue),
+        ),
         catalogRepository: FakeCatalogRepository = FakeCatalogRepository(),
         journeyRepository: FakeJourneyRepository = FakeJourneyRepository(),
+        tipImageResolver: FakeTipImageResolver = FakeTipImageResolver(),
     ): TipDetailViewModel =
         TipDetailViewModel(
-            savedStateHandle = SavedStateHandle(
-                mapOf("tipId" to tipIdValue),
-            ),
+            savedStateHandle = savedStateHandle,
             catalogRepository = catalogRepository,
             journeyRepository = journeyRepository,
+            tipImageResolver = tipImageResolver,
         )
 
     private fun TestScope.collect(

@@ -8,6 +8,7 @@ import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
 import com.example.a30daysofcalmexecution.testing.FakeCatalogRepository
 import com.example.a30daysofcalmexecution.testing.FakeJourneyRepository
 import com.example.a30daysofcalmexecution.testing.FakePreferencesRepository
+import com.example.a30daysofcalmexecution.testing.FakeTipImageResolver
 import com.example.a30daysofcalmexecution.testing.MainDispatcherRule
 import com.example.a30daysofcalmexecution.testing.ViewModelTestData
 import com.example.a30daysofcalmexecution.testing.collectStateFlow
@@ -250,11 +251,13 @@ class HomeViewModelTest {
         catalogRepository: FakeCatalogRepository = FakeCatalogRepository(),
         journeyRepository: FakeJourneyRepository = FakeJourneyRepository(),
         preferencesRepository: FakePreferencesRepository = FakePreferencesRepository(),
+        tipImageResolver: FakeTipImageResolver = FakeTipImageResolver(),
     ): HomeViewModel =
         HomeViewModel(
             catalogRepository = catalogRepository,
             journeyRepository = journeyRepository,
             preferencesRepository = preferencesRepository,
+            tipImageResolver = tipImageResolver,
         )
 
     private fun runViewModelTest(

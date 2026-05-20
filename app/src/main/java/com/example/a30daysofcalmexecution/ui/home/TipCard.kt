@@ -2,18 +2,15 @@ package com.example.a30daysofcalmexecution.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
@@ -21,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmChip
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTipImage
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 
 @Composable
@@ -46,8 +44,16 @@ fun TipCard(
         shadowElevation = CalmTheme.elevationTokens.none
     ) {
         Column {
-            TipCardImagePlaceholder(
-                imageKey = item.imageKey
+            CalmTipImage(
+                imageResId = item.imageResId,
+                contentDescription = if (item.imageDecorative) {
+                    null
+                } else {
+                    item.imageContentDescription
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f),
             )
 
             Column(
@@ -81,37 +87,6 @@ fun TipCard(
                     onToggleCompleted = onToggleCompleted
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun TipCardImagePlaceholder(
-    imageKey: String,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(16f / 9f),
-        color = CalmTheme.colorTokens.cardContainerVariant,
-        contentColor = CalmTheme.colorTokens.onCardContainerVariant,
-        tonalElevation = CalmTheme.elevationTokens.none,
-        shadowElevation = CalmTheme.elevationTokens.none
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(CalmTheme.spacingTokens.cardPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = imageKey,
-                style = CalmTheme.typographyTokens.metadataLabel,
-                color = CalmTheme.colorTokens.onCardContainerVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
         }
     }
 }

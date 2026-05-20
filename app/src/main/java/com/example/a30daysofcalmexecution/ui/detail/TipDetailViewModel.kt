@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.a30daysofcalmexecution.core.data.catalog.CatalogRepository
+import com.example.a30daysofcalmexecution.core.data.images.TipImageResolver
 import com.example.a30daysofcalmexecution.core.data.journey.JourneyRepository
 import com.example.a30daysofcalmexecution.core.model.Tip
 import com.example.a30daysofcalmexecution.core.model.TipCompletionStatus
@@ -31,7 +32,8 @@ import javax.inject.Inject
 class TipDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val catalogRepository: CatalogRepository,
-    private val journeyRepository: JourneyRepository
+    private val journeyRepository: JourneyRepository,
+    private val tipImageResolver: TipImageResolver,
 ) : ViewModel(), ScreenViewModel<TipDetailUiState, TipDetailAction> {
 
     private val tipId = TipId(
@@ -115,7 +117,11 @@ class TipDetailViewModel @Inject constructor(
 
     override val uiState: StateFlow<TipDetailUiState> =
         internalState
-            .map { state -> state.toUiState() }
+            .map { state ->
+                state.toUiState(
+                    tipImageResolver = tipImageResolver,
+                )
+            }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -219,21 +225,25 @@ private data class TipDetailViewModelState(
     val message: UiMessage? = null
 )
 
-private fun TipDetailViewModelState.toUiState(): TipDetailUiState {
+private fun TipDetailViewModelState.toUiState(
+    tipImageResolver: TipImageResolver,
+): TipDetailUiState {
     val currentTip = tip
 
     return TipDetailUiState(
         status = status,
         screenTitle = currentTip?.title ?: "Tip detail",
         tip = currentTip?.toTipDetailUi(
-            tipUserState = tipUserState
+            tipUserState = tipUserState,
+            tipImageResolver = tipImageResolver,
         ),
         message = message
     )
 }
 
 private fun Tip.toTipDetailUi(
-    tipUserState: TipUserState?
+    tipUserState: TipUserState?,
+    tipImageResolver: TipImageResolver,
 ): TipDetailUi =
     TipDetailUi(
         id = id,
@@ -241,26 +251,27 @@ private fun Tip.toTipDetailUi(
         title = title,
         categoryLabel = categoryKey.label,
         imageKey = image.imageKey,
+        imageResId = tipImageResolver.resolve(image.imageKey),
         imageContentDescription = image.contentDescription,
         imageDecorative = image.isDecorative,
         problem = TipDetailTextSectionUi(
             title = "Problem",
-            body = body.problem
+            body = body.problem,
         ),
         recommendation = TipDetailTextSectionUi(
             title = "Tip",
-            body = body.tip
+            body = body.tip,
         ),
         whyItHelps = TipDetailTextSectionUi(
             title = "Why it helps",
-            body = body.whyItHelps
+            body = body.whyItHelps,
         ),
         tryToday = TipDetailTextSectionUi(
             title = "Try today",
-            body = body.tryToday
+            body = body.tryToday,
         ),
         isBookmarked = tipUserState?.isBookmarked == true,
-        completionStatus = tipUserState?.completionStatus ?: TipCompletionStatus.NOT_STARTED
+        completionStatus = tipUserState?.completionStatus ?: TipCompletionStatus.NOT_STARTED,
     )
 
 private const val TipIdSavedStateKey = "tipId"

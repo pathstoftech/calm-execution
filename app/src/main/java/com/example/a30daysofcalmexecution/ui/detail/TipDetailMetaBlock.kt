@@ -1,21 +1,19 @@
 package com.example.a30daysofcalmexecution.ui.detail
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmChip
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
+import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTipImage
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 
 @Composable
@@ -32,9 +30,16 @@ fun TipDetailMetaBlock(
         shadowElevation = CalmTheme.elevationTokens.none
     ) {
         Column {
-            TipDetailImagePlaceholder(
-                imageKey = tip.imageKey,
-                imageContentDescription = tip.imageContentDescription
+            CalmTipImage(
+                imageResId = tip.imageResId,
+                contentDescription = if (tip.imageDecorative) {
+                    null
+                } else {
+                    tip.imageContentDescription
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f),
             )
 
             Column(
@@ -58,38 +63,6 @@ fun TipDetailMetaBlock(
                     label = tip.categoryLabel
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun TipDetailImagePlaceholder(
-    imageKey: String,
-    imageContentDescription: String?,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(16f / 9f),
-        color = CalmTheme.colorTokens.cardContainerVariant,
-        contentColor = CalmTheme.colorTokens.onCardContainerVariant,
-        tonalElevation = CalmTheme.elevationTokens.none,
-        shadowElevation = CalmTheme.elevationTokens.none
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(CalmTheme.spacingTokens.cardPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = imageContentDescription ?: imageKey,
-                style = CalmTheme.typographyTokens.cardBody,
-                color = CalmTheme.colorTokens.onCardContainerVariant,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
         }
     }
 }

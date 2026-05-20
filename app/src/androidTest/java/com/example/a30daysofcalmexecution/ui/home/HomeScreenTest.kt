@@ -34,6 +34,7 @@ class HomeScreenTest {
         composeRule.onAllNodesWithText("Start with Clarity").assertCountEquals(2)
         composeRule.onNodeWithText("Define real priority").assertIsDisplayed()
         composeRule.onNodeWithText("Choose the one result that matters before opening the noise gates.").assertIsDisplayed()
+        composeRule.onNodeWithText("tip_01_define_real_priority").assertDoesNotExist()
     }
 
     @Test
@@ -283,6 +284,8 @@ class HomeScreenTest {
             categoryLabel = "Clarity",
             imageKey = "day_01_define_real_priority",
             isCompleted = isCompleted,
+            imageContentDescription = "A calm editorial illustration for this tip.",
+            imageDecorative = false,
             isBookmarked = isBookmarked
         )
     private companion object {
