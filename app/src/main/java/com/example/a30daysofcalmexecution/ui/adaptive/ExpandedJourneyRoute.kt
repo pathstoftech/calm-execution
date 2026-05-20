@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -12,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.LiveRegionMode
@@ -24,6 +27,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
 import com.example.a30daysofcalmexecution.ui.detail.TipDetailAction
 import com.example.a30daysofcalmexecution.ui.detail.TipDetailScreen
@@ -142,6 +146,18 @@ private fun ExpandedSelectedDetailPane(
                     }
                 },
         )
+
+        TextButton(
+            onClick = {
+                onHomeAction(HomeAction.SelectExpandedDetail(null))
+            },
+            modifier = Modifier.align(Alignment.Start),
+        ) {
+            Text(
+                text = "Back to journey feed",
+                style = CalmTheme.typographyTokens.actionLabel,
+            )
+        }
 
         TipDetailScreen(
             state = TipDetailUiState(
