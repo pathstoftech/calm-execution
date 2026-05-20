@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
@@ -38,7 +40,10 @@ fun ExpandedListDetailLayout(
                     max = ExpandedListPaneMaxWidth,
                 )
                 .weight(ExpandedListPaneWeight)
-                .testTag(ExpandedListPaneTestTag),
+                .testTag(ExpandedListPaneTestTag)
+                .semantics {
+                    paneTitle = "Journey feed"
+                },
             color = CalmTheme.colorTokens.screenBackground,
             contentColor = CalmTheme.colorTokens.onScreenBackground,
         ) {
@@ -53,7 +58,10 @@ fun ExpandedListDetailLayout(
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(ExpandedDetailPaneWeight)
-                .testTag(ExpandedDetailPaneTestTag),
+                .testTag(ExpandedDetailPaneTestTag)
+                .semantics {
+                    paneTitle = "Tip detail"
+                },
             color = CalmTheme.colorTokens.screenBackground,
             contentColor = CalmTheme.colorTokens.onScreenBackground,
         ) {

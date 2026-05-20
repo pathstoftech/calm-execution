@@ -1,10 +1,27 @@
 package com.example.a30daysofcalmexecution.ui.adaptive
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.focused
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.a30daysofcalmexecution.core.ui.AsyncStatus
@@ -33,26 +50,40 @@ fun ExpandedJourneyRoute(
     ExpandedListDetailLayout(
         modifier = modifier.testTag(ExpandedJourneyRouteTestTag),
         listPane = {
-            HomeScreen(
-                state = uiState,
-                onAction = { action ->
-                    when (action) {
-                        is HomeAction.OpenTip -> {
-                            viewModel.onAction(
-                                HomeAction.SelectExpandedDetail(action.tipId),
-                            )
-                        }
+            val detailSelected = uiState.selectedTipDetail != null
 
-                        HomeAction.OpenSettings -> {
-                            onOpenSettings()
-                        }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .then(
+                        if (detailSelected) {
+                            Modifier.clearAndSetSemantics { }
+                        } else {
+                            Modifier
+                        },
+                    ),
+            ) {
+                HomeScreen(
+                    state = uiState,
+                    onAction = { action ->
+                        when (action) {
+                            is HomeAction.OpenTip -> {
+                                viewModel.onAction(
+                                    HomeAction.SelectExpandedDetail(action.tipId),
+                                )
+                            }
 
-                        else -> {
-                            viewModel.onAction(action)
+                            HomeAction.OpenSettings -> {
+                                onOpenSettings()
+                            }
+
+                            else -> {
+                                viewModel.onAction(action)
+                            }
                         }
-                    }
-                },
-            )
+                    },
+                )
+            }
         },
         detailPane = {
             ExpandedSelectedDetailPane(
@@ -78,37 +109,76 @@ private fun ExpandedSelectedDetailPane(
         return
     }
 
-    TipDetailScreen(
-        state = TipDetailUiState(
-            status = AsyncStatus.READY,
-            screenTitle = selectedTip.title,
-            tip = selectedTip,
-            message = state.message,
-        ),
-        onAction = { action ->
-            when (action) {
-                TipDetailAction.ToggleBookmark -> {
-                    onHomeAction(HomeAction.ToggleBookmark(selectedTip.id))
-                }
+    var shouldMoveAccessibilityFocus by remember(selectedTip.id) {
+        mutableStateOf(false)
+    }
 
-                TipDetailAction.ToggleCompleted -> {
-                    onHomeAction(HomeAction.ToggleCompleted(selectedTip.id))
-                }
+    LaunchedEffect(selectedTip.id) {
+        shouldMoveAccessibilityFocus = false
+        withFrameNanos { }
+        shouldMoveAccessibilityFocus = true
+        withFrameNanos { }
+        shouldMoveAccessibilityFocus = false
+    }
 
-                TipDetailAction.RetryLoad -> {
-                    onHomeAction(HomeAction.RetryLoad)
-                }
-
-                TipDetailAction.DismissMessage -> {
-                    onHomeAction(HomeAction.DismissMessage)
-                }
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .semantics {
+                paneTitle = "Tip detail"
+                liveRegion = LiveRegionMode.Polite
             }
-        },
-        onBack = {
-            onHomeAction(HomeAction.SelectExpandedDetail(null))
-        },
-        modifier = modifier,
-    )
+            .testTag(ExpandedSelectedDetailFocusTargetTestTag),
+    ) {
+        Box(
+            modifier = Modifier
+                .size(1.dp)
+                .semantics {
+                    contentDescription =
+                        "Opened ${selectedTip.dayLabel}: ${selectedTip.title}"
+
+                    if (shouldMoveAccessibilityFocus) {
+                        focused = true
+                    }
+                },
+        )
+
+        TipDetailScreen(
+            state = TipDetailUiState(
+                status = AsyncStatus.READY,
+                screenTitle = selectedTip.title,
+                tip = selectedTip,
+                message = state.message,
+            ),
+            onAction = { action ->
+                when (action) {
+                    TipDetailAction.ToggleBookmark -> {
+                        onHomeAction(HomeAction.ToggleBookmark(selectedTip.id))
+                    }
+
+                    TipDetailAction.ToggleCompleted -> {
+                        onHomeAction(HomeAction.ToggleCompleted(selectedTip.id))
+                    }
+
+                    TipDetailAction.RetryLoad -> {
+                        onHomeAction(HomeAction.RetryLoad)
+                    }
+
+                    TipDetailAction.DismissMessage -> {
+                        onHomeAction(HomeAction.DismissMessage)
+                    }
+                }
+            },
+            onBack = {
+                onHomeAction(HomeAction.SelectExpandedDetail(null))
+            },
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize(),
+        )
+    }
 }
 
 const val ExpandedJourneyRouteTestTag = "expanded_journey_route"
+const val ExpandedSelectedDetailFocusTargetTestTag =
+    "expanded_selected_detail_focus_target"

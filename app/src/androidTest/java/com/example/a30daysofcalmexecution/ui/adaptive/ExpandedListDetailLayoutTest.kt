@@ -3,6 +3,9 @@ package com.example.a30daysofcalmexecution.ui.adaptive
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -40,6 +43,25 @@ class ExpandedListDetailLayoutTest {
         composeRule.onNodeWithTag(ExpandedListDetailLayoutTestTag).assertIsDisplayed()
         composeRule.onNodeWithTag(ExpandedListPaneTestTag).assertIsDisplayed()
         composeRule.onNodeWithTag(ExpandedDetailPaneTestTag).assertIsDisplayed()
+
+        composeRule
+            .onNodeWithTag(ExpandedListPaneTestTag)
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.PaneTitle,
+                    "Journey feed",
+                ),
+            )
+
+        composeRule
+            .onNodeWithTag(ExpandedDetailPaneTestTag)
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.PaneTitle,
+                    "Tip detail",
+                ),
+            )
+
         composeRule.onNodeWithTag(LIST_PANE_CONTENT_TAG).assertIsDisplayed()
         composeRule.onNodeWithTag(DETAIL_PANE_CONTENT_TAG).assertIsDisplayed()
     }

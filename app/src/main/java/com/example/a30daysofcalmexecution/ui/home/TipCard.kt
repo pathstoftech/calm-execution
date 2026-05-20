@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
@@ -14,7 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmChip
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLabelTone
@@ -108,26 +112,44 @@ private fun TipCardMetadataRow(
         )
 
         TextButton(
-            onClick = onToggleBookmark
+            onClick = onToggleBookmark,
+            modifier = Modifier
+                .defaultMinSize(minWidth = 112.dp)
+                .semantics {
+                    stateDescription = if (item.isBookmarked) {
+                        "Bookmarked"
+                    } else {
+                        "Not bookmarked"
+                    }
+                },
         ) {
             Text(
                 text = if (item.isBookmarked) {
                     "Bookmarked"
                 } else {
                     "Bookmark"
-                }
+                },
             )
         }
 
         TextButton(
-            onClick = onToggleCompleted
+            onClick = onToggleCompleted,
+            modifier = Modifier
+                .defaultMinSize(minWidth = 112.dp)
+                .semantics {
+                    stateDescription = if (item.isCompleted) {
+                        "Completed"
+                    } else {
+                        "Not completed"
+                    }
+                },
         ) {
             Text(
                 text = if (item.isCompleted) {
                     "Completed"
                 } else {
-                    "Mark complete"
-                }
+                    "Complete"
+                },
             )
         }
     }
