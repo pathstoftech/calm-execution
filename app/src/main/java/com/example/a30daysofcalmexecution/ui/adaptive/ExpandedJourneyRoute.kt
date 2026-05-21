@@ -1,12 +1,17 @@
 package com.example.a30daysofcalmexecution.ui.adaptive
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.focused
@@ -147,17 +153,12 @@ private fun ExpandedSelectedDetailPane(
                 },
         )
 
-        TextButton(
+        ExpandedDetailReturnAction(
             onClick = {
                 onHomeAction(HomeAction.SelectExpandedDetail(null))
             },
             modifier = Modifier.align(Alignment.Start),
-        ) {
-            Text(
-                text = "Back to journey feed",
-                style = CalmTheme.typographyTokens.actionLabel,
-            )
-        }
+        )
 
         TipDetailScreen(
             state = TipDetailUiState(
@@ -195,6 +196,49 @@ private fun ExpandedSelectedDetailPane(
     }
 }
 
+@Composable
+private fun ExpandedDetailReturnAction(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier
+            .testTag(ExpandedDetailReturnActionTestTag)
+            .semantics {
+                contentDescription = "Back to journey feed"
+            }
+            .clickable(
+                role = Role.Button,
+                onClick = onClick,
+            ),
+        shape = CalmTheme.shapeTokens.cardContainerLarge,
+        color = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.onCardContainer,
+        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        shadowElevation = CalmTheme.elevationTokens.none,
+        border = BorderStroke(
+            width = 1.dp,
+            color = CalmTheme.colorTokens.onCardContainerVariant,
+        ),
+    ) {
+        Row(
+            modifier = Modifier
+                .heightIn(min = 40.dp)
+                .padding(
+                    horizontal = 12.dp,
+                    vertical = 6.dp,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "← Journey feed",
+                style = CalmTheme.typographyTokens.actionLabel,
+                color = CalmTheme.colorTokens.onCardContainer,
+            )
+        }
+    }
+}
+
 const val ExpandedJourneyRouteTestTag = "expanded_journey_route"
-const val ExpandedSelectedDetailFocusTargetTestTag =
-    "expanded_selected_detail_focus_target"
+const val ExpandedSelectedDetailFocusTargetTestTag = "expanded_selected_detail_focus_target"
+const val ExpandedDetailReturnActionTestTag = "expanded_detail_return_action"
