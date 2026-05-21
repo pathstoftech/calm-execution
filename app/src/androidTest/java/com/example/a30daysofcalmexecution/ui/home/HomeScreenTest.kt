@@ -1,9 +1,13 @@
 package com.example.a30daysofcalmexecution.ui.home
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmExecutionTheme
@@ -166,7 +170,9 @@ class HomeScreenTest {
             actions = actions,
         )
 
-        composeRule.onNodeWithText("Bookmark").performClick()
+        composeRule
+            .onNodeWithTag("tip_card_bookmark_${DayOneTipId.value}")
+            .performClick()
 
         assertEquals(
             listOf(HomeAction.ToggleBookmark(DayOneTipId)),
@@ -183,7 +189,9 @@ class HomeScreenTest {
             actions = actions,
         )
 
-        composeRule.onNodeWithText("Complete").performClick()
+        composeRule
+            .onNodeWithTag("tip_card_complete_${DayOneTipId.value}")
+            .performClick()
 
         assertEquals(
             listOf(HomeAction.ToggleCompleted(DayOneTipId)),
@@ -210,8 +218,18 @@ class HomeScreenTest {
             ),
         )
 
-        composeRule.onNodeWithText("Bookmarked").assertIsDisplayed()
-        composeRule.onNodeWithText("Completed").assertIsDisplayed()
+        composeRule
+            .onNodeWithTag("tip_card_bookmark_${DayOneTipId.value}")
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.StateDescription,
+                    "Bookmarked",
+                ),
+            )
+
+        composeRule
+            .onNodeWithText("Completed")
+            .assertIsDisplayed()
     }
 
     private fun setHomeContent(
