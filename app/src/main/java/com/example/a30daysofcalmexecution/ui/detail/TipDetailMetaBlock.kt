@@ -119,7 +119,7 @@ private fun TipDetailMetadataRow(
                     },
                 ),
                 contentDescription = "Bookmark",
-                tint = CalmTheme.colorTokens.primaryAction
+                tint = CalmTheme.colorTokens.accent
             )
         }
     }

@@ -274,6 +274,7 @@ private fun HomeContent(
         } else {
             tipSectionFeed(
                 sections = state.feedSections,
+                selectedTipId = state.selectedTipDetail?.id ?: state.selectedTipId,
                 onOpenTip = { tipId ->
                     onAction(HomeAction.OpenTip(tipId))
                 },
@@ -282,7 +283,7 @@ private fun HomeContent(
                 },
                 onToggleCompleted = { tipId ->
                     onAction(HomeAction.ToggleCompleted(tipId))
-                }
+                },
             )
         }
     }

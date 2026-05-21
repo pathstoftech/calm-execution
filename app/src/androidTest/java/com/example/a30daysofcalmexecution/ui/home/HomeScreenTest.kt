@@ -296,6 +296,24 @@ class HomeScreenTest {
             .assertIsDisplayed()
     }
 
+    @Test
+    fun selectedTipCard_exposesSelectedSemantics() {
+        setHomeContent(
+            state = readyHomeState(
+                selectedTipId = DayOneTipId,
+            ),
+        )
+
+        composeRule
+            .onNodeWithTag("tip_card_${DayOneTipId.value}")
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.Selected,
+                    true,
+                ),
+            )
+    }
+
     private fun setHomeContent(
         state: HomeUiState,
         actions: MutableList<HomeAction> = mutableListOf()
@@ -323,7 +341,8 @@ class HomeScreenTest {
                 title = "Start with Clarity",
                 items = listOf(sampleTipCard())
             )
-        )
+        ),
+        selectedTipId: TipId? = null,
     ): HomeUiState =
         HomeUiState(
             status = AsyncStatus.READY,
@@ -354,7 +373,7 @@ class HomeScreenTest {
             ),
             feedSections = feedSections,
             featuredTipId = DayOneTipId,
-            selectedTipId = DayOneTipId
+            selectedTipId = selectedTipId
         )
     private fun sampleTipCard(
         isBookmarked: Boolean = false,

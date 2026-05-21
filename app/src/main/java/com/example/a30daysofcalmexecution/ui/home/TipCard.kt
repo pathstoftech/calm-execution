@@ -1,5 +1,6 @@
 package com.example.a30daysofcalmexecution.ui.home
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,20 +41,56 @@ fun TipCard(
     onToggleBookmark: () -> Unit,
     onToggleCompleted: () -> Unit,
     modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
 ) {
+    val containerColor = if (isSelected) {
+        MaterialTheme.colorScheme.primaryContainer
+    } else {
+        CalmTheme.colorTokens.cardContainer
+    }
+
+    val contentColor = if (isSelected) {
+        MaterialTheme.colorScheme.onPrimaryContainer
+    } else {
+        CalmTheme.colorTokens.onCardContainer
+    }
+
+    val supportingContentColor = if (isSelected) {
+        MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.78f)
+    } else {
+        CalmTheme.colorTokens.onCardContainerVariant
+    }
+
+    val selectedBorder = if (isSelected) {
+        BorderStroke(
+            width = 2.dp,
+            color = MaterialTheme.colorScheme.primary,
+        )
+    } else {
+        null
+    }
+
     Surface(
         modifier = modifier
             .fillMaxWidth()
+            .semantics {
+                selected = isSelected
+            }
             .clickable(
                 role = Role.Button,
                 onClick = onOpen,
             )
             .testTag("tip_card_${item.id.value}"),
         shape = CalmTheme.shapeTokens.cardContainerLarge,
-        color = CalmTheme.colorTokens.cardContainer,
-        contentColor = CalmTheme.colorTokens.onCardContainer,
-        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        color = containerColor,
+        contentColor = contentColor,
+        tonalElevation = if (isSelected) {
+            CalmTheme.elevationTokens.none
+        } else {
+            CalmTheme.elevationTokens.cardResting
+        },
         shadowElevation = CalmTheme.elevationTokens.none,
+        border = selectedBorder,
     ) {
         Column {
             CalmTipImage(
@@ -78,7 +117,7 @@ fun TipCard(
                 Text(
                     text = item.title,
                     style = CalmTheme.typographyTokens.cardTitle,
-                    color = CalmTheme.colorTokens.onCardContainer,
+                    color = contentColor,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -86,7 +125,7 @@ fun TipCard(
                 Text(
                     text = item.previewText,
                     style = CalmTheme.typographyTokens.cardBody,
-                    color = CalmTheme.colorTokens.onCardContainerVariant,
+                    color = supportingContentColor,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis,
                 )
