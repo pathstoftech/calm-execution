@@ -183,7 +183,7 @@ class HomeScreenTest {
             actions = actions,
         )
 
-        composeRule.onNodeWithText("Mark complete").performClick()
+        composeRule.onNodeWithText("Complete").performClick()
 
         assertEquals(
             listOf(HomeAction.ToggleCompleted(DayOneTipId)),

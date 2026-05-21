@@ -126,7 +126,7 @@ class TipDetailScreenTest {
             .performScrollToNode(hasText("Bookmark"))
 
         composeRule.onNodeWithText("Bookmark").assertIsDisplayed()
-        composeRule.onNodeWithText("Mark complete").assertIsDisplayed()
+        composeRule.onNodeWithText("Complete").assertIsDisplayed()
     }
 
     @Test
@@ -161,9 +161,9 @@ class TipDetailScreenTest {
 
         composeRule
             .onNodeWithTag("tip_detail_ready_state")
-            .performScrollToNode(hasText("Mark complete"))
+            .performScrollToNode(hasText("Complete"))
 
-        composeRule.onNodeWithText("Mark complete").performClick()
+        composeRule.onNodeWithText("Complete").performClick()
 
         assertEquals(
             listOf(TipDetailAction.ToggleCompleted),
