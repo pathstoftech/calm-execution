@@ -23,7 +23,7 @@ class CompactNavigationTest {
         waitForHome()
 
         composeRule.onNodeWithText("Journey progress").assertIsDisplayed()
-        composeRule.onNodeWithTag(CompactBackActionTag).assertDoesNotExist()
+        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertDoesNotExist()
     }
 
     @Test
@@ -31,7 +31,7 @@ class CompactNavigationTest {
         waitForHome()
 
         composeRule
-            .onNodeWithTag(CompactSettingsActionTag)
+            .onNodeWithTag(COMPACT_SETTINGS_ACTION_TAG)
             .assertIsDisplayed()
 
         composeRule
@@ -43,24 +43,24 @@ class CompactNavigationTest {
     fun homeCardTap_opensDetail_andCompactBackReturnsHome() {
         openFirstTip()
 
-        composeRule.onNodeWithTag(TipDetailReadyStateTag).assertIsDisplayed()
+        composeRule.onNodeWithTag(TIP_DETAIL_READY_STATE_TAG).assertIsDisplayed()
         composeRule.onNodeWithText("Define the real priority").assertIsDisplayed()
-        composeRule.onNodeWithTag(CompactBackActionTag).assertIsDisplayed()
+        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertIsDisplayed()
 
-        composeRule.onNodeWithTag(CompactBackActionTag).performClick()
+        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).performClick()
 
         waitForHome()
 
         composeRule.onNodeWithText("Journey progress").assertIsDisplayed()
-        composeRule.onNodeWithTag(TipDetailReadyStateTag).assertDoesNotExist()
-        composeRule.onNodeWithTag(CompactBackActionTag).assertDoesNotExist()
+        composeRule.onNodeWithTag(TIP_DETAIL_READY_STATE_TAG).assertDoesNotExist()
+        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertDoesNotExist()
     }
 
     @Test
     fun systemBackFromDetail_returnsHome() {
         openFirstTip()
 
-        composeRule.onNodeWithTag(TipDetailReadyStateTag).assertIsDisplayed()
+        composeRule.onNodeWithTag(TIP_DETAIL_READY_STATE_TAG).assertIsDisplayed()
 
         composeRule.activityRule.scenario.onActivity { activity ->
             activity.onBackPressedDispatcher.onBackPressed()
@@ -69,8 +69,8 @@ class CompactNavigationTest {
         waitForHome()
 
         composeRule.onNodeWithText("Journey progress").assertIsDisplayed()
-        composeRule.onNodeWithTag(TipDetailReadyStateTag).assertDoesNotExist()
-        composeRule.onNodeWithTag(CompactBackActionTag).assertDoesNotExist()
+        composeRule.onNodeWithTag(TIP_DETAIL_READY_STATE_TAG).assertDoesNotExist()
+        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertDoesNotExist()
     }
 
     private fun openFirstTip() {
@@ -78,11 +78,11 @@ class CompactNavigationTest {
         showAllSectionsIfNeeded()
 
         composeRule
-            .onNodeWithTag(FirstTipCardTag)
+            .onNodeWithTag(FIRST_TIP_CARD_TAG)
             .performScrollTo()
             .performClick()
 
-        waitUntilTagExists(TipDetailReadyStateTag)
+        waitUntilTagExists(TIP_DETAIL_READY_STATE_TAG)
     }
 
     private fun waitForHome() {
@@ -104,7 +104,7 @@ class CompactNavigationTest {
         text: String,
     ) {
         composeRule.waitUntil(
-            timeoutMillis = DefaultTimeoutMillis,
+            timeoutMillis = DEFAULT_TIMEOUT_MILLIS,
         ) {
             composeRule
                 .onAllNodesWithText(text)
@@ -117,7 +117,7 @@ class CompactNavigationTest {
         tag: String,
     ) {
         composeRule.waitUntil(
-            timeoutMillis = DefaultTimeoutMillis,
+            timeoutMillis = DEFAULT_TIMEOUT_MILLIS,
         ) {
             composeRule
                 .onAllNodesWithTag(tag)
@@ -127,11 +127,10 @@ class CompactNavigationTest {
     }
 
     private companion object {
-        const val DefaultTimeoutMillis = 10_000L
-        const val CompactBackActionTag = "compact_back_action"
-        const val TipDetailReadyStateTag = "tip_detail_ready_state"
-        const val FirstTipCardTag = "tip_card_day_01_define_real_priority"
+        private const val DEFAULT_TIMEOUT_MILLIS = 5_000L
+        private const val COMPACT_BACK_ACTION_TAG = "compact_back_action"
+        private const val COMPACT_SETTINGS_ACTION_TAG = "compact_settings_action"
+        private const val TIP_DETAIL_READY_STATE_TAG = "tip_detail_ready_state"
+        private const val FIRST_TIP_CARD_TAG = "tip_card_day_01_define_real_priority"
     }
 }
-
-const val CompactSettingsActionTag = "compact_settings_action"
