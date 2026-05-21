@@ -2,6 +2,8 @@ package com.example.a30daysofcalmexecution
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -9,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmTopAppBar
@@ -104,16 +107,16 @@ fun CompactBackAction(
 @Composable
 fun CompactSettingsAction(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    TextButton(
+    IconButton(
         onClick = onClick,
-        modifier = modifier.testTag(CompactSettingsActionTestTag)
+        modifier = modifier.testTag(CompactSettingsActionTestTag),
     ) {
-        Text(
-            text = "Settings",
-            style = CalmTheme.typographyTokens.actionLabel,
-            color = CalmTheme.colorTokens.onScreenBackground
+        Icon(
+            painter = painterResource(R.drawable.ic_settings_24),
+            contentDescription = "Open settings",
+            tint = CalmTheme.colorTokens.onScreenBackground,
         )
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -23,6 +24,19 @@ class CompactNavigationTest {
 
         composeRule.onNodeWithText("Journey progress").assertIsDisplayed()
         composeRule.onNodeWithTag(CompactBackActionTag).assertDoesNotExist()
+    }
+
+    @Test
+    fun appLaunch_showsSettingsIconAction() {
+        waitForHome()
+
+        composeRule
+            .onNodeWithTag(CompactSettingsActionTag)
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithContentDescription("Open settings")
+            .assertIsDisplayed()
     }
 
     @Test
@@ -119,3 +133,5 @@ class CompactNavigationTest {
         const val FirstTipCardTag = "tip_card_day_01_define_real_priority"
     }
 }
+
+const val CompactSettingsActionTag = "compact_settings_action"
