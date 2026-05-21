@@ -166,7 +166,10 @@ private fun HomeErrorState(
 
 @Composable
 private fun HomeEmptyFilteredState(
-    onShowAll: () -> Unit,
+    title: String,
+    message: String,
+    actionLabel: String,
+    onActionClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -182,21 +185,21 @@ private fun HomeEmptyFilteredState(
             verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap)
         ) {
             Text(
-                text = "No tips in this section",
+                text = title,
                 style = CalmTheme.typographyTokens.cardTitle,
                 color = CalmTheme.colorTokens.onCardContainer
             )
 
             Text(
-                text = "Try another phase or return to the full 30-day journey.",
+                text = message,
                 style = CalmTheme.typographyTokens.cardBody,
                 color = CalmTheme.colorTokens.onCardContainerVariant
             )
 
             TextButton(
-                onClick = onShowAll
+                onClick = onActionClick
             ) {
-                Text("Show all")
+                Text(actionLabel)
             }
         }
     }
@@ -228,8 +231,12 @@ private fun HomeContent(
         item {
             SectionChipRow(
                 tabs = state.sectionTabs,
+                bookmarkedOnly = state.bookmarkedOnly,
                 onSelectSection = { section ->
                     onAction(HomeAction.SelectSection(section))
+                },
+                onSetBookmarkedFilter = { enabled ->
+                    onAction(HomeAction.SetBookmarkedFilter(enabled))
                 }
             )
         }
@@ -239,15 +246,30 @@ private fun HomeContent(
         }
 
         val shouldShowEmptyFilteredState =
-            state.selectedSection != null && !hasVisibleTips
+            (state.selectedSection != null || state.bookmarkedOnly) && !hasVisibleTips
 
         if (shouldShowEmptyFilteredState) {
             item {
-                HomeEmptyFilteredState(
-                    onShowAll = {
-                        onAction(HomeAction.SelectSection(null))
-                    }
-                )
+                if (state.bookmarkedOnly) {
+                    HomeEmptyFilteredState(
+                        title = "No bookmarked tips yet",
+                        message = "Bookmark tips to return to them quickly during the 30-day journey.",
+                        actionLabel = "Show all tips",
+                        onActionClick = {
+                            onAction(HomeAction.SetBookmarkedFilter(false))
+                            onAction(HomeAction.SelectSection(null))
+                        }
+                    )
+                } else {
+                    HomeEmptyFilteredState(
+                        title = "No tips in this section",
+                        message = "Try another phase or return to the full 30-day journey.",
+                        actionLabel = "Show all",
+                        onActionClick = {
+                            onAction(HomeAction.SelectSection(null))
+                        }
+                    )
+                }
             }
         } else {
             tipSectionFeed(

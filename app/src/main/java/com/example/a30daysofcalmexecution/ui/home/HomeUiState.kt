@@ -15,6 +15,7 @@ data class HomeUiState(
     val introText: String = "",
     val journey: JourneyProgressUi = JourneyProgressUi(),
     val selectedSection: SectionKey? = null,
+    val bookmarkedOnly: Boolean = false,
     val sectionTabs: List<SectionTabUi> = emptyList(),
     val feedSections: List<HomeFeedSectionUi> = emptyList(),
     val featuredTipId: TipId? = null,

@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -43,6 +42,7 @@ class HomeViewModel @Inject constructor(
     private val selectedTipIdOverride = MutableStateFlow<TipId?>(null)
     private val localMessage = MutableStateFlow<UiMessage?>(null)
     private val reloadRequests = MutableStateFlow(0)
+    private val bookmarkedOnly = MutableStateFlow(false)
     @OptIn(ExperimentalCoroutinesApi::class)
     private val catalogResult =
         reloadRequests.flatMapLatest {
@@ -103,12 +103,15 @@ class HomeViewModel @Inject constructor(
             )
 
     override val uiState: StateFlow<HomeUiState> =
-        internalState
-            .map { state ->
-                state.toUiState(
-                    tipImageResolver = tipImageResolver,
-                )
-            }
+        combine(
+            internalState,
+            bookmarkedOnly
+        ) { state, bookmarkedOnly ->
+            state.toUiState(
+                tipImageResolver = tipImageResolver,
+                bookmarkedOnly = bookmarkedOnly
+            )
+        }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -121,6 +124,10 @@ class HomeViewModel @Inject constructor(
                 launchRepositoryMutation {
                     preferencesRepository.setLastSelectedSection(action.section)
                 }
+            }
+
+            is HomeAction.SetBookmarkedFilter -> {
+                bookmarkedOnly.value = action.enabled
             }
 
             is HomeAction.OpenTip -> Unit
@@ -215,6 +222,7 @@ private data class HomeViewModelState(
 
 private fun HomeViewModelState.toUiState(
     tipImageResolver: TipImageResolver,
+    bookmarkedOnly: Boolean,
 ): HomeUiState {
     val currentCatalog = catalog ?: return HomeUiState(
         status = status,
@@ -235,6 +243,13 @@ private fun HomeViewModelState.toUiState(
         journey.tipStates
             .filterValues { tipState ->
                 tipState.completionStatus == TipCompletionStatus.COMPLETED
+            }
+            .keys
+
+    val bookmarkedTipIds =
+        journey.tipStates
+            .filterValues { tipState ->
+                tipState.isBookmarked
             }
             .keys
 
@@ -277,6 +292,7 @@ private fun HomeViewModelState.toUiState(
                 }
         ),
         selectedSection = selectedSection,
+        bookmarkedOnly = bookmarkedOnly,
         sectionTabs =
             currentCatalog.sections.map { section ->
                 SectionTabUi(
@@ -291,22 +307,31 @@ private fun HomeViewModelState.toUiState(
                 )
             },
         feedSections =
-            visibleSections.map { section ->
-                HomeFeedSectionUi(
-                    key = section.key,
-                    title = section.title,
-                    items =
-                        section.tips
-                            .sortedBy { tip -> tip.dayNumber }
-                            .map { tip ->
-                                tip.toTipCardUi(
-                                    isCompleted = tip.id in completedTipIds,
-                                    isBookmarked = journey.tipStates[tip.id]?.isBookmarked == true,
-                                    tipImageResolver = tipImageResolver,
-                                )
-                            },
-                )
-            },
+            visibleSections
+                .map { section ->
+                    HomeFeedSectionUi(
+                        key = section.key,
+                        title = section.title,
+                        items =
+                            section.tips
+                                .asSequence()
+                                .sortedBy { tip -> tip.dayNumber }
+                                .filter { tip ->
+                                    !bookmarkedOnly || tip.id in bookmarkedTipIds
+                                }
+                                .map { tip ->
+                                    tip.toTipCardUi(
+                                        isCompleted = tip.id in completedTipIds,
+                                        isBookmarked = tip.id in bookmarkedTipIds,
+                                        tipImageResolver = tipImageResolver,
+                                    )
+                                }
+                                .toList(),
+                    )
+                }
+                .filter { section ->
+                    !bookmarkedOnly || section.items.isNotEmpty()
+                        },
         featuredTipId = currentJourneyTip?.id,
         selectedTipId = selectedTipId,
         selectedTipDetail = selectedTip?.toTipDetailUi(

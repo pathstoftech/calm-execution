@@ -116,6 +116,42 @@ class HomeScreenTest {
     }
 
     @Test
+    fun bookmarkedChipClick_emitsSetBookmarkedFilterTrue() {
+        val actions = mutableListOf<HomeAction>()
+
+        setHomeContent(
+            state = readyHomeState(),
+            actions = actions
+        )
+
+        composeRule.onNodeWithText("Bookmarked").performClick()
+
+        assertEquals(
+            listOf(HomeAction.SetBookmarkedFilter(true)),
+            actions
+        )
+    }
+
+    @Test
+    fun selectedBookmarkedChipClick_emitsSetBookmarkedFilterFalse() {
+        val actions = mutableListOf<HomeAction>()
+
+        setHomeContent(
+            state = readyHomeState(
+                bookmarkedOnly = true
+            ),
+            actions = actions
+        )
+
+        composeRule.onNodeWithText("Bookmarked").performClick()
+
+        assertEquals(
+            listOf(HomeAction.SetBookmarkedFilter(false)),
+            actions
+        )
+    }
+
+    @Test
     fun emptyFilteredState_renderShowAllAction() {
         val actions = mutableListOf<HomeAction>()
 
@@ -140,6 +176,34 @@ class HomeScreenTest {
 
         assertEquals(
             listOf(HomeAction.SelectSection(null)),
+            actions
+        )
+    }
+
+    @Test
+    fun bookmarkedFilterEmptyState_rendersShowAllTipsAction() {
+        val actions = mutableListOf<HomeAction>()
+
+        setHomeContent(
+            state = readyHomeState(
+                bookmarkedOnly = true,
+                feedSections = emptyList()
+            ),
+            actions = actions
+        )
+
+        composeRule.onNodeWithText("No bookmarked tips yet").assertIsDisplayed()
+        composeRule
+            .onNodeWithText("Bookmark tips to return to them quickly during the 30-day journey.")
+            .assertIsDisplayed()
+
+        composeRule.onNodeWithText("Show all tips").performClick()
+
+        assertEquals(
+            listOf(
+                HomeAction.SetBookmarkedFilter(false),
+                HomeAction.SelectSection(null),
+            ),
             actions
         )
     }
@@ -252,6 +316,7 @@ class HomeScreenTest {
 
     private fun readyHomeState(
         selectedSection: SectionKey? = null,
+        bookmarkedOnly: Boolean = false,
         feedSections: List<HomeFeedSectionUi> = listOf(
             HomeFeedSectionUi(
                 key = SectionKey.START_WITH_CLARITY,
@@ -270,6 +335,7 @@ class HomeScreenTest {
                 completionFraction = 1f / 30f
             ),
             selectedSection = selectedSection,
+            bookmarkedOnly = bookmarkedOnly,
             sectionTabs = listOf(
                 SectionTabUi(
                     key = SectionKey.START_WITH_CLARITY,

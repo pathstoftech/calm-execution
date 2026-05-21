@@ -8,6 +8,10 @@ sealed interface HomeAction {
         val section: SectionKey?
     ) : HomeAction
 
+    data class SetBookmarkedFilter(
+        val enabled: Boolean
+    ) : HomeAction
+
     data class OpenTip(
         val tipId: TipId
     ) : HomeAction

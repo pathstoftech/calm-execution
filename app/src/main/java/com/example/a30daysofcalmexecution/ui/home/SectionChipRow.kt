@@ -12,7 +12,9 @@ import com.example.a30daysofcalmexecution.core.model.SectionKey
 @Composable
 fun SectionChipRow(
     tabs: List<SectionTabUi>,
+    bookmarkedOnly: Boolean,
     onSelectSection: (SectionKey?) -> Unit,
+    onSetBookmarkedFilter: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isAllSelected = tabs.none { tab -> tab.isSelected }
@@ -29,6 +31,18 @@ fun SectionChipRow(
                 selected = isAllSelected,
                 onClick = {
                     onSelectSection(null)
+                }
+            )
+        }
+
+        item(
+            key = "bookmarked_tips"
+        ) {
+            CalmChip(
+                label = "Bookmarked",
+                selected = bookmarkedOnly,
+                onClick = {
+                    onSetBookmarkedFilter(!bookmarkedOnly)
                 }
             )
         }
