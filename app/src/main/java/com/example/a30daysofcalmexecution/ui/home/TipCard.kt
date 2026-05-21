@@ -145,11 +145,7 @@ private fun TipCardHeaderRow(
                     },
                 ),
                 contentDescription = "Bookmark",
-                tint = if (item.isBookmarked) {
-                    CalmTheme.colorTokens.primaryAction
-                } else {
-                    CalmTheme.colorTokens.onCardContainerVariant
-                },
+                tint = CalmTheme.colorTokens.primaryAction
             )
         }
     }

@@ -128,7 +128,10 @@ private fun TipDetailReadyState(
     ) {
         item {
             TipDetailMetaBlock(
-                tip = tip
+                tip = tip,
+                onToggleBookmark = {
+                    onAction(TipDetailAction.ToggleBookmark)
+                },
             )
         }
 
@@ -140,14 +143,10 @@ private fun TipDetailReadyState(
 
         item {
             TipDetailActionsRow(
-                isBookmarked = tip.isBookmarked,
                 isCompleted = tip.isCompleted,
-                onToggleBookmark = {
-                    onAction(TipDetailAction.ToggleBookmark)
-                },
                 onToggleCompleted = {
                     onAction(TipDetailAction.ToggleCompleted)
-                }
+                },
             )
         }
     }

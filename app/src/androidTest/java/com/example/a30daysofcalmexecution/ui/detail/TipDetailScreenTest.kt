@@ -1,5 +1,8 @@
 package com.example.a30daysofcalmexecution.ui.detail
 
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -122,11 +125,22 @@ class TipDetailScreenTest {
         composeRule.onNodeWithText("Before planning, write one sentence that starts with: The real risk is...").assertIsDisplayed()
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
-            .performScrollToNode(hasText("Bookmark"))
+            .onNodeWithTag(DayTwoBookmarkTag)
+            .assertIsDisplayed()
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.StateDescription,
+                    "Not bookmarked",
+                ),
+            )
 
-        composeRule.onNodeWithText("Bookmark").assertIsDisplayed()
-        composeRule.onNodeWithText("Complete").assertIsDisplayed()
+        composeRule
+            .onNodeWithTag("tip_detail_ready_state")
+            .performScrollToNode(hasText("Complete"))
+
+        composeRule
+            .onNodeWithText("Complete")
+            .assertIsDisplayed()
     }
 
     @Test
@@ -139,10 +153,8 @@ class TipDetailScreenTest {
         )
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
-            .performScrollToNode(hasText("Bookmark"))
-
-        composeRule.onNodeWithText("Bookmark").performClick()
+            .onNodeWithTag(DayTwoBookmarkTag)
+            .performClick()
 
         assertEquals(
             listOf(TipDetailAction.ToggleBookmark),
@@ -183,11 +195,22 @@ class TipDetailScreenTest {
         )
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
-            .performScrollToNode(hasText("Bookmarked"))
+            .onNodeWithTag(DayTwoBookmarkTag)
+            .assertIsDisplayed()
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.StateDescription,
+                    "Bookmarked",
+                ),
+            )
 
-        composeRule.onNodeWithText("Bookmarked").assertIsDisplayed()
-        composeRule.onNodeWithText("Completed").assertIsDisplayed()
+        composeRule
+            .onNodeWithTag("tip_detail_ready_state")
+            .performScrollToNode(hasText("Completed"))
+
+        composeRule
+            .onNodeWithText("Completed")
+            .assertIsDisplayed()
     }
 
     @Test
@@ -238,7 +261,7 @@ class TipDetailScreenTest {
         completionStatus: TipCompletionStatus = TipCompletionStatus.NOT_STARTED,
     ): TipDetailUi =
         TipDetailUi(
-            id = TipId("day_02_stop_planning_by_panic"),
+            id = TipId(DayTwoTipIdValue),
             dayLabel = "Day 02",
             title = "Stop planning by panic",
             categoryLabel = "Clarity",
@@ -266,3 +289,6 @@ class TipDetailScreenTest {
             completionStatus = completionStatus,
         )
 }
+
+private const val DayTwoTipIdValue = "day_02_stop_planning_by_panic"
+private const val DayTwoBookmarkTag = "tip_detail_bookmark_$DayTwoTipIdValue"
