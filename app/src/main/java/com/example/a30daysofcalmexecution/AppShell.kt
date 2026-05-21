@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -90,16 +88,16 @@ fun AppShell(
 @Composable
 fun CompactBackAction(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    TextButton(
+    IconButton(
         onClick = onClick,
-        modifier = modifier.testTag(CompactBackActionTestTag)
+        modifier = modifier.testTag(CompactBackActionTestTag),
     ) {
-        Text(
-            text = "Back",
-            style = CalmTheme.typographyTokens.actionLabel,
-            color = CalmTheme.colorTokens.onScreenBackground
+        Icon(
+            painter = painterResource(R.drawable.ic_arrow_back_24),
+            contentDescription = "Navigate back",
+            tint = CalmTheme.colorTokens.onScreenBackground,
         )
     }
 }

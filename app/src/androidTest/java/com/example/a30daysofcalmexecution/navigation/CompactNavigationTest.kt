@@ -73,6 +73,19 @@ class CompactNavigationTest {
         composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertDoesNotExist()
     }
 
+    @Test
+    fun detail_showsBackIconAction() {
+        openFirstTip()
+
+        composeRule
+            .onNodeWithTag(COMPACT_BACK_ACTION_TAG)
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithContentDescription("Navigate back")
+            .assertIsDisplayed()
+    }
+
     private fun openFirstTip() {
         waitForHome()
         showAllSectionsIfNeeded()
