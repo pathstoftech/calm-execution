@@ -231,7 +231,7 @@ private fun ExpandedDetailReturnAction(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "← Journey feed",
+                text = "Close Tip",
                 style = CalmTheme.typographyTokens.actionLabel,
                 color = CalmTheme.colorTokens.onCardContainer,
             )
