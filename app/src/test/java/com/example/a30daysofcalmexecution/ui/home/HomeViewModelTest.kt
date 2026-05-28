@@ -130,7 +130,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun toggleCompleted_mutatesRepositoryAndUpdatesProgress() = runViewModelTest {
+    fun toggleSelectedExpandedDetailCompleted_withoutSelectedTip_doesNotMutateCompletion() = runViewModelTest {
         val journeyRepository = FakeJourneyRepository()
         val viewModel = createViewModel(
             journeyRepository = journeyRepository,
@@ -139,7 +139,28 @@ class HomeViewModelTest {
         val collectJob = collectStateFlow(viewModel.uiState)
         advanceUntilIdle()
 
-        viewModel.onAction(HomeAction.ToggleCompleted(ViewModelTestData.DayOneTipId))
+        viewModel.toggleSelectedExpandedDetailCompleted()
+        advanceUntilIdle()
+
+        assertTrue(journeyRepository.completionMutations.isEmpty())
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun toggleSelectedExpandedDetailCompleted_afterSelectingTip_mutatesRepositoryAndUpdatesProgress() = runViewModelTest {
+        val journeyRepository = FakeJourneyRepository()
+        val viewModel = createViewModel(
+            journeyRepository = journeyRepository,
+        )
+
+        val collectJob = collectStateFlow(viewModel.uiState)
+        advanceUntilIdle()
+
+        viewModel.onAction(HomeAction.SelectExpandedDetail(ViewModelTestData.DayOneTipId))
+        advanceUntilIdle()
+
+        viewModel.toggleSelectedExpandedDetailCompleted()
         advanceUntilIdle()
 
         val state = viewModel.uiState.value

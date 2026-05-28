@@ -99,6 +99,7 @@ fun ExpandedJourneyRoute(
             ExpandedSelectedDetailPane(
                 state = uiState,
                 onHomeAction = viewModel::onAction,
+                onToggleSelectedDetailCompleted = viewModel::toggleSelectedExpandedDetailCompleted,
             )
         },
     )
@@ -108,6 +109,7 @@ fun ExpandedJourneyRoute(
 private fun ExpandedSelectedDetailPane(
     state: HomeUiState,
     onHomeAction: (HomeAction) -> Unit,
+    onToggleSelectedDetailCompleted: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val selectedTip = state.selectedTipDetail
@@ -174,7 +176,7 @@ private fun ExpandedSelectedDetailPane(
                     }
 
                     TipDetailAction.ToggleCompleted -> {
-                        onHomeAction(HomeAction.ToggleCompleted(selectedTip.id))
+                        onToggleSelectedDetailCompleted()
                     }
 
                     TipDetailAction.RetryLoad -> {

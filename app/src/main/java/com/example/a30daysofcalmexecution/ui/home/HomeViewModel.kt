@@ -136,10 +136,6 @@ class HomeViewModel @Inject constructor(
                 toggleBookmark(action.tipId)
             }
 
-            is HomeAction.ToggleCompleted -> {
-                toggleCompleted(action.tipId)
-            }
-
             is HomeAction.SelectExpandedDetail -> {
                 selectedTipIdOverride.value = action.tipId
 
@@ -174,9 +170,35 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun toggleCompleted(tipId: TipId) {
+    fun toggleSelectedExpandedDetailCompleted() {
+        val selectedTipId = selectedTipIdOverride.value
+        val state = internalState.value
+        val catalog = state.catalog
+
+        if (selectedTipId == null || catalog == null) {
+            localMessage.value =
+                UiMessage(
+                    id = System.currentTimeMillis(),
+                    text = "Open the full tip before marking it complete."
+                )
+            return
+        }
+
+        val isKnownTip = catalog.allTips.any { tip ->
+            tip.id == selectedTipId
+        }
+
+        if (!isKnownTip) {
+            localMessage.value =
+                UiMessage(
+                    id = System.currentTimeMillis(),
+                    text = "This tip is not available."
+                )
+            return
+        }
+
         val currentStatus =
-            internalState.value.journey.tipStates[tipId]?.completionStatus
+            state.journey.tipStates[selectedTipId]?.completionStatus
                 ?: TipCompletionStatus.NOT_STARTED
 
         val nextStatus =
@@ -188,8 +210,8 @@ class HomeViewModel @Inject constructor(
 
         launchRepositoryMutation {
             journeyRepository.setCompletionStatus(
-                tipId = tipId,
-                status = nextStatus
+                tipId = selectedTipId,
+                status = nextStatus,
             )
         }
     }

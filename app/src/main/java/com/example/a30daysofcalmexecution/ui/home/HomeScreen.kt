@@ -16,6 +16,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmErrorPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadingPanel
 import com.example.a30daysofcalmexecution.core.designsystem.component.CalmLoadingPlaceholder
@@ -212,7 +213,9 @@ private fun HomeContent(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .testTag(HomeFeedTestTag),
         contentPadding = PaddingValues(CalmTheme.spacingTokens.screenPadding),
         verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.sectionGap)
     ) {
@@ -275,15 +278,8 @@ private fun HomeContent(
             tipSectionFeed(
                 sections = state.feedSections,
                 selectedTipId = state.selectedTipDetail?.id ?: state.selectedTipId,
-                onOpenTip = { tipId ->
-                    onAction(HomeAction.OpenTip(tipId))
-                },
-                onToggleBookmark = { tipId ->
-                    onAction(HomeAction.ToggleBookmark(tipId))
-                },
-                onToggleCompleted = { tipId ->
-                    onAction(HomeAction.ToggleCompleted(tipId))
-                },
+                onOpenTip = { tipId -> onAction(HomeAction.OpenTip(tipId)) },
+                onToggleBookmark = { tipId -> onAction(HomeAction.ToggleBookmark(tipId)) },
             )
         }
     }
@@ -295,3 +291,4 @@ private const val HomeLoadingShortLineMultiplier = 5
 private const val HomeLoadingMediumLineMultiplier = 7
 private const val HomeLoadingAllChipMultiplier = 2
 private const val HomeLoadingChipMultiplier = 4
+const val HomeFeedTestTag = "home_feed"

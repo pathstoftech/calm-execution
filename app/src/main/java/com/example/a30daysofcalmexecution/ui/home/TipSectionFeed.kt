@@ -17,7 +17,6 @@ fun LazyListScope.tipSectionFeed(
     selectedTipId: TipId?,
     onOpenTip: (TipId) -> Unit,
     onToggleBookmark: (TipId) -> Unit,
-    onToggleCompleted: (TipId) -> Unit,
 ) {
     sections.forEach { section ->
         item(
@@ -43,9 +42,6 @@ fun LazyListScope.tipSectionFeed(
                 },
                 onToggleBookmark = {
                     onToggleBookmark(item.id)
-                },
-                onToggleCompleted = {
-                    onToggleCompleted(item.id)
                 },
             )
         }

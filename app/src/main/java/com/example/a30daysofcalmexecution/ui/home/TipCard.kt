@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -15,7 +14,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +37,6 @@ fun TipCard(
     item: TipCardUi,
     onOpen: () -> Unit,
     onToggleBookmark: () -> Unit,
-    onToggleCompleted: () -> Unit,
     modifier: Modifier = Modifier,
     isSelected: Boolean = false,
 ) {
@@ -130,9 +127,8 @@ fun TipCard(
                     overflow = TextOverflow.Ellipsis,
                 )
 
-                TipCardCompletionRow(
+                TipCardCompletionStatusRow(
                     item = item,
-                    onToggleCompleted = onToggleCompleted,
                 )
             }
         }
@@ -191,9 +187,8 @@ private fun TipCardHeaderRow(
 }
 
 @Composable
-private fun TipCardCompletionRow(
+private fun TipCardCompletionStatusRow(
     item: TipCardUi,
-    onToggleCompleted: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -201,10 +196,18 @@ private fun TipCardCompletionRow(
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        TextButton(
-            onClick = onToggleCompleted,
+        CalmLabel(
+            text = if (item.isCompleted) {
+                "Completed"
+            } else {
+                "Not completed"
+            },
+            tone = if (item.isCompleted) {
+                CalmLabelTone.Accent
+            } else {
+                CalmLabelTone.Neutral
+            },
             modifier = Modifier
-                .defaultMinSize(minWidth = 112.dp)
                 .semantics {
                     stateDescription = if (item.isCompleted) {
                         "Completed"
@@ -212,15 +215,7 @@ private fun TipCardCompletionRow(
                         "Not completed"
                     }
                 }
-                .testTag("tip_card_complete_${item.id.value}"),
-        ) {
-            Text(
-                text = if (item.isCompleted) {
-                    "Completed"
-                } else {
-                    "Complete"
-                },
-            )
-        }
+                .testTag("tip_card_completion_status_${item.id.value}"),
+        )
     }
 }

@@ -5,11 +5,14 @@ import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToNode
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmExecutionTheme
 import com.example.a30daysofcalmexecution.core.model.SectionKey
 import com.example.a30daysofcalmexecution.core.model.TipId
@@ -235,7 +238,10 @@ class HomeScreenTest {
         )
 
         composeRule
-            .onNodeWithTag("tip_card_bookmark_${DayOneTipId.value}")
+            .onNodeWithTag(
+                testTag = "tip_card_bookmark_${DayOneTipId.value}",
+                useUnmergedTree = true,
+            )
             .performClick()
 
         assertEquals(
@@ -245,20 +251,57 @@ class HomeScreenTest {
     }
 
     @Test
-    fun completionClick_emitsToggleCompleted() {
+    fun completionStatus_isReadOnlyAndDoesNotExposeCompletionAction() {
         val actions = mutableListOf<HomeAction>()
 
         setHomeContent(
-            state = readyHomeState(),
+            state = readyHomeState(
+                feedSections = listOf(
+                    HomeFeedSectionUi(
+                        key = SectionKey.START_WITH_CLARITY,
+                        title = "Start with Clarity",
+                        items = listOf(
+                            sampleTipCard(
+                                isCompleted = false,
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             actions = actions,
         )
 
+        scrollHomeFeedToText("Not completed")
+
         composeRule
-            .onNodeWithTag("tip_card_complete_${DayOneTipId.value}")
-            .performClick()
+            .onNodeWithTag(
+                testTag = "tip_card_completion_status_${DayOneTipId.value}",
+                useUnmergedTree = true,
+            )
+            .assertExists()
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.StateDescription,
+                    "Not completed",
+                ),
+            )
+
+        composeRule
+            .onNodeWithText(
+                text = "Not completed",
+                useUnmergedTree = true,
+            )
+            .assertIsDisplayed()
+
+        composeRule
+            .onAllNodesWithTag(
+                testTag = "tip_card_complete_${DayOneTipId.value}",
+                useUnmergedTree = true,
+            )
+            .assertCountEquals(0)
 
         assertEquals(
-            listOf(HomeAction.ToggleCompleted(DayOneTipId)),
+            emptyList<HomeAction>(),
             actions,
         )
     }
@@ -283,7 +326,10 @@ class HomeScreenTest {
         )
 
         composeRule
-            .onNodeWithTag("tip_card_bookmark_${DayOneTipId.value}")
+            .onNodeWithTag(
+                testTag = "tip_card_bookmark_${DayOneTipId.value}",
+                useUnmergedTree = true,
+            )
             .assert(
                 SemanticsMatcher.expectValue(
                     SemanticsProperties.StateDescription,
@@ -291,9 +337,38 @@ class HomeScreenTest {
                 ),
             )
 
+        scrollHomeFeedToText("Completed")
+
         composeRule
-            .onNodeWithText("Completed")
+            .onNodeWithTag(
+                testTag = "tip_card_completion_status_${DayOneTipId.value}",
+                useUnmergedTree = true,
+            )
+            .assertExists()
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.StateDescription,
+                    "Completed",
+                ),
+            )
+
+        composeRule
+            .onNodeWithText(
+                text = "Completed",
+                useUnmergedTree = true,
+            )
             .assertIsDisplayed()
+
+        composeRule
+            .onAllNodesWithTag(
+                testTag = "tip_card_complete_${DayOneTipId.value}",
+                useUnmergedTree = true,
+            )
+            .assertCountEquals(0)
+
+        composeRule
+            .onNodeWithTag("tip_card_complete_${DayOneTipId.value}")
+            .assertDoesNotExist()
     }
 
     @Test
@@ -391,6 +466,14 @@ class HomeScreenTest {
             imageDecorative = false,
             isBookmarked = isBookmarked
         )
+
+    private fun scrollHomeFeedToText(text: String) {
+        composeRule
+            .onNodeWithTag(HomeFeedTestTag)
+            .performScrollToNode(hasText(text))
+
+        composeRule.waitForIdle()
+    }
     private companion object {
         val DayOneTipId = TipId("day_01_define_real_priority")
     }

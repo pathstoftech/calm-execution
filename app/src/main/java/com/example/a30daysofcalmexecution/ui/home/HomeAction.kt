@@ -20,10 +20,6 @@ sealed interface HomeAction {
         val tipId: TipId
     ) : HomeAction
 
-    data class ToggleCompleted(
-        val tipId: TipId
-    ) : HomeAction
-
     data class SelectExpandedDetail(
         val tipId: TipId?
     ) : HomeAction
