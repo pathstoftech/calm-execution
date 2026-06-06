@@ -314,24 +314,33 @@ compileSdk: 36.1
 
 ## Architecture
 
-The project separates two different truths:
+The app is intentionally small, local-first, and state-driven. The architecture separates three different kinds of truth:
 
-1. **Immutable editorial catalog** — the 30 tips and their section metadata.
-2. **Mutable user state** — viewed tips, completion status, bookmarks, timestamps, selected section, and preferences.
+1. **Immutable editorial catalog** — the 30 bundled tips, section metadata, categories, image keys, and accessibility descriptions.
+2. **Mutable journey state** — viewed tips, completion status, bookmarks, timestamps, and progress.
+3. **Mutable app preferences** — theme mode, dynamic color, reduced motion, selected section, and intro state.
 
-Current high-level shape:
+Those concerns move through separate data paths and meet only in ViewModel-produced UI state.
+
+High-level shape:
 
 ```text
-Compose UI layer
+Compose UI
         ↓
-ViewModel layer
+Route composables
         ↓
-Repository layer
+Screen composables
         ↓
-Data sources
+ViewModels
         ↓
-Bundled JSON / Proto DataStore / image resources
+Repository interfaces
+        ↓
+Data sources / mappers / serializers
+        ↓
+Bundled JSON / Proto DataStore / drawable resources
 ```
+
+### Data flow boundaries
 
 Catalog flow:
 
@@ -340,19 +349,23 @@ res/raw/tips_catalog.json
         ↓
 RawResourceCatalogDataSource
         ↓
+CatalogDto / SectionDto / TipDto
+        ↓
 CatalogValidator
         ↓
 CatalogMapper
         ↓
 CatalogRepository
         ↓
-Domain models
+JourneyCatalog / Tip / TipSection
 ```
 
 Journey state flow:
 
 ```text
 Proto DataStore
+        ↓
+JourneyStateSerializer
         ↓
 JourneyDataSource
         ↓
@@ -368,6 +381,8 @@ Preferences flow:
 ```text
 Proto DataStore
         ↓
+UserPreferencesSerializer
+        ↓
 PreferencesDataSource
         ↓
 PreferencesMapper
@@ -377,61 +392,123 @@ PreferencesRepository
 UserPreferences
 ```
 
-UI code consumes state through ViewModels and repositories. It should not read JSON, DataStore, or Proto classes directly.
+UI code consumes domain-facing repository output through ViewModels. It does not read raw JSON, Proto classes, DataStore instances, or Android resources directly.
 
 ### Route / Screen / ViewModel split
 
-The UI follows a Route / Screen / ViewModel pattern:
+The UI follows a deliberate Route / Screen / ViewModel split.
 
-- `Route` composables wire ViewModels, collect UI state, and handle navigation callbacks.
-- `Screen` composables render immutable state and emit typed actions.
-- `ViewModel` classes own screen business state and convert repository data into screen-ready `UiState`.
+| Layer       | Responsibility                                                                                                                                     | Should not do                                                               |
+|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `Route`     | Connects the screen to Android/runtime concerns: ViewModel injection, lifecycle-aware state collection, route arguments, and navigation callbacks. | Render complex UI structure or own business rules.                          |
+| `Screen`    | Renders immutable `UiState` and emits typed user actions through callbacks.                                                                        | Read repositories, DataStore, raw JSON, Proto models, or Hilt dependencies. |
+| `ViewModel` | Owns screen business state, combines repository flows, maps domain models into screen-ready `UiState`, and performs repository mutations.          | Render UI or depend on Compose layout state.                                |
+| Repository  | Provides domain-facing read/write operations for catalog, journey state, and preferences.                                                          | Expose DTO, Proto, or storage implementation details to UI.                 |
 
-This keeps navigation, rendering, and business-state ownership separated.
+Concrete examples:
+
+```text
+HomeRoute
+  collects HomeViewModel.uiState
+  passes HomeUiState into HomeScreen
+  forwards HomeAction events to HomeViewModel
+  emits navigation events such as opening Detail or Settings
+
+HomeScreen
+  renders HomeUiState
+  emits HomeAction / navigation callbacks
+  does not know how catalog, bookmarks, completion, or preferences are stored
+
+HomeViewModel
+  observes CatalogRepository, JourneyRepository, and PreferencesRepository
+  builds HomeUiState
+  mutates bookmarks and selected filters
+  exposes completion as read-only Home status
+```
+
+```text
+TipDetailRoute
+  receives TipId route argument
+  wires TipDetailViewModel
+  handles back navigation
+
+TipDetailScreen
+  renders the selected tip and action row
+  emits bookmark/completion actions
+
+TipDetailViewModel
+  loads the selected tip
+  marks viewed state
+  mutates bookmark and completion state through JourneyRepository
+```
+
+This split is the main architectural proof in the UI layer: navigation wiring, visual rendering, and state mutation are separate instead of being collapsed into large composables.
+
+### Completion behavior ownership
+
+Completion mutation is intentionally not owned by Home.
+
+```text
+Home
+  shows read-only completion status
+
+Detail
+  mutates completion for the opened tip
+
+Expanded selected Detail pane
+  mutates completion for the selected opened tip
+
+JourneyRepository
+  persists the resulting completion state
+```
+
+That keeps the feed from becoming a second editing surface while still allowing the expanded layout to act on the selected detail pane.
 
 ### Adaptive architecture
 
-Compact and expanded layouts use the same catalog, repositories, user-state model, and ViewModel-driven data flow.
+Adaptive behavior reuses the same state model. It is not a parallel app architecture.
 
-Compact mode uses destination-style navigation:
+Compact mode uses destination navigation:
 
 ```text
-Home → TipDetail → Back
+HomeRoute
+        ↓ open TipId
+TipDetailRoute
+        ↓ back
+HomeRoute
 ```
 
 Expanded mode uses list-detail presentation:
 
 ```text
-Journey feed + selected detail pane
+ExpandedJourneyRoute
+        ├── Home feed pane
+        └── selected Detail pane
 ```
 
-The expanded layout is not a second architecture. It is a different presentation of the same app state.
+The expanded route reuses the Home feed state and the Detail UI model. Selecting a tip changes selected-detail state; it does not create a second catalog source, second progress model, or second persistence path.
 
----
+```text
+Same repositories
+        ↓
+Same domain models
+        ↓
+Same ViewModel-owned state
+        ↓
+Compact destination UI or expanded list-detail UI
+```
 
-## Package structure
+This is why compact and expanded layouts can show the same bookmarks, completion state, selected tip, and catalog content without synchronization glue.
 
-Current important packages:
+### Package structure
+
+Current important source packages:
 
 ```text
 com.example.a30daysofcalmexecution
+  AppShell.kt
   CalmExecutionApp.kt
   MainActivity.kt
-
-com.example.a30daysofcalmexecution.core.model
-  JourneyCatalog.kt
-  JourneyUserState.kt
-  SectionKey.kt
-  ThemeMode.kt
-  Tip.kt
-  TipBody.kt
-  TipCategoryKey.kt
-  TipCompletionStatus.kt
-  TipId.kt
-  TipImageRef.kt
-  TipSection.kt
-  TipUserState.kt
-  UserPreferences.kt
 
 com.example.a30daysofcalmexecution.core.data.catalog
   CatalogDataSource.kt
@@ -465,10 +542,52 @@ com.example.a30daysofcalmexecution.core.data.preferences
   PreferencesRepositoryImpl.kt
   UserPreferencesSerializer.kt
 
+com.example.a30daysofcalmexecution.core.designsystem.component
+  CalmChip.kt
+  CalmErrorPanel.kt
+  CalmLabel.kt
+  CalmLoadingPlaceholder.kt
+  CalmTipImage.kt
+  CalmTopAppBar.kt
+
+com.example.a30daysofcalmexecution.core.designsystem.theme
+  CalmTheme.kt
+  Color.kt
+  ColorTokens.kt
+  ElevationTokens.kt
+  MotionTokens.kt
+  ShapeTokens.kt
+  SpacingTokens.kt
+  Theme.kt
+  Type.kt
+  TypographyTokens.kt
+
+com.example.a30daysofcalmexecution.core.model
+  JourneyCatalog.kt
+  JourneyUserState.kt
+  SectionKey.kt
+  ThemeMode.kt
+  Tip.kt
+  TipBody.kt
+  TipCategoryKey.kt
+  TipCompletionStatus.kt
+  TipId.kt
+  TipImageRef.kt
+  TipSection.kt
+  TipUserState.kt
+  UserPreferences.kt
+
+com.example.a30daysofcalmexecution.core.ui
+  ScreenUiModels.kt
+  ScreenViewModel.kt
+
 com.example.a30daysofcalmexecution.di
   AppModule.kt
+  CatalogModule.kt
   DataModule.kt
   DataStoreModule.kt
+  ImageModule.kt
+  RepositoryGraphProbe.kt
   RepositoryModule.kt
   SerializationModule.kt
 
@@ -476,27 +595,44 @@ com.example.a30daysofcalmexecution.navigation
   AppRoute.kt
   CalmExecutionNavHost.kt
 
+com.example.a30daysofcalmexecution.ui.adaptive
+  AdaptiveAppShell.kt
+  ExpandedJourneyRoute.kt
+  ExpandedListDetailLayout.kt
+
+com.example.a30daysofcalmexecution.ui.detail
+  TipDetailAction.kt
+  TipDetailActionsRow.kt
+  TipDetailContentBlock.kt
+  TipDetailMetaBlock.kt
+  TipDetailRoute.kt
+  TipDetailScreen.kt
+  TipDetailSectionCard.kt
+  TipDetailUiState.kt
+  TipDetailViewModel.kt
+
 com.example.a30daysofcalmexecution.ui.home
   HomeAction.kt
+  HomeIntroBlock.kt
   HomeRoute.kt
   HomeScreen.kt
   HomeUiState.kt
   HomeViewModel.kt
-  HomeIntroBlock.kt
   JourneyProgressStrip.kt
   SectionChipRow.kt
   TipCard.kt
   TipSectionFeed.kt
 
-com.example.a30daysofcalmexecution.ui.detail
-  TipDetailAction.kt
-  TipDetailRoute.kt
-  TipDetailScreen.kt
-  TipDetailUiState.kt
-  TipDetailViewModel.kt
-  TipDetailMetaBlock.kt
-  TipDetailContentBlock.kt
-  TipDetailActionsRow.kt
+com.example.a30daysofcalmexecution.ui.preview
+  PreviewContent.kt
+  PreviewData.kt
+  PreviewUiStates.kt
+  ScreenPreviews.kt
+
+com.example.a30daysofcalmexecution.ui.preview.fake
+  FakeCatalogRepository.kt
+  FakeJourneyRepository.kt
+  FakePreferencesRepository.kt
 
 com.example.a30daysofcalmexecution.ui.settings
   SettingsAction.kt
@@ -504,21 +640,9 @@ com.example.a30daysofcalmexecution.ui.settings
   SettingsScreen.kt
   SettingsUiState.kt
   SettingsViewModel.kt
-
-com.example.a30daysofcalmexecution.ui.adaptive
-  AdaptiveAppShell.kt
-  ExpandedJourneyRoute.kt
-  ExpandedListDetailLayout.kt
-
-com.example.a30daysofcalmexecution.ui.preview
-  PreviewContent.kt
-  PreviewData.kt
-  PreviewUiStates.kt
-  ScreenPreviews.kt
-  fake/
 ```
 
-Generated Proto classes are build output and should remain under `build/generated/...`. They should not be manually committed as source files.
+Generated Proto classes are build output under `build/generated/...`. They are not source files and should not be committed manually.
 
 ---
 
