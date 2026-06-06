@@ -132,18 +132,17 @@ The Settings screen supports:
 
 ## Screenshots
 
-Screenshots are not committed yet.
+These screenshots are captured from the debug build and show the current portfolio-facing UI state.
 
-Planned screenshot files:
+| Home                                                                                     | Detail                                                                       |
+|------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| ![Home screen showing the 30-day calm execution journey feed](docs/screenshots/home.png) | ![Detail screen showing a structured daily tip](docs/screenshots/detail.png) |
 
-```text
-docs/screenshots/home.png
-docs/screenshots/detail.png
-docs/screenshots/settings.png
-docs/screenshots/expanded_tablet.png
-```
+| Settings                                                                             | Expanded / tablet                                                                                                 |
+|--------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| ![Settings screen with theme and preference controls](docs/screenshots/settings.png) | ![Expanded tablet layout showing the journey feed and selected detail pane](docs/screenshots/expanded_tablet.png) |
 
-Until those files are added, this repository should be treated as **engineering-proof ready, but not fully portfolio-polished**.
+The screenshots are committed as repository documentation assets under `docs/screenshots/` so reviewers can understand the app’s UI without building the project locally.
 
 ---
 
@@ -838,7 +837,7 @@ The design-system token layer is integrated.
 
 These are tracked as portfolio/publication cleanup items, not release-blocking product defects:
 
-- screenshots/demo are not committed yet;
+- demo video is not committed yet;
 - connected UI, navigation, and adaptive tests are local emulator evidence, not CI-backed evidence;
 - some UI tests are device/orientation scoped and should not be presented as full device-matrix coverage;
 - Gradle/AGP modernization warnings remain;
