@@ -14,20 +14,20 @@ It demonstrates disciplined Android implementation: clean data boundaries, stabl
 
 ## 60-second overview
 
-| Area | Current state |
-|---|---|
-| App type | Native Android app |
-| Language | Kotlin |
-| UI | Jetpack Compose + Material 3 |
-| Architecture | Layered architecture, ViewModel-driven UI state, repository-based data layer |
-| Persistence | Proto DataStore for mutable local journey state and preferences |
-| Content source | Bundled JSON catalog with validation |
-| Dependency injection | Hilt application, repository, DataStore, serialization, and image resolver modules |
-| Implemented milestones | A — Foundation, B — Local truth, C — First usable slice, D — Product completeness, E — Release hardening baseline |
-| Current repo audit status | R-series GitHub repo review complete |
-| Final repo review verdict | Mostly yes |
-| Portfolio classification | Ready after cleanup |
-| Current cleanup focus | Portfolio presentation truth-sync: README status, completion behavior wording, release-doc links, and CI/local test-scope clarity |
+| Area                      | Current state                                                                                                                     |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| App type                  | Native Android app                                                                                                                |
+| Language                  | Kotlin                                                                                                                            |
+| UI                        | Jetpack Compose + Material 3                                                                                                      |
+| Architecture              | Layered architecture, ViewModel-driven UI state, repository-based data layer                                                      |
+| Persistence               | Proto DataStore for mutable local journey state and preferences                                                                   |
+| Content source            | Bundled JSON catalog with validation                                                                                              |
+| Dependency injection      | Hilt application, repository, DataStore, serialization, and image resolver modules                                                |
+| Implemented milestones    | A — Foundation, B — Local truth, C — First usable slice, D — Product completeness, E — Release hardening baseline                 |
+| Current repo audit status | R-series GitHub repo review complete                                                                                              |
+| Final repo review verdict | Mostly yes                                                                                                                        |
+| Portfolio classification  | Ready after cleanup                                                                                                               |
+| Current cleanup focus     | Portfolio presentation truth-sync: README status, completion behavior wording, release-doc links, and CI/local test-scope clarity |
 
 The current implementation supports the local product flow:
 
@@ -150,22 +150,22 @@ The screenshots are committed as repository documentation assets under `docs/scr
 
 ### Release/audit state
 
-The repository has passed the main implementation milestones and has an rc1 release-hardening documentation baseline.
+The repository has passed the main implementation milestones and has a rc1 release-hardening documentation baseline.
 
 Current status:
 
-| Area | Status |
-|---|---|
-| Core product implementation | Done |
-| Local catalog and persistence | Done |
-| Home / Detail / Settings | Done |
-| Compact navigation | Done |
-| Expanded adaptive layout | Done |
-| Runtime image asset pipeline | Done |
-| Unit test baseline | Done |
+| Area                                 | Status                     |
+|--------------------------------------|----------------------------|
+| Core product implementation          | Done                       |
+| Local catalog and persistence        | Done                       |
+| Home / Detail / Settings             | Done                       |
+| Compact navigation                   | Done                       |
+| Expanded adaptive layout             | Done                       |
+| Runtime image asset pipeline         | Done                       |
+| Unit test baseline                   | Done                       |
 | Local connected UI/adaptive evidence | Done, local emulator scope |
-| Release-hardening docs | Present |
-| Public portfolio presentation | Needs cleanup |
+| Release-hardening docs               | Present                    |
+| Public portfolio presentation        | Needs cleanup              |
 
 Current repository verdict:
 
@@ -283,19 +283,19 @@ Remaining work is now portfolio cleanup and evidence hardening, not core feature
 
 ## Tech stack
 
-| Category | Technology |
-|---|---|
-| Language | Kotlin |
-| UI | Jetpack Compose |
-| Design | Material 3 |
-| Architecture | UI layer + data layer, repository pattern, ViewModel state holders |
-| Async/state | Kotlin coroutines, Flow / StateFlow |
-| Persistence | Proto DataStore |
-| Serialization | kotlinx.serialization for bundled JSON |
-| Dependency injection | Hilt |
-| Testing | JUnit unit tests, ViewModel tests, Compose UI tests, navigation tests |
-| Build | Gradle, Android Gradle Plugin, Version Catalog |
-| CI | GitHub Actions |
+| Category             | Technology                                                            |
+|----------------------|-----------------------------------------------------------------------|
+| Language             | Kotlin                                                                |
+| UI                   | Jetpack Compose                                                       |
+| Design               | Material 3                                                            |
+| Architecture         | UI layer + data layer, repository pattern, ViewModel state holders    |
+| Async/state          | Kotlin coroutines, Flow / StateFlow                                   |
+| Persistence          | Proto DataStore                                                       |
+| Serialization        | kotlinx.serialization for bundled JSON                                |
+| Dependency injection | Hilt                                                                  |
+| Testing              | JUnit unit tests, ViewModel tests, Compose UI tests, navigation tests |
+| Build                | Gradle, Android Gradle Plugin, Version Catalog                        |
+| CI                   | GitHub Actions                                                        |
 
 Current baseline:
 
@@ -755,17 +755,17 @@ Expanded list-detail tests:
 
 ### CI vs local verification
 
-| Scope | Verification | CI-backed? | Notes |
-|---|---|---:|---|
-| Unit / JVM tests | `./gradlew testDebugUnitTest --stacktrace` | Yes | Runs in GitHub Actions |
-| Debug build | `./gradlew assembleDebug --stacktrace` | Yes | Runs in GitHub Actions |
-| Android test APK assembly | `./gradlew assembleDebugAndroidTest --stacktrace` | No | Local verification |
-| Home / Detail Compose UI tests | filtered `connectedDebugAndroidTest` | No | Local emulator evidence |
-| Compact navigation tests | filtered `connectedDebugAndroidTest` | No | Local emulator evidence; compact/phone-oriented scope |
-| Adaptive / tablet tests | filtered `connectedDebugAndroidTest` | No | Local emulator evidence |
-| Lint gate | Not configured as CI release gate yet | No | Future hardening |
-| Release build gate | Not configured as CI release gate yet | No | Future public-store hardening |
-| Connected Android tests in CI | Not configured yet | No | Future device-matrix hardening |
+| Scope                          | Verification                                      | CI-backed? | Notes                                                 |
+|--------------------------------|---------------------------------------------------|-----------:|-------------------------------------------------------|
+| Unit / JVM tests               | `./gradlew testDebugUnitTest --stacktrace`        |        Yes | Runs in GitHub Actions                                |
+| Debug build                    | `./gradlew assembleDebug --stacktrace`            |        Yes | Runs in GitHub Actions                                |
+| Android test APK assembly      | `./gradlew assembleDebugAndroidTest --stacktrace` |         No | Local verification                                    |
+| Home / Detail Compose UI tests | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence                               |
+| Compact navigation tests       | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence; compact/phone-oriented scope |
+| Adaptive / tablet tests        | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence                               |
+| Lint gate                      | Not configured as CI release gate yet             |         No | Future hardening                                      |
+| Release build gate             | Not configured as CI release gate yet             |         No | Future public-store hardening                         |
+| Connected Android tests in CI  | Not configured yet                                |         No | Future device-matrix hardening                        |
 
 The phrase “CI-backed verification” in this README means **unit tests plus debug assembly**, not full connected UI/adaptive/device-matrix testing.
 
@@ -820,14 +820,14 @@ The visual identity is calm, modern, editorial, focused, and structured.
 
 Material 3 direction:
 
-| Role | Direction |
-|---|---|
-| Primary | Slate Indigo |
-| Secondary | Muted Teal |
-| Tertiary | Soft Amber |
-| Typography | clear editorial hierarchy |
-| Shapes | soft-rectangular, moderately rounded |
-| Dynamic color | default off |
+| Role          | Direction                            |
+|---------------|--------------------------------------|
+| Primary       | Slate Indigo                         |
+| Secondary     | Muted Teal                           |
+| Tertiary      | Soft Amber                           |
+| Typography    | clear editorial hierarchy            |
+| Shapes        | soft-rectangular, moderately rounded |
+| Dynamic color | default off                          |
 
 The design-system token layer is integrated.
 
