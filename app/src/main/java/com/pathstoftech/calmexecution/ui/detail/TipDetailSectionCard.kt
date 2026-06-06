@@ -1,0 +1,43 @@
+package com.pathstoftech.calmexecution.ui.detail
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.pathstoftech.calmexecution.core.designsystem.theme.CalmTheme
+
+@Composable
+fun TipDetailSectionCard(
+    section: TipDetailTextSectionUi,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = CalmTheme.shapeTokens.cardContainerLarge,
+        color = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.onCardContainer,
+        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        shadowElevation = CalmTheme.elevationTokens.none
+    ) {
+        Column(
+            modifier = Modifier.padding(CalmTheme.spacingTokens.cardPadding),
+            verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap)
+        ) {
+            Text(
+                text = section.title,
+                style = CalmTheme.typographyTokens.cardTitle,
+                color = CalmTheme.colorTokens.onCardContainer
+            )
+
+            Text(
+                text = section.body,
+                style = CalmTheme.typographyTokens.cardBody,
+                color = CalmTheme.colorTokens.onCardContainerVariant
+            )
+        }
+    }
+}

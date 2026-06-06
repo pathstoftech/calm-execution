@@ -23,7 +23,7 @@ It demonstrates disciplined Android implementation: clean data boundaries, stabl
 | Persistence               | Proto DataStore for mutable local journey state and preferences                                                                   |
 | Content source            | Bundled JSON catalog with validation                                                                                              |
 | Dependency injection      | Hilt application, repository, DataStore, serialization, and image resolver modules                                                |
-| Implemented milestones    | A — Foundation, B — Local truth, C — First usable slice, D — Product completeness, E — Release hardening baseline                 |
+| Implemented milestones    | A вЂ” Foundation, B вЂ” Local truth, C вЂ” First usable slice, D вЂ” Product completeness, E вЂ” Release hardening baseline                 |
 | Current repo audit status | R-series GitHub repo review complete                                                                                              |
 | Final repo review verdict | Mostly yes                                                                                                                        |
 | Portfolio classification  | Ready after cleanup                                                                                                               |
@@ -31,7 +31,7 @@ It demonstrates disciplined Android implementation: clean data boundaries, stabl
 
 The current implementation supports the local product flow:
 
-**browse the 30-day journey → open a tip detail screen → bookmark a tip → complete a tip from Detail or selected expanded Detail → adjust app preferences → use compact or expanded layouts → keep local state consistent through repositories and Proto DataStore.**
+**browse the 30-day journey в†’ open a tip detail screen в†’ bookmark a tip в†’ complete a tip from Detail or selected expanded Detail в†’ adjust app preferences в†’ use compact or expanded layouts в†’ keep local state consistent through repositories and Proto DataStore.**
 
 ---
 
@@ -142,7 +142,7 @@ These screenshots are captured from the debug build and show the current portfol
 |--------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
 | ![Settings screen with theme and preference controls](docs/screenshots/settings.png) | ![Expanded tablet layout showing the journey feed and selected detail pane](docs/screenshots/expanded_tablet.png) |
 
-The screenshots are committed as repository documentation assets under `docs/screenshots/` so reviewers can understand the app’s UI without building the project locally.
+The screenshots are committed as repository documentation assets under `docs/screenshots/` so reviewers can understand the appвЂ™s UI without building the project locally.
 
 ---
 
@@ -179,7 +179,7 @@ Portfolio presentation: Needs cleanup
 Overall: Mostly yes
 ```
 
-### Completed — Milestone A: Foundation
+### Completed вЂ” Milestone A: Foundation
 
 - Android project baseline;
 - Gradle / AGP / Kotlin / Compose setup;
@@ -197,7 +197,7 @@ Overall: Mostly yes
 - catalog validation tests;
 - actual bundled catalog validation.
 
-### Completed — Milestone B: Local truth
+### Completed вЂ” Milestone B: Local truth
 
 - `journey_state.proto`;
 - `user_preferences.proto`;
@@ -212,7 +212,7 @@ Overall: Mostly yes
 - Hilt modules for app, data, repositories, DataStore, serialization, and image resolving;
 - repository and failure-path tests.
 
-### Completed — Milestone C: First usable slice
+### Completed вЂ” Milestone C: First usable slice
 
 - Material 3 design-system integration;
 - app token layer for colors, typography, shapes, spacing, elevation, and motion;
@@ -240,7 +240,7 @@ Overall: Mostly yes
 - compact navigation tests;
 - Home / Detail ViewModel tests.
 
-### Completed — Milestone D: Product completeness
+### Completed вЂ” Milestone D: Product completeness
 
 - Settings state, actions, ViewModel, route, and screen;
 - theme mode preference row;
@@ -266,7 +266,7 @@ Overall: Mostly yes
 - finalized image content descriptions;
 - fallback asset support.
 
-### Completed — Milestone E: Release-hardening baseline
+### Completed вЂ” Milestone E: Release-hardening baseline
 
 Release-hardening docs exist under `docs/release/`:
 
@@ -316,9 +316,9 @@ compileSdk: 36.1
 
 The app is intentionally small, local-first, and state-driven. The architecture separates three different kinds of truth:
 
-1. **Immutable editorial catalog** — the 30 bundled tips, section metadata, categories, image keys, and accessibility descriptions.
-2. **Mutable journey state** — viewed tips, completion status, bookmarks, timestamps, and progress.
-3. **Mutable app preferences** — theme mode, dynamic color, reduced motion, selected section, and intro state.
+1. **Immutable editorial catalog** вЂ” the 30 bundled tips, section metadata, categories, image keys, and accessibility descriptions.
+2. **Mutable journey state** вЂ” viewed tips, completion status, bookmarks, timestamps, and progress.
+3. **Mutable app preferences** вЂ” theme mode, dynamic color, reduced motion, selected section, and intro state.
 
 Those concerns move through separate data paths and meet only in ViewModel-produced UI state.
 
@@ -326,17 +326,17 @@ High-level shape:
 
 ```text
 Compose UI
-        ↓
+        в†“
 Route composables
-        ↓
+        в†“
 Screen composables
-        ↓
+        в†“
 ViewModels
-        ↓
+        в†“
 Repository interfaces
-        ↓
+        в†“
 Data sources / mappers / serializers
-        ↓
+        в†“
 Bundled JSON / Proto DataStore / drawable resources
 ```
 
@@ -346,17 +346,17 @@ Catalog flow:
 
 ```text
 res/raw/tips_catalog.json
-        ↓
+        в†“
 RawResourceCatalogDataSource
-        ↓
+        в†“
 CatalogDto / SectionDto / TipDto
-        ↓
+        в†“
 CatalogValidator
-        ↓
+        в†“
 CatalogMapper
-        ↓
+        в†“
 CatalogRepository
-        ↓
+        в†“
 JourneyCatalog / Tip / TipSection
 ```
 
@@ -364,15 +364,15 @@ Journey state flow:
 
 ```text
 Proto DataStore
-        ↓
+        в†“
 JourneyStateSerializer
-        ↓
+        в†“
 JourneyDataSource
-        ↓
+        в†“
 JourneyStateMapper
-        ↓
+        в†“
 JourneyRepository
-        ↓
+        в†“
 JourneyUserState / TipUserState
 ```
 
@@ -380,15 +380,15 @@ Preferences flow:
 
 ```text
 Proto DataStore
-        ↓
+        в†“
 UserPreferencesSerializer
-        ↓
+        в†“
 PreferencesDataSource
-        ↓
+        в†“
 PreferencesMapper
-        ↓
+        в†“
 PreferencesRepository
-        ↓
+        в†“
 UserPreferences
 ```
 
@@ -472,9 +472,9 @@ Compact mode uses destination navigation:
 
 ```text
 HomeRoute
-        ↓ open TipId
+        в†“ open TipId
 TipDetailRoute
-        ↓ back
+        в†“ back
 HomeRoute
 ```
 
@@ -482,19 +482,19 @@ Expanded mode uses list-detail presentation:
 
 ```text
 ExpandedJourneyRoute
-        ├── Home feed pane
-        └── selected Detail pane
+        в”њв”Ђв”Ђ Home feed pane
+        в””в”Ђв”Ђ selected Detail pane
 ```
 
 The expanded route reuses the Home feed state and the Detail UI model. Selecting a tip changes selected-detail state; it does not create a second catalog source, second progress model, or second persistence path.
 
 ```text
 Same repositories
-        ↓
+        в†“
 Same domain models
-        ↓
+        в†“
 Same ViewModel-owned state
-        ↓
+        в†“
 Compact destination UI or expanded list-detail UI
 ```
 
@@ -505,12 +505,12 @@ This is why compact and expanded layouts can show the same bookmarks, completion
 Current important source packages:
 
 ```text
-com.example.a30daysofcalmexecution
+com.pathstoftech.calmexecution
   AppShell.kt
   CalmExecutionApp.kt
   MainActivity.kt
 
-com.example.a30daysofcalmexecution.core.data.catalog
+com.pathstoftech.calmexecution.core.data.catalog
   CatalogDataSource.kt
   CatalogDto.kt
   CatalogMapper.kt
@@ -522,11 +522,11 @@ com.example.a30daysofcalmexecution.core.data.catalog
   SectionDto.kt
   TipDto.kt
 
-com.example.a30daysofcalmexecution.core.data.images
+com.pathstoftech.calmexecution.core.data.images
   DrawableTipImageResolver.kt
   TipImageResolver.kt
 
-com.example.a30daysofcalmexecution.core.data.journey
+com.pathstoftech.calmexecution.core.data.journey
   DataStoreJourneyDataSource.kt
   JourneyDataSource.kt
   JourneyRepository.kt
@@ -534,7 +534,7 @@ com.example.a30daysofcalmexecution.core.data.journey
   JourneyStateMapper.kt
   JourneyStateSerializer.kt
 
-com.example.a30daysofcalmexecution.core.data.preferences
+com.pathstoftech.calmexecution.core.data.preferences
   DataStorePreferencesDataSource.kt
   PreferencesDataSource.kt
   PreferencesMapper.kt
@@ -542,7 +542,7 @@ com.example.a30daysofcalmexecution.core.data.preferences
   PreferencesRepositoryImpl.kt
   UserPreferencesSerializer.kt
 
-com.example.a30daysofcalmexecution.core.designsystem.component
+com.pathstoftech.calmexecution.core.designsystem.component
   CalmChip.kt
   CalmErrorPanel.kt
   CalmLabel.kt
@@ -550,7 +550,7 @@ com.example.a30daysofcalmexecution.core.designsystem.component
   CalmTipImage.kt
   CalmTopAppBar.kt
 
-com.example.a30daysofcalmexecution.core.designsystem.theme
+com.pathstoftech.calmexecution.core.designsystem.theme
   CalmTheme.kt
   Color.kt
   ColorTokens.kt
@@ -562,7 +562,7 @@ com.example.a30daysofcalmexecution.core.designsystem.theme
   Type.kt
   TypographyTokens.kt
 
-com.example.a30daysofcalmexecution.core.model
+com.pathstoftech.calmexecution.core.model
   JourneyCatalog.kt
   JourneyUserState.kt
   SectionKey.kt
@@ -577,11 +577,11 @@ com.example.a30daysofcalmexecution.core.model
   TipUserState.kt
   UserPreferences.kt
 
-com.example.a30daysofcalmexecution.core.ui
+com.pathstoftech.calmexecution.core.ui
   ScreenUiModels.kt
   ScreenViewModel.kt
 
-com.example.a30daysofcalmexecution.di
+com.pathstoftech.calmexecution.di
   AppModule.kt
   CatalogModule.kt
   DataModule.kt
@@ -591,16 +591,16 @@ com.example.a30daysofcalmexecution.di
   RepositoryModule.kt
   SerializationModule.kt
 
-com.example.a30daysofcalmexecution.navigation
+com.pathstoftech.calmexecution.navigation
   AppRoute.kt
   CalmExecutionNavHost.kt
 
-com.example.a30daysofcalmexecution.ui.adaptive
+com.pathstoftech.calmexecution.ui.adaptive
   AdaptiveAppShell.kt
   ExpandedJourneyRoute.kt
   ExpandedListDetailLayout.kt
 
-com.example.a30daysofcalmexecution.ui.detail
+com.pathstoftech.calmexecution.ui.detail
   TipDetailAction.kt
   TipDetailActionsRow.kt
   TipDetailContentBlock.kt
@@ -611,7 +611,7 @@ com.example.a30daysofcalmexecution.ui.detail
   TipDetailUiState.kt
   TipDetailViewModel.kt
 
-com.example.a30daysofcalmexecution.ui.home
+com.pathstoftech.calmexecution.ui.home
   HomeAction.kt
   HomeIntroBlock.kt
   HomeRoute.kt
@@ -623,18 +623,18 @@ com.example.a30daysofcalmexecution.ui.home
   TipCard.kt
   TipSectionFeed.kt
 
-com.example.a30daysofcalmexecution.ui.preview
+com.pathstoftech.calmexecution.ui.preview
   PreviewContent.kt
   PreviewData.kt
   PreviewUiStates.kt
   ScreenPreviews.kt
 
-com.example.a30daysofcalmexecution.ui.preview.fake
+com.pathstoftech.calmexecution.ui.preview.fake
   FakeCatalogRepository.kt
   FakeJourneyRepository.kt
   FakePreferencesRepository.kt
 
-com.example.a30daysofcalmexecution.ui.settings
+com.pathstoftech.calmexecution.ui.settings
   SettingsAction.kt
   SettingsRoute.kt
   SettingsScreen.kt
@@ -850,31 +850,31 @@ Generate Proto classes manually when needed:
 Home UI tests:
 
 ```bash
-./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.home.HomeScreenTest" --stacktrace --no-configuration-cache
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.ui.home.HomeScreenTest" --stacktrace --no-configuration-cache
 ```
 
 Detail UI tests:
 
 ```bash
-./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.detail.TipDetailScreenTest" --stacktrace --no-configuration-cache
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.ui.detail.TipDetailScreenTest" --stacktrace --no-configuration-cache
 ```
 
 Compact navigation tests:
 
 ```bash
-./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.navigation.CompactNavigationTest" --stacktrace --no-configuration-cache
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.navigation.CompactNavigationTest" --stacktrace --no-configuration-cache
 ```
 
 Adaptive app shell tests:
 
 ```bash
-./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.adaptive.AdaptiveAppShellTest" --stacktrace --no-configuration-cache
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.ui.adaptive.AdaptiveAppShellTest" --stacktrace --no-configuration-cache
 ```
 
 Expanded list-detail tests:
 
 ```bash
-./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace --no-configuration-cache
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace --no-configuration-cache
 ```
 
 ### CI vs local verification
@@ -891,7 +891,7 @@ Expanded list-detail tests:
 | Release build gate             | Not configured as CI release gate yet             |         No | Future public-store hardening                                                                               |
 | Connected Android tests in CI  | Not configured yet                                |         No | Future device-matrix hardening                                                                              |
 
-The phrase “CI-backed verification” in this README means **unit tests plus debug assembly**, not full connected UI/adaptive/device-matrix testing.
+The phrase вЂњCI-backed verificationвЂќ in this README means **unit tests plus debug assembly**, not full connected UI/adaptive/device-matrix testing.
 
 ---
 
@@ -965,7 +965,7 @@ These are tracked as portfolio/publication cleanup items, not release-blocking p
 - connected UI, navigation, and adaptive tests are local emulator evidence, not CI-backed evidence;
 - some UI tests are device/orientation scoped and should not be presented as full device-matrix coverage;
 - Gradle/AGP modernization warnings remain;
-- package namespace still uses `com.example.a30daysofcalmexecution`;
+- package namespace still uses `com.pathstoftech.calmexecution`;
 - README and release docs are being synchronized after repo review;
 - release-note completion-behavior wording still requires a separate consistency cleanup commit.
 
@@ -973,7 +973,7 @@ These are tracked as portfolio/publication cleanup items, not release-blocking p
 
 ## Roadmap
 
-### Milestone A — Foundation
+### Milestone A вЂ” Foundation
 
 Status: **Done**
 
@@ -986,7 +986,7 @@ Status: **Done**
 - catalog repository;
 - validation tests.
 
-### Milestone B — Local truth
+### Milestone B вЂ” Local truth
 
 Status: **Done**
 
@@ -1002,7 +1002,7 @@ Status: **Done**
 - DI modules;
 - repository verification tests.
 
-### Milestone C — First usable slice
+### Milestone C вЂ” First usable slice
 
 Status: **Done**
 
@@ -1017,7 +1017,7 @@ Status: **Done**
 - Home/Detail tests;
 - compact navigation tests.
 
-### Milestone D — Product completeness
+### Milestone D вЂ” Product completeness
 
 Status: **Done**
 
@@ -1028,7 +1028,7 @@ Status: **Done**
 - finalized image content descriptions;
 - fallback asset support.
 
-### Milestone E — Release hardening baseline
+### Milestone E вЂ” Release hardening baseline
 
 Status: **Done for rc1 documentation baseline**
 
@@ -1068,7 +1068,7 @@ This project is intended to demonstrate practical Android engineering habits:
 - ViewModel-owned screen state;
 - catalog validation for bundled product content;
 - stable identifiers instead of fragile display-order identity;
-- Home → Detail navigation with stable route arguments;
+- Home в†’ Detail navigation with stable route arguments;
 - bookmark/completion state consistency;
 - unit-tested state transitions;
 - Compose UI and navigation tests;

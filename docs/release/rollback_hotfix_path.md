@@ -1,4 +1,4 @@
-# Rollback / Hotfix Path — 30 Days of Calm Execution
+# Rollback / Hotfix Path вЂ” 30 Days of Calm Execution
 
 Status: Done  
 Milestone: E5 Post-release readiness  
@@ -98,9 +98,9 @@ git checkout v1.0.0-rc1
 Optional connected verification, if the rollback is caused by UI/navigation behavior:
 
 ```bash
-./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.navigation.CompactNavigationTest,com.example.a30daysofcalmexecution.ui.home.HomeScreenTest,com.example.a30daysofcalmexecution.ui.detail.TipDetailScreenTest" --stacktrace
+./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.navigation.CompactNavigationTest,com.pathstoftech.calmexecution.ui.home.HomeScreenTest,com.pathstoftech.calmexecution.ui.detail.TipDetailScreenTest" --stacktrace
 
-./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.adaptive.AdaptiveAppShellTest,com.example.a30daysofcalmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace
+./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.ui.adaptive.AdaptiveAppShellTest,com.pathstoftech.calmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace
 ```
 
 Rollback pass condition:
@@ -151,13 +151,13 @@ Minimum validation for every hotfix:
 If the hotfix touches Home, Detail, navigation, bookmark, completion, or Settings behavior, also run compact connected regression:
 
 ```bash
-./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.navigation.CompactNavigationTest,com.example.a30daysofcalmexecution.ui.home.HomeScreenTest,com.example.a30daysofcalmexecution.ui.detail.TipDetailScreenTest" --stacktrace
+./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.navigation.CompactNavigationTest,com.pathstoftech.calmexecution.ui.home.HomeScreenTest,com.pathstoftech.calmexecution.ui.detail.TipDetailScreenTest" --stacktrace
 ```
 
 If the hotfix touches expanded layout, accessibility focus, adaptive routing, or selected detail behavior, also run expanded/adaptive connected regression:
 
 ```bash
-./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.adaptive.AdaptiveAppShellTest,com.example.a30daysofcalmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace
+./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.ui.adaptive.AdaptiveAppShellTest,com.pathstoftech.calmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace
 ```
 
 If the hotfix touches accessibility behavior, manually re-run the relevant part of E2-06 accessibility review.
@@ -266,7 +266,7 @@ Which tests are required?
 Which tag will be created if validation passes?
 ```
 
-This prevents the classic “small fix” that quietly becomes a dependency migration, a layout rewrite, and a small house fire.
+This prevents the classic вЂњsmall fixвЂќ that quietly becomes a dependency migration, a layout rewrite, and a small house fire.
 
 ## Decision
 

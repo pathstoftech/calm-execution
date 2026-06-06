@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package calmexecution.preferences;
 
-option java_package = "com.example.a30daysofcalmexecution.core.data.preferences.proto";
+option java_package = "com.pathstoftech.calmexecution.core.data.preferences.proto";
 option java_multiple_files = true;
 
 message UserPreferencesProto {

@@ -1,4 +1,4 @@
-# Monitoring / Crash-Reporting Plan — 30 Days of Calm Execution
+# Monitoring / Crash-Reporting Plan вЂ” 30 Days of Calm Execution
 
 Status: Done  
 Milestone: E5 Post-release readiness  
@@ -209,7 +209,7 @@ Decision: reject / defer / fix / hotfix
 Suggested issue template:
 
 ```markdown
-# Issue Report — 30 Days of Calm Execution
+# Issue Report вЂ” 30 Days of Calm Execution
 
 ## Summary
 
@@ -333,13 +333,13 @@ Every incident fix must run:
 If the fix touches Home, Detail, navigation, bookmark, completion, or Settings behavior:
 
 ```bash
-./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.navigation.CompactNavigationTest,com.example.a30daysofcalmexecution.ui.home.HomeScreenTest,com.example.a30daysofcalmexecution.ui.detail.TipDetailScreenTest" --stacktrace
+./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.navigation.CompactNavigationTest,com.pathstoftech.calmexecution.ui.home.HomeScreenTest,com.pathstoftech.calmexecution.ui.detail.TipDetailScreenTest" --stacktrace
 ```
 
 If the fix touches expanded/adaptive behavior:
 
 ```bash
-./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.adaptive.AdaptiveAppShellTest,com.example.a30daysofcalmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace
+./gradlew connectedDebugAndroidTest --project-prop "android.testInstrumentationRunnerArguments.class=com.pathstoftech.calmexecution.ui.adaptive.AdaptiveAppShellTest,com.pathstoftech.calmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace
 ```
 
 If the fix touches accessibility:
@@ -375,7 +375,7 @@ Minimum useful Logcat content:
 
 ```text
 Fatal exception
-Package name: com.example.a30daysofcalmexecution
+Package name: com.pathstoftech.calmexecution
 Stack trace
 Device / API level
 Timestamp
@@ -472,7 +472,7 @@ If expanded/tablet distribution is relevant:
 2. Select a TipCard.
 3. Confirm right pane opens.
 4. Confirm selected card is visually indicated.
-5. Activate “← Journey feed”.
+5. Activate вЂњв†ђ Journey feedвЂќ.
 6. Confirm feed becomes reachable again.
 ```
 
