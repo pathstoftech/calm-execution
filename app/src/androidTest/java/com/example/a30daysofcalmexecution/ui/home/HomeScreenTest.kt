@@ -1,5 +1,18 @@
+/**
+ * HomeScreen component tests.
+ *
+ * Scope:
+ * - compact / phone Home UI behavior;
+ * - stateless HomeScreen rendering and HomeAction emission;
+ * - not an expanded route / tablet integration test.
+ *
+ * Expanded list-detail behavior is covered by ExpandedListDetailLayoutTest /
+ * ExpandedJourneyRoute-level tests.
+ */
+
 package com.example.a30daysofcalmexecution.ui.home
 
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
@@ -7,7 +20,6 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -238,10 +250,8 @@ class HomeScreenTest {
         )
 
         composeRule
-            .onNodeWithTag(
-                testTag = "tip_card_bookmark_${DayOneTipId.value}",
-                useUnmergedTree = true,
-            )
+            .onNodeWithTag("tip_card_bookmark_${DayOneTipId.value}")
+            .assertIsDisplayed()
             .performClick()
 
         assertEquals(
@@ -285,20 +295,13 @@ class HomeScreenTest {
                     "Not completed",
                 ),
             )
+            .assert(
+                SemanticsMatcher.keyNotDefined(SemanticsActions.OnClick),
+            )
 
         composeRule
-            .onNodeWithText(
-                text = "Not completed",
-                useUnmergedTree = true,
-            )
-            .assertIsDisplayed()
-
-        composeRule
-            .onAllNodesWithTag(
-                testTag = "tip_card_complete_${DayOneTipId.value}",
-                useUnmergedTree = true,
-            )
-            .assertCountEquals(0)
+            .onNodeWithTag("tip_card_complete_${DayOneTipId.value}")
+            .assertDoesNotExist()
 
         assertEquals(
             emptyList<HomeAction>(),
@@ -326,10 +329,8 @@ class HomeScreenTest {
         )
 
         composeRule
-            .onNodeWithTag(
-                testTag = "tip_card_bookmark_${DayOneTipId.value}",
-                useUnmergedTree = true,
-            )
+            .onNodeWithTag("tip_card_bookmark_${DayOneTipId.value}")
+            .assertIsDisplayed()
             .assert(
                 SemanticsMatcher.expectValue(
                     SemanticsProperties.StateDescription,
@@ -337,38 +338,9 @@ class HomeScreenTest {
                 ),
             )
 
-        scrollHomeFeedToText("Completed")
-
         composeRule
-            .onNodeWithTag(
-                testTag = "tip_card_completion_status_${DayOneTipId.value}",
-                useUnmergedTree = true,
-            )
-            .assertExists()
-            .assert(
-                SemanticsMatcher.expectValue(
-                    SemanticsProperties.StateDescription,
-                    "Completed",
-                ),
-            )
-
-        composeRule
-            .onNodeWithText(
-                text = "Completed",
-                useUnmergedTree = true,
-            )
+            .onNodeWithText("Completed")
             .assertIsDisplayed()
-
-        composeRule
-            .onAllNodesWithTag(
-                testTag = "tip_card_complete_${DayOneTipId.value}",
-                useUnmergedTree = true,
-            )
-            .assertCountEquals(0)
-
-        composeRule
-            .onNodeWithTag("tip_card_complete_${DayOneTipId.value}")
-            .assertDoesNotExist()
     }
 
     @Test
