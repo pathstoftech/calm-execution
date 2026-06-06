@@ -4,6 +4,7 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -35,7 +36,7 @@ class TipDetailScreenTest {
         )
 
         composeRule
-            .onNodeWithTag("tip_detail_loading_state")
+            .onNodeWithTag(TipDetailLoadingStateTestTag)
             .assertIsDisplayed()
     }
 
@@ -58,18 +59,18 @@ class TipDetailScreenTest {
             },
         )
 
-        composeRule.onNodeWithTag("tip_detail_error_state").assertIsDisplayed()
+        composeRule.onNodeWithTag(TipDetailErrorStateTestTag).assertIsDisplayed()
         composeRule.onNodeWithText("Unable to open tip").assertIsDisplayed()
         composeRule.onNodeWithText("This tip is not available right now.").assertIsDisplayed()
 
-        composeRule.onNodeWithText("Try again").performClick()
+        composeRule.onNodeWithTag(TipDetailErrorRetryActionTestTag).performClick()
 
         assertEquals(
             listOf(TipDetailAction.RetryLoad),
             actions,
         )
 
-        composeRule.onNodeWithText("Back to journey").performClick()
+        composeRule.onNodeWithTag(TipDetailErrorBackActionTestTag).performClick()
 
         assertEquals(
             1,
@@ -83,7 +84,7 @@ class TipDetailScreenTest {
             state = readyDetailState(),
         )
 
-        composeRule.onNodeWithTag("tip_detail_ready_state").assertIsDisplayed()
+        composeRule.onNodeWithTag(TipDetailReadyStateTestTag).assertIsDisplayed()
 
         composeRule
             .onNodeWithContentDescription("A calm planning scene", substring = true)
@@ -97,28 +98,28 @@ class TipDetailScreenTest {
         composeRule.onNodeWithText("Clarity").assertIsDisplayed()
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
+            .onNodeWithTag(TipDetailReadyStateTestTag)
             .performScrollToNode(hasText("Problem"))
 
         composeRule.onNodeWithText("Problem").assertIsDisplayed()
         composeRule.onNodeWithText("Name the real pressure before making the plan.").assertIsDisplayed()
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
+            .onNodeWithTag(TipDetailReadyStateTestTag)
             .performScrollToNode(hasText("Tip"))
 
         composeRule.onNodeWithText("Tip").assertIsDisplayed()
         composeRule.onNodeWithText("Write the next calm action before adding more tasks.").assertIsDisplayed()
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
+            .onNodeWithTag(TipDetailReadyStateTestTag)
             .performScrollToNode(hasText("Why it helps"))
 
         composeRule.onNodeWithText("Why it helps").assertIsDisplayed()
         composeRule.onNodeWithText("A named pressure is easier to manage than a vague threat.").assertIsDisplayed()
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
+            .onNodeWithTag(TipDetailReadyStateTestTag)
             .performScrollToNode(hasText("Try today"))
 
         composeRule.onNodeWithText("Try today").assertIsDisplayed()
@@ -135,11 +136,11 @@ class TipDetailScreenTest {
             )
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
-            .performScrollToNode(hasText("Complete"))
+            .onNodeWithTag(TipDetailReadyStateTestTag)
+            .performScrollToNode(hasTestTag(TipDetailCompleteActionTestTag))
 
         composeRule
-            .onNodeWithText("Complete")
+            .onNodeWithTag(TipDetailCompleteActionTestTag)
             .assertIsDisplayed()
     }
 
@@ -172,10 +173,10 @@ class TipDetailScreenTest {
         )
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
-            .performScrollToNode(hasText("Complete"))
+            .onNodeWithTag(TipDetailReadyStateTestTag)
+            .performScrollToNode(hasTestTag(TipDetailCompleteActionTestTag))
 
-        composeRule.onNodeWithText("Complete").performClick()
+        composeRule.onNodeWithTag(TipDetailCompleteActionTestTag).performClick()
 
         assertEquals(
             listOf(TipDetailAction.ToggleCompleted),
@@ -205,12 +206,18 @@ class TipDetailScreenTest {
             )
 
         composeRule
-            .onNodeWithTag("tip_detail_ready_state")
-            .performScrollToNode(hasText("Completed"))
+            .onNodeWithTag(TipDetailReadyStateTestTag)
+            .performScrollToNode(hasTestTag(TipDetailCompleteActionTestTag))
 
         composeRule
-            .onNodeWithText("Completed")
+            .onNodeWithTag(TipDetailCompleteActionTestTag)
             .assertIsDisplayed()
+            .assert(
+                SemanticsMatcher.expectValue(
+                    SemanticsProperties.StateDescription,
+                    "Completed",
+                ),
+            )
     }
 
     @Test

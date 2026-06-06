@@ -18,13 +18,11 @@ import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollToNode
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmExecutionTheme
 import com.example.a30daysofcalmexecution.core.model.SectionKey
 import com.example.a30daysofcalmexecution.core.model.TipId
@@ -86,7 +84,7 @@ class HomeScreenTest {
         composeRule.onNodeWithText("Unable to load Home").assertIsDisplayed()
         composeRule.onNodeWithText("Unable to load journey content.").assertIsDisplayed()
 
-        composeRule.onNodeWithText("Try again").performClick()
+        composeRule.onNodeWithTag(HomeErrorRetryActionTestTag).performClick()
 
         assertEquals(
             listOf(HomeAction.RetryLoad),
@@ -103,7 +101,7 @@ class HomeScreenTest {
             actions = actions
         )
 
-        composeRule.onNodeWithText("Build Focus").performClick()
+        composeRule.onNodeWithTag(homeSectionChipTestTag(SectionKey.BUILD_FOCUS)).performClick()
 
         assertEquals(
             listOf(HomeAction.SelectSection(SectionKey.BUILD_FOCUS)),
@@ -122,7 +120,7 @@ class HomeScreenTest {
             actions = actions
         )
 
-        composeRule.onNodeWithText("All").performClick()
+        composeRule.onNodeWithTag(HomeAllSectionsChipTestTag).performClick()
 
         assertEquals(
             listOf(HomeAction.SelectSection(null)),
@@ -139,7 +137,7 @@ class HomeScreenTest {
             actions = actions
         )
 
-        composeRule.onNodeWithText("Bookmarked").performClick()
+        composeRule.onNodeWithTag(HomeBookmarkedChipTestTag).performClick()
 
         assertEquals(
             listOf(HomeAction.SetBookmarkedFilter(true)),
@@ -158,7 +156,7 @@ class HomeScreenTest {
             actions = actions
         )
 
-        composeRule.onNodeWithText("Bookmarked").performClick()
+        composeRule.onNodeWithTag(HomeBookmarkedChipTestTag).performClick()
 
         assertEquals(
             listOf(HomeAction.SetBookmarkedFilter(false)),
@@ -187,7 +185,7 @@ class HomeScreenTest {
         composeRule.onNodeWithText("No tips in this section").assertIsDisplayed()
         composeRule.onNodeWithText("Try another phase or return to the full 30-day journey.").assertIsDisplayed()
 
-        composeRule.onNodeWithText("Show all").performClick()
+        composeRule.onNodeWithTag(HomeEmptyShowAllActionTestTag).performClick()
 
         assertEquals(
             listOf(HomeAction.SelectSection(null)),
@@ -212,7 +210,7 @@ class HomeScreenTest {
             .onNodeWithText("Bookmark tips to return to them quickly during the 30-day journey.")
             .assertIsDisplayed()
 
-        composeRule.onNodeWithText("Show all tips").performClick()
+        composeRule.onNodeWithTag(HomeBookmarkedEmptyShowAllActionTestTag).performClick()
 
         assertEquals(
             listOf(
@@ -232,7 +230,7 @@ class HomeScreenTest {
             actions = actions
         )
 
-        composeRule.onNodeWithText("Define real priority").performClick()
+        composeRule.onNodeWithTag("tip_card_${DayOneTipId.value}").performClick()
 
         assertEquals(
             listOf(HomeAction.OpenTip(DayOneTipId)),
@@ -280,8 +278,6 @@ class HomeScreenTest {
             ),
             actions = actions,
         )
-
-        scrollHomeFeedToText("Not completed")
 
         composeRule
             .onNodeWithTag(
@@ -439,13 +435,6 @@ class HomeScreenTest {
             isBookmarked = isBookmarked
         )
 
-    private fun scrollHomeFeedToText(text: String) {
-        composeRule
-            .onNodeWithTag(HomeFeedTestTag)
-            .performScrollToNode(hasText(text))
-
-        composeRule.waitForIdle()
-    }
     private companion object {
         val DayOneTipId = TipId("day_01_define_real_priority")
     }

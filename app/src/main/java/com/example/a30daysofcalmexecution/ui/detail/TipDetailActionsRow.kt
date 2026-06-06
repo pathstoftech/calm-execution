@@ -36,7 +36,7 @@ fun TipDetailActionsRow(
                         "Not completed"
                     }
                 }
-                .testTag("tip_detail_complete_action"),
+                .testTag(TipDetailCompleteActionTestTag),
         ) {
             Text(
                 text = if (isCompleted) {
@@ -48,3 +48,5 @@ fun TipDetailActionsRow(
         }
     }
 }
+
+const val TipDetailCompleteActionTestTag = "tip_detail_complete_action"

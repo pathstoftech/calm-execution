@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import com.example.a30daysofcalmexecution.core.designsystem.theme.CalmTheme
 
@@ -19,7 +20,8 @@ fun CalmErrorPanel(
     message: String,
     modifier: Modifier = Modifier,
     actionLabel: String? = null,
-    onActionClick: (() -> Unit)? = null
+    actionTestTag: String? = null,
+    onActionClick: (() -> Unit)? = null,
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -51,14 +53,19 @@ fun CalmErrorPanel(
             if (actionLabel != null && onActionClick != null) {
                 OutlinedButton(
                     onClick = onActionClick,
+                    modifier = if (actionTestTag != null) {
+                        Modifier.testTag(actionTestTag)
+                    } else {
+                        Modifier
+                    },
                     colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = CalmTheme.colorTokens.error
-                    )
+                        contentColor = CalmTheme.colorTokens.error,
+                    ),
                 ) {
                     Text(
                         text = actionLabel,
                         style = CalmTheme.typographyTokens.actionLabel,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
                 }
             }

@@ -66,7 +66,7 @@ private fun TipDetailLoadingState(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .testTag("tip_detail_loading_state"),
+            .testTag(TipDetailLoadingStateTestTag),
         contentPadding = PaddingValues(CalmTheme.spacingTokens.screenPadding),
         verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.sectionGap)
     ) {
@@ -89,7 +89,7 @@ private fun TipDetailErrorState(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .testTag("tip_detail_error_state"),
+            .testTag(TipDetailErrorStateTestTag),
         contentPadding = PaddingValues(CalmTheme.spacingTokens.screenPadding),
         verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.cardGap)
     ) {
@@ -98,6 +98,7 @@ private fun TipDetailErrorState(
                 title = "Unable to open tip",
                 message = message,
                 actionLabel = "Try again",
+                actionTestTag = TipDetailErrorRetryActionTestTag,
                 onActionClick = onRetry
             )
         }
@@ -107,6 +108,7 @@ private fun TipDetailErrorState(
                 title = "Return to journey",
                 message = "Go back to the Home journey and choose another tip.",
                 actionLabel = "Back to journey",
+                actionTestTag = TipDetailErrorBackActionTestTag,
                 onActionClick = onBack
             )
         }
@@ -122,7 +124,7 @@ private fun TipDetailReadyState(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .testTag("tip_detail_ready_state"),
+            .testTag(TipDetailReadyStateTestTag),
         contentPadding = PaddingValues(CalmTheme.spacingTokens.screenPadding),
         verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.sectionGap)
     ) {
@@ -153,3 +155,8 @@ private fun TipDetailReadyState(
 }
 
 private const val TipDetailLoadingPlaceholderCount = 4
+const val TipDetailLoadingStateTestTag = "tip_detail_loading_state"
+const val TipDetailErrorStateTestTag = "tip_detail_error_state"
+const val TipDetailReadyStateTestTag = "tip_detail_ready_state"
+const val TipDetailErrorRetryActionTestTag = "tip_detail_error_retry_action"
+const val TipDetailErrorBackActionTestTag = "tip_detail_error_back_action"

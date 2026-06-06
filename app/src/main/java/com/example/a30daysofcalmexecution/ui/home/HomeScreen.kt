@@ -160,6 +160,7 @@ private fun HomeErrorState(
             title = "Unable to load Home",
             message = message,
             actionLabel = "Try again",
+            actionTestTag = HomeErrorRetryActionTestTag,
             onActionClick = onRetry
         )
     }
@@ -167,6 +168,7 @@ private fun HomeErrorState(
 
 @Composable
 private fun HomeEmptyFilteredState(
+    actionTestTag: String,
     title: String,
     message: String,
     actionLabel: String,
@@ -198,7 +200,8 @@ private fun HomeEmptyFilteredState(
             )
 
             TextButton(
-                onClick = onActionClick
+                onClick = onActionClick,
+                modifier = Modifier.testTag(actionTestTag),
             ) {
                 Text(actionLabel)
             }
@@ -255,6 +258,7 @@ private fun HomeContent(
             item {
                 if (state.bookmarkedOnly) {
                     HomeEmptyFilteredState(
+                        actionTestTag = HomeBookmarkedEmptyShowAllActionTestTag,
                         title = "No bookmarked tips yet",
                         message = "Bookmark tips to return to them quickly during the 30-day journey.",
                         actionLabel = "Show all tips",
@@ -265,6 +269,7 @@ private fun HomeContent(
                     )
                 } else {
                     HomeEmptyFilteredState(
+                        actionTestTag = HomeEmptyShowAllActionTestTag,
                         title = "No tips in this section",
                         message = "Try another phase or return to the full 30-day journey.",
                         actionLabel = "Show all",
@@ -274,7 +279,8 @@ private fun HomeContent(
                     )
                 }
             }
-        } else {
+        }
+else {
             tipSectionFeed(
                 sections = state.feedSections,
                 selectedTipId = state.selectedTipDetail?.id ?: state.selectedTipId,
@@ -292,3 +298,7 @@ private const val HomeLoadingMediumLineMultiplier = 7
 private const val HomeLoadingAllChipMultiplier = 2
 private const val HomeLoadingChipMultiplier = 4
 const val HomeFeedTestTag = "home_feed"
+const val HomeErrorRetryActionTestTag = "home_error_retry_action"
+const val HomeEmptyShowAllActionTestTag = "home_empty_show_all_action"
+const val HomeBookmarkedEmptyShowAllActionTestTag =
+    "home_bookmarked_empty_show_all_action"
