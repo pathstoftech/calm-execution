@@ -755,17 +755,17 @@ Expanded list-detail tests:
 
 ### CI vs local verification
 
-| Scope                          | Verification                                      | CI-backed? | Notes                                                 |
-|--------------------------------|---------------------------------------------------|-----------:|-------------------------------------------------------|
-| Unit / JVM tests               | `./gradlew testDebugUnitTest --stacktrace`        |        Yes | Runs in GitHub Actions                                |
-| Debug build                    | `./gradlew assembleDebug --stacktrace`            |        Yes | Runs in GitHub Actions                                |
-| Android test APK assembly      | `./gradlew assembleDebugAndroidTest --stacktrace` |         No | Local verification                                    |
-| Home / Detail Compose UI tests | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence                               |
-| Compact navigation tests       | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence; compact/phone-oriented scope |
-| Adaptive / tablet tests        | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence                               |
-| Lint gate                      | Not configured as CI release gate yet             |         No | Future hardening                                      |
-| Release build gate             | Not configured as CI release gate yet             |         No | Future public-store hardening                         |
-| Connected Android tests in CI  | Not configured yet                                |         No | Future device-matrix hardening                        |
+| Scope                          | Verification                                      | CI-backed? | Notes                                                                                                       |
+|--------------------------------|---------------------------------------------------|-----------:|-------------------------------------------------------------------------------------------------------------|
+| Unit / JVM tests               | `./gradlew testDebugUnitTest --stacktrace`        |        Yes | Runs in GitHub Actions                                                                                      |
+| Debug build                    | `./gradlew assembleDebug --stacktrace`            |        Yes | Runs in GitHub Actions                                                                                      |
+| Android test APK assembly      | `./gradlew assembleDebugAndroidTest --stacktrace` |         No | Local verification                                                                                          |
+| Home / Detail Compose UI tests | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence                                                                                     |
+| Compact navigation tests       | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence; compact/phone portrait-scoped; `CompactNavigationTest` forces portrait orientation |
+| Adaptive / tablet tests        | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence                                                                                     |
+| Lint gate                      | Not configured as CI release gate yet             |         No | Future hardening                                                                                            |
+| Release build gate             | Not configured as CI release gate yet             |         No | Future public-store hardening                                                                               |
+| Connected Android tests in CI  | Not configured yet                                |         No | Future device-matrix hardening                                                                              |
 
 The phrase “CI-backed verification” in this README means **unit tests plus debug assembly**, not full connected UI/adaptive/device-matrix testing.
 

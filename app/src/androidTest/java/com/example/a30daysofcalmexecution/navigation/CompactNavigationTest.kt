@@ -1,5 +1,6 @@
 package com.example.a30daysofcalmexecution.navigation
 
+import android.content.pm.ActivityInfo
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
@@ -10,20 +11,59 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import com.example.a30daysofcalmexecution.MainActivity
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+/**
+ * Compact navigation tests for the phone/compact presentation.
+ *
+ * Scope:
+ * - compact-width app navigation behavior;
+ * - portrait phone emulator execution;
+ * - Home -> Detail -> Home transitions;
+ * - compact back affordance behavior;
+ * - system Back behavior from Detail.
+ *
+ * Out of scope:
+ * - expanded/tablet list-detail behavior;
+ * - landscape-specific layout guarantees;
+ * - adaptive breakpoint verification.
+ *
+ * Expanded and adaptive behavior is covered by the adaptive test bucket.
+ */
 class CompactNavigationTest {
 
     @get:Rule
     val composeRule = createAndroidComposeRule<MainActivity>()
 
+    @Before
+    fun forceCompactPortraitScope() {
+        composeRule.activityRule.scenario.onActivity { activity ->
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+        composeRule.waitForIdle()
+    }
+
+    @After
+    fun clearForcedOrientation() {
+        composeRule.activityRule.scenario.onActivity { activity ->
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+
     @Test
     fun appLaunch_startsOnHomeWithoutCompactBack() {
         waitForHome()
 
-        composeRule.onNodeWithText("Journey progress").assertIsDisplayed()
-        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertDoesNotExist()
+        composeRule
+            .onNodeWithText("Journey progress")
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithTag(COMPACT_BACK_ACTION_TAG)
+            .assertDoesNotExist()
     }
 
     @Test
@@ -43,24 +83,44 @@ class CompactNavigationTest {
     fun homeCardTap_opensDetail_andCompactBackReturnsHome() {
         openFirstTip()
 
-        composeRule.onNodeWithTag(TIP_DETAIL_READY_STATE_TAG).assertIsDisplayed()
-        composeRule.onNodeWithText("Define the real priority").assertIsDisplayed()
-        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertIsDisplayed()
+        composeRule
+            .onNodeWithTag(TIP_DETAIL_READY_STATE_TAG)
+            .assertIsDisplayed()
 
-        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).performClick()
+        composeRule
+            .onNodeWithText("Define the real priority")
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithTag(COMPACT_BACK_ACTION_TAG)
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithTag(COMPACT_BACK_ACTION_TAG)
+            .performClick()
 
         waitForHome()
 
-        composeRule.onNodeWithText("Journey progress").assertIsDisplayed()
-        composeRule.onNodeWithTag(TIP_DETAIL_READY_STATE_TAG).assertDoesNotExist()
-        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertDoesNotExist()
+        composeRule
+            .onNodeWithText("Journey progress")
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithTag(TIP_DETAIL_READY_STATE_TAG)
+            .assertDoesNotExist()
+
+        composeRule
+            .onNodeWithTag(COMPACT_BACK_ACTION_TAG)
+            .assertDoesNotExist()
     }
 
     @Test
     fun systemBackFromDetail_returnsHome() {
         openFirstTip()
 
-        composeRule.onNodeWithTag(TIP_DETAIL_READY_STATE_TAG).assertIsDisplayed()
+        composeRule
+            .onNodeWithTag(TIP_DETAIL_READY_STATE_TAG)
+            .assertIsDisplayed()
 
         composeRule.activityRule.scenario.onActivity { activity ->
             activity.onBackPressedDispatcher.onBackPressed()
@@ -68,9 +128,17 @@ class CompactNavigationTest {
 
         waitForHome()
 
-        composeRule.onNodeWithText("Journey progress").assertIsDisplayed()
-        composeRule.onNodeWithTag(TIP_DETAIL_READY_STATE_TAG).assertDoesNotExist()
-        composeRule.onNodeWithTag(COMPACT_BACK_ACTION_TAG).assertDoesNotExist()
+        composeRule
+            .onNodeWithText("Journey progress")
+            .assertIsDisplayed()
+
+        composeRule
+            .onNodeWithTag(TIP_DETAIL_READY_STATE_TAG)
+            .assertDoesNotExist()
+
+        composeRule
+            .onNodeWithTag(COMPACT_BACK_ACTION_TAG)
+            .assertDoesNotExist()
     }
 
     @Test
@@ -108,7 +176,10 @@ class CompactNavigationTest {
             .fetchSemanticsNodes()
 
         if (allNodes.isNotEmpty()) {
-            composeRule.onNodeWithText("All").performClick()
+            composeRule
+                .onNodeWithText("All")
+                .performClick()
+
             composeRule.waitForIdle()
         }
     }
