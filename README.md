@@ -2,9 +2,13 @@
 
 **Kotlin-first Android portfolio project built with Jetpack Compose, Material 3, Hilt, Proto DataStore, Flow, repository-based architecture, and tested local persistence.**
 
-`30 Days of Calm Execution` is an Android app that presents a structured 30-day journey of practical work-habit tips. The product focus is calm execution: starting work with clarity, protecting attention, reducing reactive habits, sustaining energy, and finishing meaningful work without burnout-style productivity noise.
+`30 Days of Calm Execution` is an Android app that presents a structured 30-day journey of practical work-habit tips.
 
-This repository is being developed as a **hiring-facing Android portfolio project**. It is not presented as a finished consumer app yet. It is intended to demonstrate disciplined Android implementation: clean data boundaries, stable domain models, local source of truth, Proto DataStore persistence, repository contracts, Compose UI state, Kotlin tests, and incremental milestone-based delivery.
+The product focus is calm execution: starting work with clarity, protecting attention, reducing reactive habits, sustaining energy, and finishing meaningful work without burnout-style productivity noise.
+
+This repository is being developed as a **hiring-facing Android portfolio project**. It is not presented as a finished public-store consumer app.
+
+It demonstrates disciplined Android implementation: clean data boundaries, stable domain models, local source of truth, Proto DataStore persistence, repository contracts, Compose UI state, Kotlin tests, adaptive layouts, and incremental milestone-based delivery.
 
 ---
 
@@ -19,11 +23,15 @@ This repository is being developed as a **hiring-facing Android portfolio projec
 | Persistence | Proto DataStore for mutable local journey state and preferences |
 | Content source | Bundled JSON catalog with validation |
 | Dependency injection | Hilt application, repository, DataStore, serialization, and image resolver modules |
-| Implemented milestones | A — Foundation, B — Local truth, C — First usable slice, D1 — Settings, D2 — Adaptive layout, D3 — Preview/fake data, D4 — Assets/content |
-| Current milestone | D5 — Product-complete test pass |
-| Next implementation focus | Settings tests, expanded adaptive tests, asset validation tests, accessibility sanity pass, and manual exploratory pass |
+| Implemented milestones | A — Foundation, B — Local truth, C — First usable slice, D — Product completeness, E — Release hardening baseline |
+| Current repo audit status | R-series GitHub repo review complete |
+| Final repo review verdict | Mostly yes |
+| Portfolio classification | Ready after cleanup |
+| Current cleanup focus | Portfolio presentation truth-sync: README status, completion behavior wording, release-doc links, and CI/local test-scope clarity |
 
-The current implementation supports the full local product flow: **browse the 30-day journey → open a tip detail screen → bookmark or complete a tip → adjust app preferences → use compact or expanded layouts → keep local state consistent through repositories and Proto DataStore**.
+The current implementation supports the local product flow:
+
+**browse the 30-day journey → open a tip detail screen → bookmark a tip → complete a tip from Detail or selected expanded Detail → adjust app preferences → use compact or expanded layouts → keep local state consistent through repositories and Proto DataStore.**
 
 ---
 
@@ -59,7 +67,17 @@ The Home screen implements the **Editorial Journey Layout**:
 4. phase chip row;
 5. sectioned feed of editorial tip cards.
 
-The Home screen renders real catalog content, supports loading/error/empty states, section filtering, bookmark toggles, completion toggles, and navigation into a detail screen.
+The Home screen renders real catalog content and supports:
+
+- loading state;
+- error state;
+- empty filtered-result state;
+- section filtering;
+- bookmark toggles;
+- read-only completion status display;
+- navigation into a detail screen.
+
+Home does **not** mutate completion state. Completion changes happen from the Detail screen or from the selected Detail pane in expanded layout.
 
 ### Tip card
 
@@ -71,7 +89,7 @@ Each tip card presents:
 - preview text;
 - category chip;
 - bookmark state;
-- completion state.
+- read-only completion state.
 
 The card opens the correct tip detail destination using the stable `TipId`, not the display day number.
 
@@ -91,11 +109,18 @@ The Detail screen preserves the approved reading order:
 
 Opening a detail screen marks the tip as viewed, but journey progress is derived from completion/progression state rather than last viewed state.
 
+### Expanded layout
+
+On larger screens, the app uses a list-detail layout:
+
+- the journey feed remains visible;
+- the selected tip renders in a detail pane;
+- bookmark and completion actions apply only to the selected opened detail;
+- clearing selection returns the user to the feed-focused state.
+
 ### Settings screen
 
-The Settings screen is implemented as part of product completeness.
-
-It supports:
+The Settings screen supports:
 
 - theme mode selection;
 - dynamic color toggle;
@@ -107,23 +132,53 @@ It supports:
 
 ## Screenshots
 
-Home and Detail screenshot files are not committed in this README update. Add them when available, for example:
+Screenshots are not committed yet.
+
+Planned screenshot files:
 
 ```text
 docs/screenshots/home.png
 docs/screenshots/detail.png
+docs/screenshots/settings.png
+docs/screenshots/expanded_tablet.png
 ```
 
-Then reference them with:
-
-```markdown
-![Home screen](docs/screenshots/home.png)
-![Detail screen](docs/screenshots/detail.png)
-```
+Until those files are added, this repository should be treated as **engineering-proof ready, but not fully portfolio-polished**.
 
 ---
 
 ## Current implementation status
+
+### Release/audit state
+
+The repository has passed the main implementation milestones and has an rc1 release-hardening documentation baseline.
+
+Current status:
+
+| Area | Status |
+|---|---|
+| Core product implementation | Done |
+| Local catalog and persistence | Done |
+| Home / Detail / Settings | Done |
+| Compact navigation | Done |
+| Expanded adaptive layout | Done |
+| Runtime image asset pipeline | Done |
+| Unit test baseline | Done |
+| Local connected UI/adaptive evidence | Done, local emulator scope |
+| Release-hardening docs | Present |
+| Public portfolio presentation | Needs cleanup |
+
+Current repository verdict:
+
+```text
+Engineering implementation: Strong
+Architecture: Strong
+Behavior verification: Mostly proven, with test-scope cleanup needed
+Build / CI: Functional, but not release-clean
+Public safety: Pass
+Portfolio presentation: Needs cleanup
+Overall: Mostly yes
+```
 
 ### Completed — Milestone A: Foundation
 
@@ -175,7 +230,7 @@ Then reference them with:
 - editorial tip card;
 - real catalog rendering;
 - bookmark toggle;
-- completion toggle;
+- read-only Home completion status;
 - section filtering;
 - loading, error, and empty states;
 - Tip Detail route, state, actions, ViewModel, and screen;
@@ -186,7 +241,7 @@ Then reference them with:
 - compact navigation tests;
 - Home / Detail ViewModel tests.
 
-### Completed — Milestone D1: Settings
+### Completed — Milestone D: Product completeness
 
 - Settings state, actions, ViewModel, route, and screen;
 - theme mode preference row;
@@ -194,52 +249,36 @@ Then reference them with:
 - reduced motion preference row;
 - reset progress flow;
 - reset confirmation dialog;
-- app shell reaction to settings changes.
-
-### Completed — Milestone D2: Adaptive layout
-
+- app shell reaction to settings changes;
 - expanded app shell;
 - list-detail layout for larger screens;
 - feed pane and selected detail pane;
 - empty detail placeholder;
 - selection/back behavior for expanded layout;
-- compact layout preserved.
-
-### Completed — Milestone D3: Preview and fake-data hardening
-
+- compact layout preserved;
 - preview data;
 - fake repositories;
 - sample UI states;
 - preview-only content helpers;
-- screen previews that do not depend on runtime DI.
-
-### Completed — Milestone D4: Assets and content finalization
-
+- screen previews that do not depend on runtime DI;
 - 30 runtime WebP assets;
 - runtime image directory under `drawable-nodpi`;
 - image-key to drawable mapping;
 - finalized image content descriptions;
 - fallback asset support.
 
-### Next — Milestone D5: Product-complete test pass
+### Completed — Milestone E: Release-hardening baseline
 
-- Settings tests;
-- expanded adaptive tests;
-- asset validation tests;
-- accessibility sanity pass;
-- manual exploratory pass.
+Release-hardening docs exist under `docs/release/`:
 
-### Later — Milestone E: Release hardening
+- [`v1.0.0-rc1_release_notes.md`](docs/release/v1.0.0-rc1_release_notes.md)
+- [`v1.0.0-rc1_known_issues.md`](docs/release/v1.0.0-rc1_known_issues.md)
+- [`rollback_hotfix_path.md`](docs/release/rollback_hotfix_path.md)
+- [`monitoring_crash_reporting_plan.md`](docs/release/monitoring_crash_reporting_plan.md)
+- [`post_release_ownership.md`](docs/release/post_release_ownership.md)
+- [`follow_up_review_schedule.md`](docs/release/follow_up_review_schedule.md)
 
-- full regression pass;
-- release build verification;
-- release-critical TODO/FIXME cleanup;
-- accessibility review;
-- dependency-state review;
-- release notes;
-- known issues list;
-- rollback / hotfix path;
-- crash-reporting or monitoring plan if the project moves toward release.
+Remaining work is now portfolio cleanup and evidence hardening, not core feature construction.
 
 ---
 
@@ -314,7 +353,7 @@ Domain models
 Journey state flow:
 
 ```text
-Proto DataStore<JourneyStateProto>
+Proto DataStore
         ↓
 JourneyDataSource
         ↓
@@ -328,7 +367,7 @@ JourneyUserState / TipUserState
 Preferences flow:
 
 ```text
-Proto DataStore<UserPreferencesProto>
+Proto DataStore
         ↓
 PreferencesDataSource
         ↓
@@ -340,6 +379,34 @@ UserPreferences
 ```
 
 UI code consumes state through ViewModels and repositories. It should not read JSON, DataStore, or Proto classes directly.
+
+### Route / Screen / ViewModel split
+
+The UI follows a Route / Screen / ViewModel pattern:
+
+- `Route` composables wire ViewModels, collect UI state, and handle navigation callbacks.
+- `Screen` composables render immutable state and emit typed actions.
+- `ViewModel` classes own screen business state and convert repository data into screen-ready `UiState`.
+
+This keeps navigation, rendering, and business-state ownership separated.
+
+### Adaptive architecture
+
+Compact and expanded layouts use the same catalog, repositories, user-state model, and ViewModel-driven data flow.
+
+Compact mode uses destination-style navigation:
+
+```text
+Home → TipDetail → Back
+```
+
+Expanded mode uses list-detail presentation:
+
+```text
+Journey feed + selected detail pane
+```
+
+The expanded layout is not a second architecture. It is a different presentation of the same app state.
 
 ---
 
@@ -430,9 +497,9 @@ com.example.a30daysofcalmexecution.ui.detail
   TipDetailViewModel.kt
   TipDetailMetaBlock.kt
   TipDetailContentBlock.kt
-  DetailActionsRow.kt
-  
-  com.example.a30daysofcalmexecution.ui.settings
+  TipDetailActionsRow.kt
+
+com.example.a30daysofcalmexecution.ui.settings
   SettingsAction.kt
   SettingsRoute.kt
   SettingsScreen.kt
@@ -557,7 +624,7 @@ Repository consumers work with domain models, not DTO or Proto models.
 
 ## Validation and tests
 
-The project has a test suite covering the local data model, repositories, ViewModels, navigation, and first usable Home/Detail flow.
+The project has a test suite covering the local data model, repositories, ViewModels, navigation, and the Home / Detail / adaptive app flow.
 
 ### Catalog validation coverage
 
@@ -607,20 +674,23 @@ Preferences tests verify:
 - selected section mutation;
 - intro seen flag mutation.
 
-### First usable slice coverage
+### Feature coverage
 
 Feature tests cover:
 
 - Home UI rendering;
 - Detail UI rendering;
 - compact navigation behavior;
+- expanded/adaptive rendering behavior;
 - Home ViewModel behavior;
 - Detail ViewModel behavior;
-- consistency of bookmark/completion state between Home and Detail.
+- bookmark/completion consistency between Home and Detail.
 
 ---
 
-## Commands
+## Verification scope
+
+### Commands
 
 Run unit tests:
 
@@ -634,7 +704,13 @@ Assemble debug build:
 ./gradlew assembleDebug --stacktrace
 ```
 
-Run full local verification:
+Assemble Android test APK:
+
+```bash
+./gradlew assembleDebugAndroidTest --stacktrace
+```
+
+Run full local JVM/debug verification:
 
 ```bash
 ./gradlew clean testDebugUnitTest assembleDebug --stacktrace
@@ -645,6 +721,54 @@ Generate Proto classes manually when needed:
 ```bash
 ./gradlew clean generateDebugProto compileDebugKotlin --stacktrace
 ```
+
+### Focused local instrumentation commands
+
+Home UI tests:
+
+```bash
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.home.HomeScreenTest" --stacktrace --no-configuration-cache
+```
+
+Detail UI tests:
+
+```bash
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.detail.TipDetailScreenTest" --stacktrace --no-configuration-cache
+```
+
+Compact navigation tests:
+
+```bash
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.navigation.CompactNavigationTest" --stacktrace --no-configuration-cache
+```
+
+Adaptive app shell tests:
+
+```bash
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.adaptive.AdaptiveAppShellTest" --stacktrace --no-configuration-cache
+```
+
+Expanded list-detail tests:
+
+```bash
+./gradlew connectedDebugAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.example.a30daysofcalmexecution.ui.adaptive.ExpandedListDetailLayoutTest" --stacktrace --no-configuration-cache
+```
+
+### CI vs local verification
+
+| Scope | Verification | CI-backed? | Notes |
+|---|---|---:|---|
+| Unit / JVM tests | `./gradlew testDebugUnitTest --stacktrace` | Yes | Runs in GitHub Actions |
+| Debug build | `./gradlew assembleDebug --stacktrace` | Yes | Runs in GitHub Actions |
+| Android test APK assembly | `./gradlew assembleDebugAndroidTest --stacktrace` | No | Local verification |
+| Home / Detail Compose UI tests | filtered `connectedDebugAndroidTest` | No | Local emulator evidence |
+| Compact navigation tests | filtered `connectedDebugAndroidTest` | No | Local emulator evidence; compact/phone-oriented scope |
+| Adaptive / tablet tests | filtered `connectedDebugAndroidTest` | No | Local emulator evidence |
+| Lint gate | Not configured as CI release gate yet | No | Future hardening |
+| Release build gate | Not configured as CI release gate yet | No | Future public-store hardening |
+| Connected Android tests in CI | Not configured yet | No | Future device-matrix hardening |
+
+The phrase “CI-backed verification” in this README means **unit tests plus debug assembly**, not full connected UI/adaptive/device-matrix testing.
 
 ---
 
@@ -706,29 +830,21 @@ Material 3 direction:
 | Shapes | soft-rectangular, moderately rounded |
 | Dynamic color | default off |
 
-The design-system token layer is integrated. Further polish belongs to product-completeness and release-hardening work.
+The design-system token layer is integrated.
 
 ---
 
-## What is intentionally not implemented yet
+## Current known portfolio caveats
 
-This repository is under active development.
+These are tracked as portfolio/publication cleanup items, not release-blocking product defects:
 
-The main local product experience is implemented, including Home, Detail, Settings, adaptive layout, preview/fake-data support, persisted local state, and the 30-image runtime asset set.
-
-Remaining work is verification and release hardening:
-
-- Settings test coverage;
-- expanded adaptive layout test coverage;
-- asset validation tests;
-- accessibility sanity pass;
-- manual exploratory pass;
-- final polished screenshots / demo video;
-- full release-readiness pass;
-- dependency-state review;
-- release notes and known issues list.
-
-The project is past the first usable slice. Current work is product-complete verification, not core feature construction.
+- screenshots/demo are not committed yet;
+- connected UI, navigation, and adaptive tests are local emulator evidence, not CI-backed evidence;
+- some UI tests are device/orientation scoped and should not be presented as full device-matrix coverage;
+- Gradle/AGP modernization warnings remain;
+- package namespace still uses `com.example.a30daysofcalmexecution`;
+- README and release docs are being synchronized after repo review;
+- release-note completion-behavior wording still requires a separate consistency cleanup commit.
 
 ---
 
@@ -772,15 +888,15 @@ Status: **Done**
 - Home screen;
 - Detail screen;
 - real catalog rendering;
-- bookmark/completion interaction;
+- bookmark interaction;
+- read-only Home completion status;
+- Detail completion mutation;
 - Home/Detail tests;
 - compact navigation tests.
 
 ### Milestone D — Product completeness
 
-Status: **In progress — D1/D2/D3/D4 done, D5 next**
-
-Completed:
+Status: **Done**
 
 - Settings;
 - adaptive layout;
@@ -789,23 +905,27 @@ Completed:
 - finalized image content descriptions;
 - fallback asset support.
 
-Next:
+### Milestone E — Release hardening baseline
 
-- Settings tests;
-- expanded adaptive tests;
-- asset validation tests;
-- accessibility sanity pass;
-- manual exploratory pass.
+Status: **Done for rc1 documentation baseline**
 
-### Milestone E — Release hardening
-
-Status: **Planned**
-
-- regression testing;
-- release build verification;
 - release notes;
 - known issues list;
-- operational checklist.
+- rollback / hotfix path;
+- monitoring / crash-reporting plan;
+- post-release ownership;
+- follow-up review schedule.
+
+### Current cleanup phase
+
+Status: **In progress**
+
+- README truth cleanup;
+- screenshot/demo addition;
+- release-note behavior consistency;
+- test evidence cleanup;
+- build warning cleanup;
+- architecture/portfolio polish.
 
 ---
 
@@ -829,13 +949,16 @@ This project is intended to demonstrate practical Android engineering habits:
 - bookmark/completion state consistency;
 - unit-tested state transitions;
 - Compose UI and navigation tests;
+- adaptive list-detail layout;
 - small commits aligned to implementation milestones;
-- CI-backed verification.
+- CI-backed unit/debug verification.
 
-The next major hiring-facing improvement is **product-complete test coverage + screenshots/demo polish**, not the first visible Compose slice. The first visible slice, Settings, adaptive layout, preview support, and runtime asset pipeline already exist.
+The next major hiring-facing improvement is **portfolio proof polish**: screenshots, demo video, release-note consistency, and clearer public evidence presentation. The core local app implementation already exists.
 
 ---
 
 ## Repository link
 
+```text
 https://github.com/pathstoftech/calm-execution
+```
