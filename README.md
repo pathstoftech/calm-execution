@@ -1038,9 +1038,9 @@ Status: **In progress**
 
 ---
 
-## Hiring signal
+## Engineering and product-readiness signal
 
-This project is intended to demonstrate practical Android engineering habits:
+This project demonstrates practical Android engineering and release-candidate discipline:
 
 - Kotlin-first Android development;
 - Jetpack Compose UI implementation;
@@ -1059,10 +1059,12 @@ This project is intended to demonstrate practical Android engineering habits:
 - unit-tested state transitions;
 - Compose UI and navigation tests;
 - adaptive list-detail layout;
-- small commits aligned to implementation milestones;
+- release-candidate documentation;
+- rollback / hotfix planning;
+- manual monitoring and issue-intake plan;
 - CI-backed unit/debug verification.
 
-The next major readiness improvement is **product-readiness evidence hardening**: screenshots, demo video, release-note consistency, and clearer public evidence presentation. The core local app implementation already exists.
+The next major readiness step is public-store hardening: release signing policy, privacy and Data safety documentation, store listing assets, release-build CI gate, and final distribution evidence.
 
 ---
 
