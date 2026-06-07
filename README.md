@@ -1,12 +1,14 @@
 # 30 Days of Calm Execution
 
-**Kotlin-first Android portfolio project built with Jetpack Compose, Material 3, Hilt, Proto DataStore, Flow, repository-based architecture, and tested local persistence.**
+**Kotlin-first Android app prepared for public-store hardening, built with Jetpack Compose, Material 3, Hilt, Proto DataStore, Flow, repository-based architecture, and tested local persistence.**
 
-`30 Days of Calm Execution` is an Android app that presents a structured 30-day journey of practical work-habit tips.
+`30 Days of Calm Execution` is a Kotlin-first Android app that presents a structured 30-day journey of practical work-habit tips.
 
 The product focus is calm execution: starting work with clarity, protecting attention, reducing reactive habits, sustaining energy, and finishing meaningful work without burnout-style productivity noise.
 
-This repository is being developed as a **hiring-facing Android portfolio project**. It is not presented as a finished public-store consumer app.
+This repository contains the app implementation, release-candidate documentation, local verification evidence, and the remaining public-store hardening path.
+
+The app is implemented as a local-first Android product candidate. It is not yet claimed as a published Google Play production release.
 
 It demonstrates disciplined Android implementation: clean data boundaries, stable domain models, local source of truth, Proto DataStore persistence, repository contracts, Compose UI state, Kotlin tests, adaptive layouts, and incremental milestone-based delivery.
 
@@ -14,20 +16,19 @@ It demonstrates disciplined Android implementation: clean data boundaries, stabl
 
 ## 60-second overview
 
-| Area                      | Current state                                                                                                                     |
-|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| App type                  | Native Android app                                                                                                                |
-| Language                  | Kotlin                                                                                                                            |
-| UI                        | Jetpack Compose + Material 3                                                                                                      |
-| Architecture              | Layered architecture, ViewModel-driven UI state, repository-based data layer                                                      |
-| Persistence               | Proto DataStore for mutable local journey state and preferences                                                                   |
-| Content source            | Bundled JSON catalog with validation                                                                                              |
-| Dependency injection      | Hilt application, repository, DataStore, serialization, and image resolver modules                                                |
-| Implemented milestones    | A - Foundation, B - Local truth, C - First usable slice, D - Product completeness, E - Release hardening baseline                 |
-| Current repo audit status | R-series GitHub repo review complete                                                                                              |
-| Final repo review verdict | Mostly yes                                                                                                                        |
-| Portfolio classification  | Ready after cleanup                                                                                                               |
-| Current cleanup focus     | Portfolio presentation truth-sync: README status, completion behavior wording, release-doc links, and CI/local test-scope clarity |
+| Area                    | Current state                                                                                                                          |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| App type                | Native Android app                                                                                                                     |
+| Product readiness       | Public-store hardening candidate                                                                                                       |
+| Language                | Kotlin                                                                                                                                 |
+| UI                      | Jetpack Compose + Material 3                                                                                                           |
+| Architecture            | Layered architecture, ViewModel-driven UI state, repository-based data layer                                                           |
+| Persistence             | Proto DataStore for mutable local journey state and preferences                                                                        |
+| Content source          | Bundled JSON catalog with validation                                                                                                   |
+| Dependency injection    | Hilt application, repository, DataStore, serialization, and image resolver modules                                                     |
+| Implemented milestones  | A - Foundation, B - Local truth, C - First usable slice, D - Product completeness, E - Release hardening baseline                      |
+| Release baseline        | v1.0.0-rc1 local-first release-candidate documentation baseline                                                                        |
+| Current hardening focus | Release signing policy, privacy/data-safety documentation, store listing assets, release-build verification, and distribution evidence |
 
 The current implementation supports the local product flow:
 
@@ -1051,7 +1052,7 @@ This project is intended to demonstrate practical Android engineering habits:
 - small commits aligned to implementation milestones;
 - CI-backed unit/debug verification.
 
-The next major hiring-facing improvement is **portfolio proof polish**: screenshots, demo video, release-note consistency, and clearer public evidence presentation. The core local app implementation already exists.
+The next major readiness improvement is **portfolio proof polish**: screenshots, demo video, release-note consistency, and clearer public evidence presentation. The core local app implementation already exists.
 
 ---
 
