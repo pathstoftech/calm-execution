@@ -166,7 +166,7 @@ Current status:
 | Unit test baseline                   | Done                       |
 | Local connected UI/adaptive evidence | Done, local emulator scope |
 | Release-hardening docs               | Present                    |
-| Public portfolio presentation        | Needs cleanup              |
+| Public-store hardening evidence      | In progress                |
 
 Current repository verdict:
 
@@ -174,10 +174,10 @@ Current repository verdict:
 Engineering implementation: Strong
 Architecture: Strong
 Behavior verification: Mostly proven, with test-scope cleanup needed
-Build / CI: Functional, but not release-clean
-Public safety: Pass
-Portfolio presentation: Needs cleanup
-Overall: Mostly yes
+Build / CI: Functional for unit/debug baseline; release gate hardening remains
+Public safety: Pass for current local-first baseline
+Public-store hardening: In progress
+Overall: Local-first product candidate prepared for public-store hardening
 ```
 
 ### Completed - Milestone A: Foundation
@@ -278,7 +278,7 @@ Release-hardening docs exist under `docs/release/`:
 - [`post_release_ownership.md`](docs/release/post_release_ownership.md)
 - [`follow_up_review_schedule.md`](docs/release/follow_up_review_schedule.md)
 
-Remaining work is now portfolio cleanup and evidence hardening, not core feature construction.
+Remaining work is now public-store hardening and release evidence work, not core feature construction.
 
 ---
 
@@ -933,17 +933,23 @@ The design-system token layer is integrated.
 
 ---
 
-## Current known portfolio caveats
+## Current public-store hardening gaps
 
-These are tracked as portfolio/publication cleanup items, not release-blocking product defects:
+These items are tracked as public-store hardening work, not core app implementation blockers:
 
-- demo video is not committed yet;
-- connected UI, navigation, and adaptive tests are local emulator evidence, not CI-backed evidence;
-- some UI tests are device/orientation scoped and should not be presented as full device-matrix coverage;
-- Gradle/AGP modernization warnings remain;
-- package namespace still uses `com.pathstoftech.calmexecution`;
-- README and release docs are being synchronized after repo review;
-- release-note completion-behavior wording still requires a separate consistency cleanup commit.
+* release signing policy is not finalized yet;
+* release artifact policy is not finalized yet;
+* privacy policy documentation is not finalized yet;
+* Data safety documentation is not finalized yet;
+* Play Store listing metadata is not finalized yet;
+* store screenshot inventory and optional app walkthrough are not finalized yet;
+* crash reporting / telemetry integration is deferred pending a public-distribution decision;
+* connected UI, navigation, and adaptive tests are local emulator evidence, not CI-backed device-matrix evidence;
+* some UI tests are device/orientation scoped and should not be presented as full device-matrix coverage;
+* release build gate is not yet configured as a CI release gate;
+* connected Android tests are not yet configured in CI;
+* dedicated Settings instrumentation coverage remains future test-hardening work;
+* public-store distribution status is not claimed until store-track evidence exists.
 
 ---
 
@@ -1015,16 +1021,20 @@ Status: **Done for rc1 documentation baseline**
 - post-release ownership;
 - follow-up review schedule.
 
-### Current cleanup phase
+### Current hardening phase
 
 Status: **In progress**
 
-- README truth cleanup;
-- screenshot/demo addition;
-- release-note behavior consistency;
-- test evidence cleanup;
-- build warning cleanup;
-- architecture/portfolio polish.
+* public-store hardening checklist;
+* release signing and artifact policy;
+* privacy policy draft;
+* Data safety assessment;
+* store listing draft;
+* Play distribution plan;
+* release-build verification;
+* release-doc consistency;
+* test evidence hardening;
+* CI release-gate planning.
 
 ---
 
@@ -1052,7 +1062,7 @@ This project is intended to demonstrate practical Android engineering habits:
 - small commits aligned to implementation milestones;
 - CI-backed unit/debug verification.
 
-The next major readiness improvement is **portfolio proof polish**: screenshots, demo video, release-note consistency, and clearer public evidence presentation. The core local app implementation already exists.
+The next major readiness improvement is **product-readiness evidence hardening**: screenshots, demo video, release-note consistency, and clearer public evidence presentation. The core local app implementation already exists.
 
 ---
 
