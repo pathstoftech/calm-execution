@@ -1,4 +1,4 @@
-# Follow-Up Review Schedule — 30 Days of Calm Execution
+# Follow-Up Review Schedule - 30 Days of Calm Execution
 
 Status: Done  
 Milestone: E5 Post-release readiness  

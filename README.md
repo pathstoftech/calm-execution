@@ -23,7 +23,7 @@ It demonstrates disciplined Android implementation: clean data boundaries, stabl
 | Persistence               | Proto DataStore for mutable local journey state and preferences                                                                   |
 | Content source            | Bundled JSON catalog with validation                                                                                              |
 | Dependency injection      | Hilt application, repository, DataStore, serialization, and image resolver modules                                                |
-| Implemented milestones    | A — Foundation, B — Local truth, C — First usable slice, D — Product completeness, E — Release hardening baseline                 |
+| Implemented milestones    | A - Foundation, B - Local truth, C - First usable slice, D - Product completeness, E - Release hardening baseline                 |
 | Current repo audit status | R-series GitHub repo review complete                                                                                              |
 | Final repo review verdict | Mostly yes                                                                                                                        |
 | Portfolio classification  | Ready after cleanup                                                                                                               |
@@ -31,7 +31,7 @@ It demonstrates disciplined Android implementation: clean data boundaries, stabl
 
 The current implementation supports the local product flow:
 
-**browse the 30-day journey → open a tip detail screen → bookmark a tip → complete a tip from Detail or selected expanded Detail → adjust app preferences → use compact or expanded layouts → keep local state consistent through repositories and Proto DataStore.**
+**browse the 30-day journey -> open a tip detail screen -> bookmark a tip -> complete a tip from Detail or selected expanded Detail -> adjust app preferences -> use compact or expanded layouts -> keep local state consistent through repositories and Proto DataStore.**
 
 ---
 
@@ -142,7 +142,7 @@ These screenshots are captured from the debug build and show the current portfol
 |--------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
 | ![Settings screen with theme and preference controls](docs/screenshots/settings.png) | ![Expanded tablet layout showing the journey feed and selected detail pane](docs/screenshots/expanded_tablet.png) |
 
-The screenshots are committed as repository documentation assets under `docs/screenshots/` so reviewers can understand the app’s UI without building the project locally.
+The screenshots are committed as repository documentation assets under `docs/screenshots/` so reviewers can understand the app's UI without building the project locally.
 
 ---
 
@@ -179,7 +179,7 @@ Portfolio presentation: Needs cleanup
 Overall: Mostly yes
 ```
 
-### Completed — Milestone A: Foundation
+### Completed - Milestone A: Foundation
 
 - Android project baseline;
 - Gradle / AGP / Kotlin / Compose setup;
@@ -197,7 +197,7 @@ Overall: Mostly yes
 - catalog validation tests;
 - actual bundled catalog validation.
 
-### Completed — Milestone B: Local truth
+### Completed - Milestone B: Local truth
 
 - `journey_state.proto`;
 - `user_preferences.proto`;
@@ -212,7 +212,7 @@ Overall: Mostly yes
 - Hilt modules for app, data, repositories, DataStore, serialization, and image resolving;
 - repository and failure-path tests.
 
-### Completed — Milestone C: First usable slice
+### Completed - Milestone C: First usable slice
 
 - Material 3 design-system integration;
 - app token layer for colors, typography, shapes, spacing, elevation, and motion;
@@ -240,7 +240,7 @@ Overall: Mostly yes
 - compact navigation tests;
 - Home / Detail ViewModel tests.
 
-### Completed — Milestone D: Product completeness
+### Completed - Milestone D: Product completeness
 
 - Settings state, actions, ViewModel, route, and screen;
 - theme mode preference row;
@@ -266,7 +266,7 @@ Overall: Mostly yes
 - finalized image content descriptions;
 - fallback asset support.
 
-### Completed — Milestone E: Release-hardening baseline
+### Completed - Milestone E: Release-hardening baseline
 
 Release-hardening docs exist under `docs/release/`:
 
@@ -316,9 +316,9 @@ compileSdk: 36.1
 
 The app is intentionally small, local-first, and state-driven. The architecture separates three different kinds of truth:
 
-1. **Immutable editorial catalog** — the 30 bundled tips, section metadata, categories, image keys, and accessibility descriptions.
-2. **Mutable journey state** — viewed tips, completion status, bookmarks, timestamps, and progress.
-3. **Mutable app preferences** — theme mode, dynamic color, reduced motion, selected section, and intro state.
+1. **Immutable editorial catalog** - the 30 bundled tips, section metadata, categories, image keys, and accessibility descriptions.
+2. **Mutable journey state** - viewed tips, completion status, bookmarks, timestamps, and progress.
+3. **Mutable app preferences** - theme mode, dynamic color, reduced motion, selected section, and intro state.
 
 Those concerns move through separate data paths and meet only in ViewModel-produced UI state.
 
@@ -326,18 +326,12 @@ High-level shape:
 
 ```text
 Compose UI
-        ↓
-Route composables
-        ↓
-Screen composables
-        ↓
-ViewModels
-        ↓
-Repository interfaces
-        ↓
-Data sources / mappers / serializers
-        ↓
-Bundled JSON / Proto DataStore / drawable resources
+  -> Route composables
+  -> Screen composables
+  -> ViewModels
+  -> Repository interfaces
+  -> Data sources / mappers / serializers
+  -> Bundled JSON / Proto DataStore / drawable resources
 ```
 
 ### Data flow boundaries
@@ -346,50 +340,34 @@ Catalog flow:
 
 ```text
 res/raw/tips_catalog.json
-        ↓
-RawResourceCatalogDataSource
-        ↓
-CatalogDto / SectionDto / TipDto
-        ↓
-CatalogValidator
-        ↓
-CatalogMapper
-        ↓
-CatalogRepository
-        ↓
-JourneyCatalog / Tip / TipSection
+  -> RawResourceCatalogDataSource
+  -> CatalogDto / SectionDto / TipDto
+  -> CatalogValidator
+  -> CatalogMapper
+  -> CatalogRepository
+  -> JourneyCatalog / Tip / TipSection
 ```
 
 Journey state flow:
 
 ```text
 Proto DataStore
-        ↓
-JourneyStateSerializer
-        ↓
-JourneyDataSource
-        ↓
-JourneyStateMapper
-        ↓
-JourneyRepository
-        ↓
-JourneyUserState / TipUserState
+  -> JourneyStateSerializer
+  -> JourneyDataSource
+  -> JourneyStateMapper
+  -> JourneyRepository
+  -> JourneyUserState / TipUserState
 ```
 
 Preferences flow:
 
 ```text
 Proto DataStore
-        ↓
-UserPreferencesSerializer
-        ↓
-PreferencesDataSource
-        ↓
-PreferencesMapper
-        ↓
-PreferencesRepository
-        ↓
-UserPreferences
+  -> UserPreferencesSerializer
+  -> PreferencesDataSource
+  -> PreferencesMapper
+  -> PreferencesRepository
+  -> UserPreferences
 ```
 
 UI code consumes domain-facing repository output through ViewModels. It does not read raw JSON, Proto classes, DataStore instances, or Android resources directly.
@@ -472,9 +450,9 @@ Compact mode uses destination navigation:
 
 ```text
 HomeRoute
-        ↓ open TipId
+  -> open TipId
 TipDetailRoute
-        ↓ back
+  -> back
 HomeRoute
 ```
 
@@ -482,20 +460,17 @@ Expanded mode uses list-detail presentation:
 
 ```text
 ExpandedJourneyRoute
-        ├── Home feed pane
-        └── selected Detail pane
+  |-- Home feed pane
+  `-- selected Detail pane
 ```
 
 The expanded route reuses the Home feed state and the Detail UI model. Selecting a tip changes selected-detail state; it does not create a second catalog source, second progress model, or second persistence path.
 
 ```text
 Same repositories
-        ↓
-Same domain models
-        ↓
-Same ViewModel-owned state
-        ↓
-Compact destination UI or expanded list-detail UI
+  -> Same domain models
+  -> Same ViewModel-owned state
+  -> Compact destination UI or expanded list-detail UI
 ```
 
 This is why compact and expanded layouts can show the same bookmarks, completion state, selected tip, and catalog content without synchronization glue.
@@ -891,7 +866,7 @@ Expanded list-detail tests:
 | Release build gate             | Not configured as CI release gate yet             |         No | Future public-store hardening                                                                               |
 | Connected Android tests in CI  | Not configured yet                                |         No | Future device-matrix hardening                                                                              |
 
-The phrase “CI-backed verification” in this README means **unit tests plus debug assembly**, not full connected UI/adaptive/device-matrix testing.
+The phrase "CI-backed verification" in this README means **unit tests plus debug assembly**, not full connected UI/adaptive/device-matrix testing.
 
 ---
 
@@ -973,7 +948,7 @@ These are tracked as portfolio/publication cleanup items, not release-blocking p
 
 ## Roadmap
 
-### Milestone A — Foundation
+### Milestone A - Foundation
 
 Status: **Done**
 
@@ -986,7 +961,7 @@ Status: **Done**
 - catalog repository;
 - validation tests.
 
-### Milestone B — Local truth
+### Milestone B - Local truth
 
 Status: **Done**
 
@@ -1002,7 +977,7 @@ Status: **Done**
 - DI modules;
 - repository verification tests.
 
-### Milestone C — First usable slice
+### Milestone C - First usable slice
 
 Status: **Done**
 
@@ -1017,7 +992,7 @@ Status: **Done**
 - Home/Detail tests;
 - compact navigation tests.
 
-### Milestone D — Product completeness
+### Milestone D - Product completeness
 
 Status: **Done**
 
@@ -1028,7 +1003,7 @@ Status: **Done**
 - finalized image content descriptions;
 - fallback asset support.
 
-### Milestone E — Release hardening baseline
+### Milestone E - Release hardening baseline
 
 Status: **Done for rc1 documentation baseline**
 
@@ -1068,7 +1043,7 @@ This project is intended to demonstrate practical Android engineering habits:
 - ViewModel-owned screen state;
 - catalog validation for bundled product content;
 - stable identifiers instead of fragile display-order identity;
-- Home → Detail navigation with stable route arguments;
+- Home -> Detail navigation with stable route arguments;
 - bookmark/completion state consistency;
 - unit-tested state transitions;
 - Compose UI and navigation tests;

@@ -1,4 +1,4 @@
-# Post-Release Ownership — 30 Days of Calm Execution
+# Post-Release Ownership - 30 Days of Calm Execution
 
 Status: Done  
 Milestone: E5 Post-release readiness  
@@ -54,7 +54,7 @@ Open High defects: 0
 
 ## Named post-release workstreams
 
-### PR-001 — Build modernization
+### PR-001 - Build modernization
 
 Primary owner: Build/CI engineer  
 Reviewer: Tech lead  
@@ -83,7 +83,7 @@ Build runs without known Gradle/AGP deprecation warnings, or warnings are reclas
 
 ---
 
-### PR-002 — Dependency modernization
+### PR-002 - Dependency modernization
 
 Primary owner: Build/CI engineer  
 Reviewer: Android engineer / Tech lead  
@@ -111,7 +111,7 @@ Full regression suite passes after any dependency changes.
 
 ---
 
-### PR-003 — Accessibility refinement
+### PR-003 - Accessibility refinement
 
 Primary owner: Accessibility reviewer  
 Reviewer: Android engineer / Product owner  
@@ -141,7 +141,7 @@ Accessibility improvements are implemented without regressing TalkBack flow, lar
 
 ---
 
-### PR-004 — Adaptive layout / navigation stress testing
+### PR-004 - Adaptive layout / navigation stress testing
 
 Primary owner: Android engineer  
 Reviewer: QA engineer / Tech lead  
@@ -149,7 +149,7 @@ Priority: P2 unless reproduced as user-visible defect
 
 Scope:
 
-- stress-test compact ↔ expanded transitions
+- stress-test compact <-> expanded transitions
 - test foldable-style resize behavior
 - test split-screen resizing
 - verify NavHost continuity
@@ -168,7 +168,7 @@ Adaptive transition behavior is either confirmed stable or redesigned with passi
 
 ---
 
-### PR-005 — Settings instrumentation coverage
+### PR-005 - Settings instrumentation coverage
 
 Primary owner: QA engineer  
 Reviewer: Android engineer  
@@ -195,7 +195,7 @@ SettingsScreenTest exists under androidTest and passes in the compact connected 
 
 ---
 
-### PR-006 — Public store readiness
+### PR-006 - Public store readiness
 
 Primary owner: Product owner  
 Reviewer: Tech lead / Build/CI engineer  
@@ -225,7 +225,7 @@ A public-store release checklist exists and is approved before any public distri
 
 ---
 
-### PR-007 — Runtime monitoring / crash-reporting plan
+### PR-007 - Runtime monitoring / crash-reporting plan
 
 Primary owner: Tech lead  
 Reviewer: Product owner  

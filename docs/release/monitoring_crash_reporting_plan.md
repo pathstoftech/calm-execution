@@ -1,4 +1,4 @@
-# Monitoring / Crash-Reporting Plan — 30 Days of Calm Execution
+# Monitoring / Crash-Reporting Plan - 30 Days of Calm Execution
 
 Status: Done  
 Milestone: E5 Post-release readiness  
@@ -209,7 +209,7 @@ Decision: reject / defer / fix / hotfix
 Suggested issue template:
 
 ```markdown
-# Issue Report — 30 Days of Calm Execution
+# Issue Report - 30 Days of Calm Execution
 
 ## Summary
 
@@ -472,7 +472,7 @@ If expanded/tablet distribution is relevant:
 2. Select a TipCard.
 3. Confirm right pane opens.
 4. Confirm selected card is visually indicated.
-5. Activate “← Journey feed”.
+5. Activate "<- Journey feed".
 6. Confirm feed becomes reachable again.
 ```
 

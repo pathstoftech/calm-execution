@@ -1,4 +1,4 @@
-# Rollback / Hotfix Path — 30 Days of Calm Execution
+# Rollback / Hotfix Path - 30 Days of Calm Execution
 
 Status: Done  
 Milestone: E5 Post-release readiness  
@@ -266,7 +266,7 @@ Which tests are required?
 Which tag will be created if validation passes?
 ```
 
-This prevents the classic “small fix” that quietly becomes a dependency migration, a layout rewrite, and a small house fire.
+This prevents the classic "small fix" that quietly becomes a dependency migration, a layout rewrite, and a small house fire.
 
 ## Decision
 
