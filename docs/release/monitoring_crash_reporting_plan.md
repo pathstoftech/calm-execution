@@ -1,10 +1,11 @@
 # Monitoring / Crash-Reporting Plan - 30 Days of Calm Execution
 
-Status: Done  
-Milestone: E5 Post-release readiness  
-Task: E5-03 Define monitoring / crash-reporting plan  
-Owner: Tech lead  
-Reviewer: QA engineer  
+Status: Done for rc1 manual monitoring baseline
+Milestone: E5 Post-release readiness
+Public-store hardening status: Runtime crash-reporting / telemetry decision deferred
+Task: E5-03 Define monitoring / crash-reporting plan
+Owner: Tech lead
+Reviewer: QA engineer
 Baseline tag: `v1.0.0-rc1`
 
 ## Scope
@@ -13,7 +14,17 @@ This document defines the monitoring and crash-reporting plan for the `v1.0.0-rc
 
 This task does not add runtime telemetry, analytics, crash-reporting SDKs, networking, account systems, or remote monitoring.
 
-For V1, monitoring is intentionally lightweight and manual because the release candidate is a local / portfolio release baseline, not a public store production rollout.
+For V1, monitoring is intentionally lightweight and manual because the release candidate is a local-first release-candidate baseline prepared for public-store hardening, not a published public-store app.
+
+## Current monitoring posture
+
+`v1.0.0-rc1` uses manual monitoring and issue intake.
+
+No runtime crash-reporting SDK, analytics SDK, or telemetry SDK is integrated in the current app baseline.
+
+This is intentional for the local-first release-candidate baseline. The app does not currently claim Google Play production readiness, public-store distribution, or production runtime observability.
+
+Future crash-reporting or telemetry integration is a public-store hardening decision. That decision must be made together with privacy policy documentation, Data safety assessment, user consent expectations, dependency review, and release-build verification.
 
 ## Release baseline
 
@@ -53,7 +64,7 @@ No runtime crash-reporting SDK is added for `v1.0.0-rc1`.
 Reason:
 
 ```text
-The app is a local-first V1 release candidate with no account system, no backend, no remote sync, and no public production telemetry requirement.
+The app is a local-first release-candidate baseline prepared for public-store hardening with no account system, no backend, no remote sync, and no public production telemetry requirement.
 Adding a crash-reporting SDK at this stage would reopen build, privacy, dependency, and regression scope.
 ```
 
@@ -476,6 +487,30 @@ If expanded/tablet distribution is relevant:
 6. Confirm feed becomes reachable again.
 ```
 
+## Public-store hardening decision gate
+
+Before any public-store production-readiness claim, the project must decide whether to keep manual issue intake or integrate runtime crash reporting.
+
+If runtime crash reporting or telemetry is added, the change must include:
+
+- SDK selection and dependency review;
+- privacy policy update;
+- Data safety assessment update;
+- user-facing disclosure review;
+- release-build verification;
+- regression test pass;
+- rollback / hotfix impact review.
+
+Until that decision is made, the documented state is:
+
+```text
+Crash-reporting SDK: not integrated
+Analytics SDK: not integrated
+Telemetry SDK: not integrated
+Monitoring model: manual issue intake
+Production observability claim: not made
+```
+
 ## Future crash-reporting option
 
 A runtime crash-reporting SDK may be considered in a future release only after a separate decision record covers:
@@ -521,7 +556,7 @@ Until that decision is made, V1 uses manual issue intake and local reproduction.
 
 E5-03 passes.
 
-Monitoring and crash-reporting plan is defined for `v1.0.0-rc1`.
+This monitoring plan applies to the current local-first release-candidate baseline prepared for public-store hardening. It does not claim production runtime monitoring for a published public-store app.
 
-The release candidate uses manual monitoring and issue intake. Runtime crash-reporting SDK integration is deferred to public-store readiness or broader distribution planning.
+The release-candidate baseline uses manual monitoring and issue intake. Runtime crash-reporting SDK integration is deferred to a public-store hardening decision.
 
