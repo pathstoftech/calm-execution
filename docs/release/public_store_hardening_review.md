@@ -76,7 +76,7 @@ Finished public-store app.
 | AAB output                   | `app/build/outputs/bundle/release/app-release.aab`                             | Generated             |
 | AAB SHA-256                  | `BE638F9FF82E8A252C84C9FE6A4F398B5D542E0A096B306C6A57E96B618A4D13`             | Recorded              |
 | Native strip warning         | AndroidX/DataStore native library strip warning                                | Accepted non-blocking |
-| Release CI gate              | Release build not configured as CI gate                                        | Pending               |
+| Release CI gate              | `assembleRelease` configured in GitHub Actions and verified by passing workflow run | Verified              |
 | Connected UI tests           | Local emulator evidence exists                                                 | Not CI-backed         |
 | Device matrix                | Not configured                                                                 | Pending               |
 
@@ -148,7 +148,7 @@ The following remain required before any Google Play production-readiness claim:
 * Play App Signing / upload key decision;
 * release artifact signing process;
 * final release artifact retention policy;
-* release-build CI gate;
+* release-build CI hardening (AAB/signing);
 * final no-secrets scan before signing changes;
 * final privacy policy text and contact route;
 * final Data safety assessment;
@@ -223,7 +223,7 @@ Rollback/hotfix path documented.
 | Backup behavior assumed silently          | Backup/data extraction decision is explicitly pending                             |
 | Font provider behavior ignored            | Google Fonts provider review is explicitly pending                                |
 | Monitoring overclaim                      | Runtime crash/telemetry SDKs are not integrated; manual model documented          |
-| CI overclaim                              | CI-backed verification remains unit/debug scope; release CI gate pending          |
+| CI overclaim                              | CI-backed verification remains unit/debug/release scope; release CI gate for AAB and signing is yet to be configured |
 | Distribution overclaim                    | Play account/track/production access statuses are marked not assessed or pending  |
 
 ## Final review verdict

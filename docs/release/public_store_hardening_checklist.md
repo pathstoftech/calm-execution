@@ -86,7 +86,7 @@ Target SDK evidence is directionally compatible with public-store hardening, but
 | Release APK       | `./gradlew clean testDebugUnitTest assembleDebug assembleRelease --stacktrace` passed locally; `app/build/outputs/apk/release/app-release-unsigned.apk` generated; SHA-256 `BEBE8B969B815A756102B1DF77D1124AFC01830B0C789AC3E1F145E733ADD545` recorded | Keep as release build-path evidence, not Play distribution proof | Verified | Re-run before final distribution claim                          |
 | Release AAB       | `./gradlew bundleRelease --stacktrace` passed locally; `app/build/outputs/bundle/release/app-release.aab` generated; SHA-256 `BE638F9FF82E8A252C84C9FE6A4F398B5D542E0A096B306C6A57E96B618A4D13` recorded | Stronger Play-distribution build-path evidence, but still not signing, Play upload, or production-readiness proof | Verified | Re-run after signing policy and before final distribution claim |
 | Artifact checksum | Rollback/hotfix plan defines SHA-256 recording                                                                              | Required for release candidates                                  | Present  | Record for verified artifact                                    |
-| Release CI gate   | Not configured as CI release gate                                                                                           | Required before stronger readiness claim                         | Pending  | Add CI release build gate later                                 |
+| Release CI gate   | `assembleRelease` configured in GitHub Actions                                                                             | Required before stronger readiness claim                         | Verified | AAB and signing gates remain future hardening work              |
 | Minification      | Release minification disabled                                                                                               | Must be accepted or changed before production Play claim         | Pending  | Define R8/minification policy                                   |
 
 Current classification:
@@ -95,7 +95,7 @@ Current classification:
 Debug baseline: present
 Release APK path: verified locally for PSR-021 with unsigned release APK output and SHA-256 recorded
 AAB path: verified locally for PSR-022 with release AAB output and SHA-256 recorded
-Release CI gate: pending
+Release CI gate: verified for assembleRelease
 ```
 
 ---
@@ -104,9 +104,9 @@ Release CI gate: pending
 
 | Item                          | Current evidence                            | Required before public-store claim | Status       | Follow-up                            |
 |-------------------------------|---------------------------------------------|------------------------------------|--------------|--------------------------------------|
-| Debug signing distinction     | Debug builds are not distribution artifacts | Must be documented                 | Pending      | Create `release_signing_policy.md`   |
-| Release signing config        | Not finalized as public distribution policy | Required                           | Pending      | Define local and Play signing policy |
-| Keystore handling             | No keystore should be committed             | Required                           | Pending      | Add explicit policy and secret scan  |
+| Debug signing distinction     | Debug builds are not distribution artifacts | Must be documented                 | Present      | See `release_signing_policy.md`      |
+| Release signing config        | Draft policy exists                         | Required                           | Draft        | Define local and Play signing policy |
+| Keystore handling             | No keystore should be committed             | Required                           | Present      | Add explicit policy and secret scan  |
 | Play App Signing / upload key | Not assessed                                | Required before Play release       | Not assessed | Decide Play signing process          |
 | Artifact ownership            | Not finalized                               | Required                           | Pending      | Define owner and storage rules       |
 
@@ -122,9 +122,9 @@ Release signing is a public-store hardening gap. No public-store readiness claim
 
 | Item                          | Current evidence        | Required before public-store claim           | Status  | Follow-up                                         |
 |-------------------------------|-------------------------|----------------------------------------------|---------|---------------------------------------------------|
-| Privacy policy draft          | Not yet present         | Required                                     | Pending | Create `privacy_policy_draft.md`                  |
-| User-facing privacy statement | Not yet present         | Required before public distribution          | Pending | Decide README, app, or hosted policy path         |
-| Data collection summary       | App appears local-first | Must be documented                           | Pending | Complete privacy/data assessment                  |
+| Privacy policy draft          | Draft document exists   | Required                                     | Draft   | See `privacy_policy_draft.md`                     |
+| User-facing privacy statement | Draft exists            | Required before public distribution          | Draft   | See `privacy_policy_draft.md`                     |
+| Data collection summary       | App appears local-first | Must be documented                           | Present | Complete privacy/data assessment                  |
 | User controls                 | Reset progress exists   | Must document exact reset scope              | Pending | Verify reset clears what data                     |
 | Support contact               | Not finalized           | Required for store listing / privacy contact | Pending | Define support contact placeholder or final value |
 
@@ -140,10 +140,10 @@ The app appears local-first and low-data-risk, but privacy documentation is not 
 
 | Item                       | Current evidence                          | Required before public-store claim | Status               | Follow-up                                  |
 |----------------------------|-------------------------------------------|------------------------------------|----------------------|--------------------------------------------|
-| Data safety assessment doc | Not yet present                           | Required                           | Pending              | Create `data_safety_assessment.md`         |
-| Personal data collection   | Likely none, but must verify              | Required                           | Pending              | Manifest, dependency, source review        |
-| Data sharing               | Likely none, but must verify              | Required                           | Pending              | Confirm no backend/network SDK             |
-| Analytics SDK              | No analytics SDK documented               | Required                           | Pending verification | Dependency scan                            |
+| Data safety assessment doc | Draft document exists                     | Required                           | Draft                | See `data_safety_assessment.md`            |
+| Personal data collection   | Likely none, but must verify              | Required                           | Present              | See `data_safety_assessment.md`            |
+| Data sharing               | Likely none, but must verify              | Required                           | Present              | See `data_safety_assessment.md`            |
+| Analytics SDK              | No analytics SDK documented               | Required                           | Verified             | See `data_safety_assessment.md`            |
 | Crash-reporting SDK        | Not integrated by current monitoring plan | Present                            | Keep documented      |                                            |
 | Telemetry SDK              | Not integrated by current monitoring plan | Present                            | Keep documented      |                                            |
 | Local state inventory      | Journey state and preferences documented  | Required                           | Pending              | List exact stored fields                   |
@@ -166,8 +166,8 @@ Required next step: formal assessment document.
 | Item                    | Current evidence          | Required before public-store claim | Status                      | Follow-up                       |
 |-------------------------|---------------------------|------------------------------------|-----------------------------|---------------------------------|
 | App name                | 30 Days of Calm Execution | Present                            | Confirm final listing title |                                 |
-| Short description       | Not finalized             | Required                           | Pending                     | Create `store_listing_draft.md` |
-| Full description        | Not finalized             | Required                           | Pending                     | Create `store_listing_draft.md` |
+| Short description       | Draft exists              | Required                           | Draft                       | See `store_listing_draft.md`    |
+| Full description        | Draft exists              | Required                           | Draft                       | See `store_listing_draft.md`    |
 | Category                | Not finalized             | Required                           | Pending                     | Select category                 |
 | Tags / keywords         | Not finalized             | Required                           | Pending                     | Draft listing metadata          |
 | Support contact         | Not finalized             | Required                           | Pending                     | Define support contact          |
@@ -205,7 +205,7 @@ Repository screenshots are present, but store listing screenshot inventory is no
 
 | Item                        | Current evidence | Required before public-store claim          | Status       | Follow-up                             |
 |-----------------------------|------------------|---------------------------------------------|--------------|---------------------------------------|
-| Internal testing track      | Not assessed     | Required before Play testing path           | Not assessed | Create `play_distribution_plan.md`    |
+| Internal testing track      | Draft plan exists | Required before Play testing path           | Draft        | See `play_distribution_plan.md`       |
 | Closed testing track        | Not assessed     | May be required depending on account status | Not assessed | Document account-specific requirement |
 | Production access           | Not assessed     | Required before production Play claim       | Not assessed | Document Play Console status          |
 | Tester evidence             | Not present      | Required if closed testing applies          | Pending      | Document later                        |
@@ -245,16 +245,16 @@ Crash reporting / telemetry integration is deferred to public-store hardening.
 |-------------------------------|-----------------------------------|------------------------------------------|---------|---------------------------|
 | Unit tests in CI              | Present                           | Keep                                     | Present |                           |
 | Debug assembly in CI          | Present                           | Keep                                     | Present |                           |
-| Release build in CI           | Not configured                    | Required before stronger readiness claim | Pending | Add CI release gate       |
-| Connected tests in CI         | Not configured                    | Future device-matrix hardening           | Pending | Decide CI/device strategy |
-| Lint gate                     | Not configured as CI release gate | Future hardening                         | Pending | Decide lint baseline      |
+| Release build in CI           | `assembleRelease` configured in GitHub Actions | Required before stronger readiness claim | Verified | Release build-path only             |
+| Connected tests in CI         | Not configured                                 | Future device-matrix hardening           | Pending  | Decide CI/device strategy           |
+| Lint gate                     | Not configured as CI release gate              | Future hardening                         | Pending  | Decide lint baseline                |
 | Local connected test evidence | Present, emulator-scoped          | Keep but do not overclaim                | Present |                           |
 | Medium Tablet evidence        | Present, local emulator           | Keep but do not overclaim                | Present |                           |
 
 Decision:
 
 ```text
-CI-backed verification currently means unit tests plus debug assembly. Connected and adaptive evidence remains local emulator evidence.
+CI-backed verification currently means unit tests, debug assembly, and release APK assembly. Connected and adaptive evidence remains local emulator evidence. AAB, signing, Play upload, and production-readiness gates remain future hardening work.
 ```
 
 ---
@@ -276,13 +276,13 @@ CI-backed verification currently means unit tests plus debug assembly. Connected
 
 | Document                                           | Purpose                             | Status                |
 |----------------------------------------------------|-------------------------------------|-----------------------|
-| `docs/release/public_store_hardening_checklist.md` | Master readiness checklist          | Present after PSR-012 |
-| `docs/release/privacy_policy_draft.md`             | Draft user-facing privacy basis     | Pending               |
-| `docs/release/data_safety_assessment.md`           | Play Data safety evidence           | Pending               |
-| `docs/release/release_signing_policy.md`           | Release signing and artifact policy | Pending               |
-| `docs/release/store_listing_draft.md`              | Consumer-facing listing copy        | Pending               |
-| `docs/release/play_distribution_plan.md`           | Internal / closed / production path | Pending               |
-| `docs/release/public_store_hardening_review.md`    | Optional final readiness summary    | Optional later        |
+| `docs/release/public_store_hardening_checklist.md` | Master readiness checklist          | Present |
+| `docs/release/privacy_policy_draft.md`             | Draft user-facing privacy basis     | Draft   |
+| `docs/release/data_safety_assessment.md`           | Play Data safety evidence           | Draft   |
+| `docs/release/release_signing_policy.md`           | Release signing and artifact policy | Draft   |
+| `docs/release/store_listing_draft.md`              | Consumer-facing listing copy        | Draft   |
+| `docs/release/play_distribution_plan.md`           | Internal / closed / production path | Draft   |
+| `docs/release/public_store_hardening_review.md`    | Final readiness summary             | Present |
 
 ---
 
@@ -290,21 +290,28 @@ CI-backed verification currently means unit tests plus debug assembly. Connected
 
 Required before any Google Play production-readiness claim:
 
-* release signing policy;
-* release artifact policy;
-* fresh release APK verification;
-* AAB / bundle verification if Play distribution is pursued;
-* privacy policy documentation;
-* Data safety assessment;
-* explicit backup/data extraction decision;
-* store listing metadata;
-* store screenshot inventory;
+* final release signing decision;
+* Play App Signing / upload key decision;
+* release artifact signing process;
+* final release artifact retention policy;
+* release-build CI hardening (AAB/signing);
+* final no-secrets scan before signing changes;
+* final privacy policy text and contact route;
+* final Data safety form;
+* backup/data extraction policy decision for Proto DataStore state;
+* Google Fonts / downloadable-font provider privacy review;
+* final dependency and SDK privacy review;
 * support contact;
-* Play distribution plan;
+* store listing final copy;
+* final store screenshot inventory;
+* content rating questionnaire;
+* target audience questionnaire;
+* Play developer account status check;
+* internal / closed testing setup, if distribution proceeds;
+* production access status check;
 * distribution-track evidence;
-* release-build CI gate;
-* telemetry / crash-reporting decision;
-* final public-store hardening review.
+* monitoring / crash-reporting / telemetry decision;
+* final known-issues review before public distribution.
 
 Backup/data extraction remains pending until the project decides whether Proto DataStore journey state and preferences are included in or excluded from Android backup and device-transfer behavior.
 

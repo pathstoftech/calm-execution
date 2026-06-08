@@ -20,7 +20,8 @@ Current release-signing posture:
 ```text
 Debug builds: development/test artifacts only
 Release APK: release-candidate artifact path, not automatically public distribution
-Release AAB: pending verification / future Play distribution evidence
+Release AAB: local build-path evidence verified; not Play distribution proof
+Release build CI gate: assembleRelease configured in GitHub Actions
 Release signing policy: draft / pending final decision
 Signing keys in repository: not allowed
 Keystore files in repository: not allowed
@@ -57,7 +58,7 @@ The project distinguishes between implementation verification and distribution e
 | ----------- | ------------------------------------------ | ---------------------------------------------------------------------------- |
 | Debug APK   | Development and verification artifact      | Not for public distribution                                                  |
 | Release APK | Release-candidate verification artifact    | May be generated for local release checks, not final Play evidence by itself |
-| Release AAB | Future Play distribution artifact evidence | Pending verification and signing policy                                      |
+| Release AAB | Local release build-path evidence | Generated and checksummed locally; not Play distribution proof without signing, Play upload, and final policy |
 | Checksums   | Artifact integrity evidence                | Required for release candidates                                              |
 | Git tag     | Source baseline evidence                   | Required for release candidates                                              |
 
@@ -226,9 +227,11 @@ Current CI status:
 
 ```text
 Debug unit/build CI: present
-Release build CI gate: pending
+Release build CI gate: assembleRelease configured in GitHub Actions
 Release signing in CI: not configured
 CI signing secrets: not configured
+AAB CI gate: not configured
+Play upload: not configured
 ```
 
 Before release signing is added to CI, define:
@@ -313,11 +316,11 @@ Release signing and artifact governance gaps remaining:
 * key storage;
 * key recovery process;
 * CI release signing decision;
-* release AAB verification;
+* AAB CI gate / signed AAB policy;
 * release artifact checksum record;
 * release artifact retention policy;
 * final no-secrets scan;
-* release-build CI gate.
+* release-build CI hardening (AAB/signing).
 
 ## Current decision
 

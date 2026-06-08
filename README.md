@@ -133,7 +133,7 @@ The Settings screen supports:
 
 ## Screenshots
 
-These screenshots are captured from the debug build and show the current portfolio-facing UI state.
+These screenshots are captured from the debug build and show the current app UI state.
 
 | Home                                                                                     | Detail                                                                       |
 |------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
@@ -174,7 +174,7 @@ Current repository verdict:
 Engineering implementation: Strong
 Architecture: Strong
 Behavior verification: Mostly proven, with test-scope cleanup needed
-Build / CI: Functional for unit/debug baseline; release gate hardening remains
+Build / CI: Functional for unit/debug baseline; Release APK assembly is configured in GitHub Actions. Signing, AAB CI, Play upload, connected device tests, and production-readiness gates remain future hardening work.
 Public safety: Pass for current local-first baseline
 Public-store hardening: In progress
 Overall: Local-first product candidate prepared for public-store hardening
@@ -1035,7 +1035,7 @@ Status: **In progress**
 * release-build verification;
 * release-doc consistency;
 * test evidence hardening;
-* CI release-gate planning.
+* CI release-gate hardening (AAB/signing).
 
 ---
 
@@ -1065,7 +1065,7 @@ This project demonstrates practical Android engineering and release-candidate di
 - manual monitoring and issue-intake plan;
 - CI-backed unit/debug/release-APK verification.
 
-The next major readiness step is public-store hardening: release signing policy, privacy and Data safety documentation, store listing assets, release-build CI gate, and final distribution evidence.
+The next major readiness step is public-store hardening: release signing policy, privacy and Data safety documentation, store listing assets, release-build CI hardening (AAB/signing), and final distribution evidence.
 
 ---
 
