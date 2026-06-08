@@ -864,10 +864,10 @@ Expanded list-detail tests:
 | Compact navigation tests       | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence; compact/phone portrait-scoped; `CompactNavigationTest` forces portrait orientation |
 | Adaptive / tablet tests        | filtered `connectedDebugAndroidTest`              |         No | Local emulator evidence                                                                                     |
 | Lint gate                      | Not configured as CI release gate yet             |         No | Future hardening                                                                                            |
-| Release build gate             | Not configured as CI release gate yet             |         No | Future public-store hardening                                                                               |
+| Release build gate             | `assembleRelease` configured in GitHub Actions       |        Yes | Release build-path gate only; not signing, AAB, Play upload, or production-readiness evidence |
 | Connected Android tests in CI  | Not configured yet                                |         No | Future device-matrix hardening                                                                              |
 
-The phrase "CI-backed verification" in this README means **unit tests plus debug assembly**, not full connected UI/adaptive/device-matrix testing.
+The phrase "CI-backed verification" in this README means **unit tests, debug assembly, and release APK assembly**. It does not mean connected UI/adaptive/device-matrix testing, signing, AAB verification, Play upload, or production-readiness evidence.
 
 ---
 
@@ -882,7 +882,8 @@ Workflow responsibilities:
 - set up Gradle;
 - make Gradle wrapper executable;
 - run unit tests;
-- assemble debug build.
+- assemble debug build;
+- assemble release APK build path.
 
 The workflow runs on:
 
@@ -946,7 +947,7 @@ These items are tracked as public-store hardening work, not core app implementat
 * crash reporting / telemetry integration is deferred pending a public-distribution decision;
 * connected UI, navigation, and adaptive tests are local emulator evidence, not CI-backed device-matrix evidence;
 * some UI tests are device/orientation scoped and should not be presented as full device-matrix coverage;
-* release build gate is not yet configured as a CI release gate;
+* release build gate is configured for `assembleRelease`, but signing, AAB, Play upload, and production-readiness gates remain future hardening work;
 * connected Android tests are not yet configured in CI;
 * dedicated Settings instrumentation coverage remains future test-hardening work;
 * public-store distribution status is not claimed until store-track evidence exists.
@@ -1062,7 +1063,7 @@ This project demonstrates practical Android engineering and release-candidate di
 - release-candidate documentation;
 - rollback / hotfix planning;
 - manual monitoring and issue-intake plan;
-- CI-backed unit/debug verification.
+- CI-backed unit/debug/release-APK verification.
 
 The next major readiness step is public-store hardening: release signing policy, privacy and Data safety documentation, store listing assets, release-build CI gate, and final distribution evidence.
 

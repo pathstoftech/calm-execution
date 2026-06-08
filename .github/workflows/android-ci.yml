@@ -6,7 +6,7 @@ on:
 
 jobs:
   compile:
-    name: Compile debug build
+    name: Unit tests and assembly checks
     runs-on: ubuntu-latest
 
     steps:
@@ -25,8 +25,5 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: Run unit tests
-        run: ./gradlew testDebugUnitTest --stacktrace
-
-      - name: Assemble debug
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Run unit and build checks
+        run: ./gradlew testDebugUnitTest assembleDebug assembleRelease --stacktrace
