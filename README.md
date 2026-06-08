@@ -17,7 +17,7 @@ It demonstrates disciplined Android implementation: clean data boundaries, stabl
 ## 60-second overview
 
 | Area                    | Current state                                                                                                                          |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | App type                | Native Android app                                                                                                                     |
 | Product readiness       | Public-store hardening candidate                                                                                                       |
 | Language                | Kotlin                                                                                                                                 |

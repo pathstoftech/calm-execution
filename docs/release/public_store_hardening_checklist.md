@@ -35,7 +35,7 @@ until the required evidence exists.
 ## Current baseline
 
 | Area                       | Current state                                              | Status         |
-| -------------------------- | ---------------------------------------------------------- | -------------- |
+|----------------------------|------------------------------------------------------------|----------------|
 | App implementation         | Local-first app implementation exists                      | Present        |
 | Release-candidate baseline | `v1.0.0-rc1` release documentation exists                  | Present        |
 | Package identity           | `com.pathstoftech.calmexecution`                           | Present        |
@@ -43,14 +43,14 @@ until the required evidence exists.
 | Catalog source             | Bundled JSON catalog with validation                       | Present        |
 | Runtime telemetry          | No analytics, telemetry, or crash-reporting SDK integrated | Not integrated |
 | Public-store distribution  | No Google Play publication claim                           | Not claimed    |
-| Store-readiness status     | Prepared for hardening, not a production-store release      | In progress    |
+| Store-readiness status     | Prepared for hardening, not a production-store release     | In progress    |
 
 ---
 
 ## Checklist status legend
 
 | Status             | Meaning                                                              |
-| ------------------ | -------------------------------------------------------------------- |
+|--------------------|----------------------------------------------------------------------|
 | Present            | Evidence exists in repo or release docs                              |
 | Verified           | Evidence exists and has been freshly checked for this hardening pass |
 | Draft              | Document exists but is not final policy                              |
@@ -63,7 +63,7 @@ until the required evidence exists.
 ## Target SDK and platform policy
 
 | Item                     | Current evidence                                            | Required before public-store claim                                           | Status  | Follow-up                                       |
-| ------------------------ | ----------------------------------------------------------- | ---------------------------------------------------------------------------- | ------- | ----------------------------------------------- |
+|--------------------------|-------------------------------------------------------------|------------------------------------------------------------------------------|---------|-------------------------------------------------|
 | Compile SDK              | README / release notes document `compileSdk: 36.1`          | Recheck before store submission                                              | Present | Confirm against current Gradle config           |
 | Target SDK               | README / release notes document `targetSdk: 36`             | Recheck against current Google Play target API requirement before submission | Present | Confirm with `app/build.gradle.kts`             |
 | Minimum SDK              | README / release notes document `minSdk: 24`                | Confirm supported device scope                                               | Present | Confirm with `app/build.gradle.kts`             |
@@ -81,7 +81,7 @@ Target SDK evidence is directionally compatible with public-store hardening, but
 ## Release artifact path
 
 | Item              | Current evidence                               | Required before public-store claim                       | Status  | Follow-up                                                       |
-| ----------------- | ---------------------------------------------- | -------------------------------------------------------- | ------- | --------------------------------------------------------------- |
+|-------------------|------------------------------------------------|----------------------------------------------------------|---------|-----------------------------------------------------------------|
 | Debug build       | Unit/debug baseline is documented              | Keep as implementation baseline                          | Present | Run `testDebugUnitTest assembleDebug` during final verification |
 | Release APK       | rc1 docs record release assembly evidence      | Fresh verification required after hardening docs update  | Pending | Run `./gradlew assembleRelease --stacktrace`                    |
 | Release AAB       | No current evidence recorded                   | Needed for stronger Play-distribution evidence           | Pending | Run `./gradlew bundleRelease --stacktrace` after release policy |
@@ -103,7 +103,7 @@ Release CI gate: pending
 ## Release signing
 
 | Item                          | Current evidence                            | Required before public-store claim | Status       | Follow-up                            |
-| ----------------------------- | ------------------------------------------- | ---------------------------------- | ------------ | ------------------------------------ |
+|-------------------------------|---------------------------------------------|------------------------------------|--------------|--------------------------------------|
 | Debug signing distinction     | Debug builds are not distribution artifacts | Must be documented                 | Pending      | Create `release_signing_policy.md`   |
 | Release signing config        | Not finalized as public distribution policy | Required                           | Pending      | Define local and Play signing policy |
 | Keystore handling             | No keystore should be committed             | Required                           | Pending      | Add explicit policy and secret scan  |
@@ -121,7 +121,7 @@ Release signing is a public-store hardening gap. No public-store readiness claim
 ## Privacy policy
 
 | Item                          | Current evidence        | Required before public-store claim           | Status  | Follow-up                                         |
-| ----------------------------- | ----------------------- | -------------------------------------------- | ------- | ------------------------------------------------- |
+|-------------------------------|-------------------------|----------------------------------------------|---------|---------------------------------------------------|
 | Privacy policy draft          | Not yet present         | Required                                     | Pending | Create `privacy_policy_draft.md`                  |
 | User-facing privacy statement | Not yet present         | Required before public distribution          | Pending | Decide README, app, or hosted policy path         |
 | Data collection summary       | App appears local-first | Must be documented                           | Pending | Complete privacy/data assessment                  |
@@ -139,7 +139,7 @@ The app appears local-first and low-data-risk, but privacy documentation is not 
 ## Data safety assessment
 
 | Item                       | Current evidence                          | Required before public-store claim | Status               | Follow-up                                  |
-| -------------------------- | ----------------------------------------- | ---------------------------------- | -------------------- | ------------------------------------------ |
+|----------------------------|-------------------------------------------|------------------------------------|----------------------|--------------------------------------------|
 | Data safety assessment doc | Not yet present                           | Required                           | Pending              | Create `data_safety_assessment.md`         |
 | Personal data collection   | Likely none, but must verify              | Required                           | Pending              | Manifest, dependency, source review        |
 | Data sharing               | Likely none, but must verify              | Required                           | Pending              | Confirm no backend/network SDK             |
@@ -164,7 +164,7 @@ Required next step: formal assessment document.
 ## Store listing
 
 | Item                    | Current evidence          | Required before public-store claim | Status                      | Follow-up                       |
-| ----------------------- | ------------------------- | ---------------------------------- | --------------------------- | ------------------------------- |
+|-------------------------|---------------------------|------------------------------------|-----------------------------|---------------------------------|
 | App name                | 30 Days of Calm Execution | Present                            | Confirm final listing title |                                 |
 | Short description       | Not finalized             | Required                           | Pending                     | Create `store_listing_draft.md` |
 | Full description        | Not finalized             | Required                           | Pending                     | Create `store_listing_draft.md` |
@@ -186,7 +186,7 @@ Store listing copy is not complete. The README is not a substitute for store lis
 ## Screenshots and media
 
 | Item                       | Current evidence                               | Required before public-store claim | Status                                 | Follow-up                          |
-| -------------------------- | ---------------------------------------------- | ---------------------------------- | -------------------------------------- | ---------------------------------- |
+|----------------------------|------------------------------------------------|------------------------------------|----------------------------------------|------------------------------------|
 | Repository screenshots     | `docs/screenshots/` exists                     | Present                            | Keep current screenshots               |                                    |
 | Screenshot metadata scan   | Known-issues doc records clean metadata chunks | Present                            | Recheck if screenshots are regenerated |                                    |
 | Store screenshot inventory | Not finalized                                  | Required                           | Pending                                | Define phone/tablet screenshot set |
@@ -204,7 +204,7 @@ Repository screenshots are present, but store listing screenshot inventory is no
 ## Testing track and distribution path
 
 | Item                        | Current evidence | Required before public-store claim          | Status       | Follow-up                             |
-| --------------------------- | ---------------- | ------------------------------------------- | ------------ | ------------------------------------- |
+|-----------------------------|------------------|---------------------------------------------|--------------|---------------------------------------|
 | Internal testing track      | Not assessed     | Required before Play testing path           | Not assessed | Create `play_distribution_plan.md`    |
 | Closed testing track        | Not assessed     | May be required depending on account status | Not assessed | Document account-specific requirement |
 | Production access           | Not assessed     | Required before production Play claim       | Not assessed | Document Play Console status          |
@@ -222,7 +222,7 @@ No Play distribution status is claimed.
 ## Monitoring, crash reporting, and telemetry
 
 | Item                            | Current evidence                  | Required before public-store claim        | Status           | Follow-up |
-| ------------------------------- | --------------------------------- | ----------------------------------------- | ---------------- | --------- |
+|---------------------------------|-----------------------------------|-------------------------------------------|------------------|-----------|
 | Manual monitoring plan          | Present                           | Keep for rc1 baseline                     | Present          |           |
 | Runtime crash-reporting SDK     | Not integrated                    | Decision required before production claim | Pending decision |           |
 | Analytics SDK                   | Not integrated                    | Decision required before production claim | Pending decision |           |
@@ -242,7 +242,7 @@ Crash reporting / telemetry integration is deferred to public-store hardening.
 ## CI and verification gates
 
 | Item                          | Current evidence                  | Required before public-store claim       | Status  | Follow-up                 |
-| ----------------------------- | --------------------------------- | ---------------------------------------- | ------- | ------------------------- |
+|-------------------------------|-----------------------------------|------------------------------------------|---------|---------------------------|
 | Unit tests in CI              | Present                           | Keep                                     | Present |                           |
 | Debug assembly in CI          | Present                           | Keep                                     | Present |                           |
 | Release build in CI           | Not configured                    | Required before stronger readiness claim | Pending | Add CI release gate       |
@@ -262,7 +262,7 @@ CI-backed verification currently means unit tests plus debug assembly. Connected
 ## Support and user-facing operations
 
 | Item                        | Current evidence               | Required before public-store claim | Status  | Follow-up                          |
-| --------------------------- | ------------------------------ | ---------------------------------- | ------- | ---------------------------------- |
+|-----------------------------|--------------------------------|------------------------------------|---------|------------------------------------|
 | Support contact             | Not finalized                  | Required                           | Pending | Define support email/contact route |
 | Issue intake model          | Manual issue intake documented | Present                            | Keep    |                                    |
 | Rollback/hotfix path        | Present                        | Keep                               | Present |                                    |
@@ -275,7 +275,7 @@ CI-backed verification currently means unit tests plus debug assembly. Connected
 ## Required hardening documents
 
 | Document                                           | Purpose                             | Status                |
-| -------------------------------------------------- | ----------------------------------- | --------------------- |
+|----------------------------------------------------|-------------------------------------|-----------------------|
 | `docs/release/public_store_hardening_checklist.md` | Master readiness checklist          | Present after PSR-012 |
 | `docs/release/privacy_policy_draft.md`             | Draft user-facing privacy basis     | Pending               |
 | `docs/release/data_safety_assessment.md`           | Play Data safety evidence           | Pending               |

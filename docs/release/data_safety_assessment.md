@@ -48,7 +48,7 @@ No current evidence indicates that the app intentionally sends journey progress,
 ## Data collection and sharing classification
 
 | Question                                          | Current answer                                     | Evidence status            | Follow-up                              |
-| ------------------------------------------------- | -------------------------------------------------- | -------------------------- | -------------------------------------- |
+|---------------------------------------------------|----------------------------------------------------|----------------------------|----------------------------------------|
 | Does the app collect personal data from the user? | No intentional personal-data collection identified | Pending final verification | Recheck source, manifest, dependencies |
 | Does the app transmit user data off device?       | No intentional transmission identified             | Pending final verification | Confirm no network SDK / backend path  |
 | Does the app share user data with third parties?  | No sharing identified                              | Pending final verification | Confirm third-party SDK behavior       |
@@ -67,7 +67,7 @@ The current app baseline stores mutable app state locally.
 Known local state includes:
 
 | Local data                  | Purpose                                  | User-facing? | Transmitted off device? | Current classification |
-| --------------------------- | ---------------------------------------- | -----------: | ----------------------: | ---------------------- |
+|-----------------------------|------------------------------------------|-------------:|------------------------:|------------------------|
 | Viewed tip state            | Track reading/progress state             |          Yes |             No evidence | Local app state        |
 | Bookmark state              | Preserve bookmarked tips                 |          Yes |             No evidence | Local app state        |
 | Completion status           | Preserve completed tips                  |          Yes |             No evidence | Local app state        |
@@ -218,7 +218,7 @@ Current implementation dependencies are used for Android app construction, local
 Known dependency categories:
 
 | Category                               | Current role                  | Data safety concern                                  |
-| -------------------------------------- | ----------------------------- | ---------------------------------------------------- |
+|----------------------------------------|-------------------------------|------------------------------------------------------|
 | AndroidX / Jetpack                     | App platform and UI support   | Review normal platform behavior                      |
 | Jetpack Compose                        | UI rendering                  | No telemetry claim without dependency review         |
 | Material 3                             | UI components                 | No telemetry claim without dependency review         |
@@ -267,7 +267,7 @@ Backup / data extraction policy: Pending
 Current known user controls:
 
 | Control                          | Current expected behavior                                              | Status                  |
-| -------------------------------- | ---------------------------------------------------------------------- | ----------------------- |
+|----------------------------------|------------------------------------------------------------------------|-------------------------|
 | Reset progress                   | Clears journey progress state in app                                   | Must verify exact scope |
 | Android system app storage clear | Clears app-local storage                                               | Platform control        |
 | App uninstall                    | Removes app-local data from device, subject to backup/restore behavior | Backup policy pending   |
@@ -303,7 +303,7 @@ This is not a final Play Console answer. It is a draft evidence summary.
 Preliminary current posture:
 
 | Data safety topic             | Draft answer                                                                 | Confidence                              |
-| ----------------------------- | ---------------------------------------------------------------------------- | --------------------------------------- |
+|-------------------------------|------------------------------------------------------------------------------|-----------------------------------------|
 | Data collected                | No intentional off-device user-data collection identified                    | Medium, pending final verification      |
 | Data shared                   | No user-data sharing identified                                              | Medium, pending final verification      |
 | Data processed locally        | Journey state and preferences stored locally                                 | High                                    |
