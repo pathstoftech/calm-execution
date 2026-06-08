@@ -83,7 +83,7 @@ Target SDK evidence is directionally compatible with public-store hardening, but
 | Item              | Current evidence                                                                                                            | Required before public-store claim                               | Status   | Follow-up                                                       |
 |-------------------|-----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|----------|-----------------------------------------------------------------|
 | Debug build       | Unit/debug baseline is documented                                                                                           | Keep as implementation baseline                                  | Present  | Run `testDebugUnitTest assembleDebug` during final verification |
-| Release APK       | `./gradlew clean testDebugUnitTest assembleDebug assembleRelease --stacktrace` passed locally; release APK output generated | Keep as release build-path evidence, not Play distribution proof | Verified | Re-run before final distribution claim                          |
+| Release APK       | `./gradlew clean testDebugUnitTest assembleDebug assembleRelease --stacktrace` passed locally; `app/build/outputs/apk/release/app-release-unsigned.apk` generated; SHA-256 `BEBE8B969B815A756102B1DF77D1124AFC01830B0C789AC3E1F145E733ADD545` recorded | Keep as release build-path evidence, not Play distribution proof | Verified | Re-run before final distribution claim                          |
 | Release AAB       | No current evidence recorded                                                                                                | Needed for stronger Play-distribution evidence                   | Pending  | Run `./gradlew bundleRelease --stacktrace` after release policy |
 | Artifact checksum | Rollback/hotfix plan defines SHA-256 recording                                                                              | Required for release candidates                                  | Present  | Record for verified artifact                                    |
 | Release CI gate   | Not configured as CI release gate                                                                                           | Required before stronger readiness claim                         | Pending  | Add CI release build gate later                                 |
@@ -93,7 +93,7 @@ Current classification:
 
 ```text
 Debug baseline: present
-Release APK path: verified locally for PSR-020
+Release APK path: verified locally for PSR-021 with unsigned release APK output and SHA-256 recorded
 AAB path: pending
 Release CI gate: pending
 ```

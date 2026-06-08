@@ -272,6 +272,22 @@ Optional stronger Play-distribution evidence after signing policy is finalized:
 ./gradlew bundleRelease --stacktrace
 ```
 
+## Current release artifact evidence
+
+PSR-021 recorded local release APK build-path evidence.
+
+```text
+Command: ./gradlew clean testDebugUnitTest assembleDebug assembleRelease --stacktrace
+Result: BUILD SUCCESSFUL
+Release APK: app/build/outputs/apk/release/app-release-unsigned.apk
+SHA-256: BEBE8B969B815A756102B1DF77D1124AFC01830B0C789AC3E1F145E733ADD545
+Signing status: unsigned release APK
+AAB status: pending
+Distribution status: not a Play distribution artifact
+```
+
+This evidence verifies the release APK build path only. It does not prove final signing, Play App Signing, AAB readiness, store readiness, or production distribution readiness.
+
 ## Current hardening gaps
 
 Release signing and artifact governance gaps remaining:
