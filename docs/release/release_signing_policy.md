@@ -288,6 +288,21 @@ Distribution status: not a Play distribution artifact
 
 This evidence verifies the release APK build path only. It does not prove final signing, Play App Signing, AAB readiness, store readiness, or production distribution readiness.
 
+## Current AAB artifact evidence
+
+PSR-022 recorded local release AAB build-path evidence.
+
+```text
+Command: ./gradlew bundleRelease --stacktrace
+Result: BUILD SUCCESSFUL
+Release AAB: app/build/outputs/bundle/release/app-release.aab
+SHA-256: BE638F9FF82E8A252C84C9FE6A4F398B5D542E0A096B306C6A57E96B618A4D13
+Signing status: pending release signing policy / not production distribution evidence by itself
+Distribution status: not uploaded to Play
+```
+
+This evidence verifies the release AAB build path only. It does not prove final signing, Play App Signing, Play Console upload, store readiness, or production distribution readiness.
+
 ## Current hardening gaps
 
 Release signing and artifact governance gaps remaining:
