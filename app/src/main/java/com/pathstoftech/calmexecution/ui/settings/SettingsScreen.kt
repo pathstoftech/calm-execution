@@ -186,6 +186,10 @@ private fun SettingsReadyState(
         }
 
         item {
+            AboutPrivacySection()
+        }
+
+        item {
             OutlinedButton(
                 onClick = onBack,
             ) {
@@ -406,6 +410,51 @@ private fun ResetProgressPreferenceRow(
             ) {
                 Text("Reset")
             }
+        }
+    }
+}
+
+@Composable
+private fun AboutPrivacySection(
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        shape = CalmTheme.shapeTokens.cardContainerLarge,
+        color = CalmTheme.colorTokens.cardContainer,
+        contentColor = CalmTheme.colorTokens.onCardContainer,
+        tonalElevation = CalmTheme.elevationTokens.cardResting,
+        shadowElevation = CalmTheme.elevationTokens.none,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(CalmTheme.spacingTokens.cardPadding),
+            verticalArrangement = Arrangement.spacedBy(CalmTheme.spacingTokens.inlineGap),
+        ) {
+            Text(
+                text = "About & privacy",
+                style = CalmTheme.typographyTokens.cardTitle,
+                color = CalmTheme.colorTokens.onCardContainer,
+            )
+
+            Text(
+                text = "30 Days of Calm Execution stores journey progress and preferences locally on this device.",
+                style = CalmTheme.typographyTokens.cardBody,
+                color = CalmTheme.colorTokens.onCardContainerVariant,
+            )
+
+            Text(
+                text = "No account, backend sync, analytics SDK, telemetry SDK, advertising SDK, or runtime crash-reporting SDK is integrated in this build.",
+                style = CalmTheme.typographyTokens.cardBody,
+                color = CalmTheme.colorTokens.onCardContainerVariant,
+            )
+
+            Text(
+                text = "Support and privacy contact details are not finalized yet. They must be added before public-store distribution.",
+                style = CalmTheme.typographyTokens.cardBody,
+                color = CalmTheme.colorTokens.onCardContainerVariant,
+            )
         }
     }
 }
