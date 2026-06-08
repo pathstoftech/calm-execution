@@ -227,14 +227,59 @@ Known dependency categories:
 | Kotlin coroutines / Flow               | Async/state handling          | No user-data collection expected                     |
 | Kotlin serialization                   | Local bundled catalog parsing | No user-data collection expected                     |
 | Protobuf                               | Local state serialization     | No user-data collection expected                     |
-| Google Fonts / font-related dependency | UI typography support if used | Must verify whether runtime network behavior exists  |
+| Google Fonts / downloadable-font provider | UI typography support | Font-provider behavior must be reviewed before public distribution |
 | Test libraries                         | Test-only                     | Not part of distributed runtime unless misconfigured |
 
 Current follow-up:
 
 ```text
 Complete final dependency review before public distribution.
-Specifically verify any font dependency behavior and any transitive SDK data behavior.
+Specifically verify Google Fonts / downloadable-font provider behavior and any transitive SDK data behavior.
+```
+
+## Google Fonts / downloadable-font provider review
+
+Current repository evidence:
+
+- the theme layer uses a `GoogleFont.Provider`;
+- the provider authority is `com.google.android.gms.fonts`;
+- the provider package is `com.google.android.gms`;
+- app typography references the provider through `fontProvider`;
+- font certificate resources exist in app resources;
+- no analytics, telemetry, crash-reporting, ads, Retrofit, OkHttp, or Ktor dependency was identified by the current dependency scan;
+- no app-declared `INTERNET` permission was identified by the current manifest scan, if the scan remains empty.
+
+Current classification:
+
+- Google Fonts / downloadable-font provider usage: Present
+- Purpose: typography / visual presentation
+- Analytics role: none identified
+- Crash-reporting role: none identified
+- Advertising role: none identified
+- App-owned network client: none identified
+- Runtime font-provider behavior: Pending review
+- Privacy/Data safety impact: Pending review
+
+Decision:
+
+The project must not claim that there is no possible network-related dependency behavior until Google Fonts / downloadable-font provider behavior is reviewed against the final release artifact and current Android/Google documentation.
+
+Before public distribution, verify:
+
+- whether the font provider can request or resolve fonts outside the APK;
+- whether fonts are bundled, cached, or provider-resolved at runtime;
+- whether any Google Play services behavior affects privacy or Data safety disclosures;
+- whether fallback fonts are available if provider resolution fails;
+- whether privacy policy or Data safety wording needs to mention font-provider behavior.
+
+Current status:
+
+```text
+Google Fonts dependency review: Pending
+No telemetry SDK identified: Still true
+No crash-reporting SDK identified: Still true
+No advertising SDK identified: Still true
+No final statement about font-provider network behavior is made.
 ```
 
 ## Backup and data extraction gap
