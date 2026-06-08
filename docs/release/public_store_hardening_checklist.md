@@ -68,7 +68,7 @@ until the required evidence exists.
 | Target SDK               | README / release notes document `targetSdk: 36`             | Recheck against current Google Play target API requirement before submission | Present | Confirm with `app/build.gradle.kts`             |
 | Minimum SDK              | README / release notes document `minSdk: 24`                | Confirm supported device scope                                               | Present | Confirm with `app/build.gradle.kts`             |
 | Permissions              | Manifest scan must show no unexpected sensitive permissions | Required                                                                     | Pending | Run permission scan                             |
-| Backup / data extraction | XML rules exist but policy needs explicit review            | Required                                                                     | Pending | Decide include/exclude behavior for local state |
+| Backup / data extraction | Manifest/XML configuration exists but final DataStore include/exclude policy is not decided | Required | Pending | Decide cloud-backup and device-transfer behavior for journey state and preferences |
 
 Decision:
 
@@ -305,6 +305,8 @@ Required before any Google Play production-readiness claim:
 * release-build CI gate;
 * telemetry / crash-reporting decision;
 * final public-store hardening review.
+
+Backup/data extraction remains pending until the project decides whether Proto DataStore journey state and preferences are included in or excluded from Android backup and device-transfer behavior.
 
 ---
 

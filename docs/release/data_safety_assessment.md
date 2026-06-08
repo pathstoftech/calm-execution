@@ -241,26 +241,42 @@ Specifically verify any font dependency behavior and any transitive SDK data beh
 
 Backup and data extraction behavior is not finalized.
 
+Current repository evidence:
+
+- Android backup / data extraction configuration exists in app resources and manifest configuration must be reviewed before public distribution.
+- Current documentation does not treat backup behavior as a decided privacy or Data safety policy.
+- No final decision is recorded for whether Proto DataStore journey state and preferences should be included in or excluded from cloud backup, device transfer, or other Android data extraction behavior.
+
 Required decision before public distribution:
 
 ```text
-Should local journey state and preferences be included in Android backup / data extraction?
-Should local journey state and preferences be excluded from backup?
-Should the policy differ between journey progress and visual preferences?
+Should local journey state be included in Android backup / data extraction?
+Should local journey state be excluded from Android backup / data extraction?
+Should user preferences be included while journey progress is excluded?
+Should backup behavior differ between cloud backup and device-to-device transfer?
+How should reset progress, uninstall, storage clear, backup, and restore be described to users?
 ```
 
 This gap affects:
 
-* privacy policy accuracy;
-* Data safety assessment accuracy;
-* user expectations after device transfer;
-* reset/delete behavior documentation.
+- privacy policy accuracy;
+- Data safety assessment accuracy;
+- user expectations after device transfer or restore;
+- reset/delete behavior documentation;
+- support guidance for state restoration issues.
 
 Current status:
 
 ```text
 Backup / data extraction policy: Pending
+DataStore journey state backup decision: Pending
+DataStore preferences backup decision: Pending
+Cloud backup behavior: Pending review
+Device-transfer behavior: Pending review
+No final Play Data safety assumption is made.
 ```
+
+Until this policy is decided, the project must not claim that local journey state is definitely backed up, definitely excluded from backup, or definitely deleted across all restore paths.
 
 ## User controls and deletion
 
