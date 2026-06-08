@@ -62,13 +62,13 @@ until the required evidence exists.
 
 ## Target SDK and platform policy
 
-| Item                     | Current evidence                                            | Required before public-store claim                                           | Status  | Follow-up                                       |
-|--------------------------|-------------------------------------------------------------|------------------------------------------------------------------------------|---------|-------------------------------------------------|
-| Compile SDK              | README / release notes document `compileSdk: 36.1`          | Recheck before store submission                                              | Present | Confirm against current Gradle config           |
-| Target SDK               | README / release notes document `targetSdk: 36`             | Recheck against current Google Play target API requirement before submission | Present | Confirm with `app/build.gradle.kts`             |
-| Minimum SDK              | README / release notes document `minSdk: 24`                | Confirm supported device scope                                               | Present | Confirm with `app/build.gradle.kts`             |
-| Permissions              | Manifest scan must show no unexpected sensitive permissions | Required                                                                     | Pending | Run permission scan                             |
-| Backup / data extraction | Manifest/XML configuration exists but final DataStore include/exclude policy is not decided | Required | Pending | Decide cloud-backup and device-transfer behavior for journey state and preferences |
+| Item                     | Current evidence                                                                            | Required before public-store claim                                           | Status  | Follow-up                                                                          |
+|--------------------------|---------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|---------|------------------------------------------------------------------------------------|
+| Compile SDK              | README / release notes document `compileSdk: 36.1`                                          | Recheck before store submission                                              | Present | Confirm against current Gradle config                                              |
+| Target SDK               | README / release notes document `targetSdk: 36`                                             | Recheck against current Google Play target API requirement before submission | Present | Confirm with `app/build.gradle.kts`                                                |
+| Minimum SDK              | README / release notes document `minSdk: 24`                                                | Confirm supported device scope                                               | Present | Confirm with `app/build.gradle.kts`                                                |
+| Permissions              | Manifest scan must show no unexpected sensitive permissions                                 | Required                                                                     | Pending | Run permission scan                                                                |
+| Backup / data extraction | Manifest/XML configuration exists but final DataStore include/exclude policy is not decided | Required                                                                     | Pending | Decide cloud-backup and device-transfer behavior for journey state and preferences |
 
 Decision:
 
@@ -80,20 +80,20 @@ Target SDK evidence is directionally compatible with public-store hardening, but
 
 ## Release artifact path
 
-| Item              | Current evidence                               | Required before public-store claim                       | Status  | Follow-up                                                       |
-|-------------------|------------------------------------------------|----------------------------------------------------------|---------|-----------------------------------------------------------------|
-| Debug build       | Unit/debug baseline is documented              | Keep as implementation baseline                          | Present | Run `testDebugUnitTest assembleDebug` during final verification |
-| Release APK       | rc1 docs record release assembly evidence      | Fresh verification required after hardening docs update  | Pending | Run `./gradlew assembleRelease --stacktrace`                    |
-| Release AAB       | No current evidence recorded                   | Needed for stronger Play-distribution evidence           | Pending | Run `./gradlew bundleRelease --stacktrace` after release policy |
-| Artifact checksum | Rollback/hotfix plan defines SHA-256 recording | Required for release candidates                          | Present | Record for verified artifact                                    |
-| Release CI gate   | Not configured as CI release gate              | Required before stronger readiness claim                 | Pending | Add CI release build gate later                                 |
-| Minification      | Release minification disabled                  | Must be accepted or changed before production Play claim | Pending | Define R8/minification policy                                   |
+| Item              | Current evidence                                                                                                            | Required before public-store claim                               | Status   | Follow-up                                                       |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|----------|-----------------------------------------------------------------|
+| Debug build       | Unit/debug baseline is documented                                                                                           | Keep as implementation baseline                                  | Present  | Run `testDebugUnitTest assembleDebug` during final verification |
+| Release APK       | `./gradlew clean testDebugUnitTest assembleDebug assembleRelease --stacktrace` passed locally; release APK output generated | Keep as release build-path evidence, not Play distribution proof | Verified | Re-run before final distribution claim                          |
+| Release AAB       | No current evidence recorded                                                                                                | Needed for stronger Play-distribution evidence                   | Pending  | Run `./gradlew bundleRelease --stacktrace` after release policy |
+| Artifact checksum | Rollback/hotfix plan defines SHA-256 recording                                                                              | Required for release candidates                                  | Present  | Record for verified artifact                                    |
+| Release CI gate   | Not configured as CI release gate                                                                                           | Required before stronger readiness claim                         | Pending  | Add CI release build gate later                                 |
+| Minification      | Release minification disabled                                                                                               | Must be accepted or changed before production Play claim         | Pending  | Define R8/minification policy                                   |
 
 Current classification:
 
 ```text
 Debug baseline: present
-Release APK path: historically evidenced, fresh verification pending
+Release APK path: verified locally for PSR-020
 AAB path: pending
 Release CI gate: pending
 ```
